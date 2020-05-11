@@ -1,11 +1,62 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "TaskManager.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Common.dll": {}
+        }
+      },
+      "TaskManager.Entities/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Entities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Entities.dll": {}
+        }
+      },
+      "TaskManager.Seed/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Seed.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Seed.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "TaskManager.Common/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Common/TaskManager.Common.csproj",
+      "msbuildProject": "../TaskManager.Common/TaskManager.Common.csproj"
+    },
+    "TaskManager.Entities/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Entities/TaskManager.Entities.csproj",
+      "msbuildProject": "../TaskManager.Entities/TaskManager.Entities.csproj"
+    },
+    "TaskManager.Seed/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Seed/TaskManager.Seed.csproj",
+      "msbuildProject": "../TaskManager.Seed/TaskManager.Seed.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "TaskManager.Common >= 1.0.0",
+      "TaskManager.Entities >= 1.0.0",
+      "TaskManager.Seed >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Devid\\.nuget\\packages\\": {},
@@ -36,7 +87,17 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

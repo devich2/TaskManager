@@ -1,11 +1,113 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "TaskManager.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Common.dll": {}
+        }
+      },
+      "TaskManager.Configuration/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Configuration.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Configuration.dll": {}
+        }
+      },
+      "TaskManager.Dal/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "TaskManager.Common": "1.0.0",
+          "TaskManager.Entities": "1.0.0",
+          "TaskManager.Seed": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/TaskManager.Dal.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Dal.dll": {}
+        }
+      },
+      "TaskManager.Entities/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Entities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Entities.dll": {}
+        }
+      },
+      "TaskManager.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Models.dll": {}
+        }
+      },
+      "TaskManager.Seed/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Seed.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Seed.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "TaskManager.Common/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Common/TaskManager.Common.csproj",
+      "msbuildProject": "../TaskManager.Common/TaskManager.Common.csproj"
+    },
+    "TaskManager.Configuration/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Configuration/TaskManager.Configuration.csproj",
+      "msbuildProject": "../TaskManager.Configuration/TaskManager.Configuration.csproj"
+    },
+    "TaskManager.Dal/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Dal/TaskManager.Dal.csproj",
+      "msbuildProject": "../TaskManager.Dal/TaskManager.Dal.csproj"
+    },
+    "TaskManager.Entities/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Entities/TaskManager.Entities.csproj",
+      "msbuildProject": "../TaskManager.Entities/TaskManager.Entities.csproj"
+    },
+    "TaskManager.Models/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Models/TaskManager.Models.csproj",
+      "msbuildProject": "../TaskManager.Models/TaskManager.Models.csproj"
+    },
+    "TaskManager.Seed/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Seed/TaskManager.Seed.csproj",
+      "msbuildProject": "../TaskManager.Seed/TaskManager.Seed.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "TaskManager.Common >= 1.0.0",
+      "TaskManager.Configuration >= 1.0.0",
+      "TaskManager.Dal >= 1.0.0",
+      "TaskManager.Models >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Devid\\.nuget\\packages\\": {},
@@ -36,7 +138,20 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

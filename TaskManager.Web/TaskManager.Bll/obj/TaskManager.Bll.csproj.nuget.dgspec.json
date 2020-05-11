@@ -29,6 +29,359 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj"
+              },
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj"
+              },
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj"
+              },
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj",
+        "projectName": "TaskManager.Common",
+        "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj",
+        "packagesPath": "C:\\Users\\Devid\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Devid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj",
+        "projectName": "TaskManager.Configuration",
+        "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\TaskManager.Configuration.csproj",
+        "packagesPath": "C:\\Users\\Devid\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Configuration\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Devid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj",
+        "projectName": "TaskManager.Dal",
+        "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\TaskManager.Dal.csproj",
+        "packagesPath": "C:\\Users\\Devid\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Dal\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Devid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Common\\TaskManager.Common.csproj"
+              },
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj"
+              },
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj",
+        "projectName": "TaskManager.Entities",
+        "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\TaskManager.Entities.csproj",
+        "packagesPath": "C:\\Users\\Devid\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Entities\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Devid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj",
+        "projectName": "TaskManager.Models",
+        "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\TaskManager.Models.csproj",
+        "packagesPath": "C:\\Users\\Devid\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Devid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj",
+        "projectName": "TaskManager.Seed",
+        "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\TaskManager.Seed.csproj",
+        "packagesPath": "C:\\Users\\Devid\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager.Web\\TaskManager.Seed\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Devid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
             "projectReferences": {}
           }
         },
