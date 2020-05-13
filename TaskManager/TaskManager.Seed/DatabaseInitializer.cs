@@ -14,11 +14,12 @@ namespace TaskManager.Seed
             // Seed "unit" entities
             var unitEntitiesHolder = new UnitEntitiesHolder();
             AddEntities(builder, unitEntitiesHolder.GetUnits());
+            AddEntities(builder, unitEntitiesHolder.GeTermInfos());
             AddEntities(builder, unitEntitiesHolder.GeTags());
             AddEntities(builder, unitEntitiesHolder.GetProjects());
             AddEntities(builder, unitEntitiesHolder.GetProjectMembers());
             AddEntities(builder, unitEntitiesHolder.GeTasks());
-            AddEntities(builder, unitEntitiesHolder.GetTaskParents());
+            AddEntities(builder, unitEntitiesHolder.GetRelationShips());
             AddEntities(builder, unitEntitiesHolder.GeTagOnTasks());
 
             // Seed roles, users and permissions

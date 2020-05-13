@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TaskManager.Entities.Identity;
+using TaskManager.Entities.Tables.Identity;
 
 namespace TaskManager.Seed
 {
-    public class UsersEntitiesHolder
+    public class UserEntitiesHolder
     {
         private readonly List<User> _users = new List<User>
         {

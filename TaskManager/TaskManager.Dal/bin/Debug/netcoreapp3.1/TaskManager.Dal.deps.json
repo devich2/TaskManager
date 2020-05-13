@@ -12,6 +12,7 @@
           "Microsoft.EntityFrameworkCore": "3.1.3",
           "Microsoft.EntityFrameworkCore.Tools": "3.1.3",
           "Npgsql": "4.1.3.1",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "3.1.3",
           "TaskManager.Common": "1.0.0",
           "TaskManager.Entities": "1.0.0",
           "TaskManager.Seed": "1.0.0"
@@ -281,6 +282,20 @@
           }
         }
       },
+      "Npgsql.EntityFrameworkCore.PostgreSQL/3.1.3": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "3.1.3",
+          "Microsoft.EntityFrameworkCore.Abstractions": "3.1.3",
+          "Microsoft.EntityFrameworkCore.Relational": "3.1.3",
+          "Npgsql": "4.1.3.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {
+            "assemblyVersion": "3.1.3.0",
+            "fileVersion": "3.1.3.0"
+          }
+        }
+      },
       "System.Collections.Immutable/1.7.0": {},
       "System.ComponentModel.Annotations/4.7.0": {},
       "System.Diagnostics.DiagnosticSource/4.7.0": {},
@@ -496,6 +511,13 @@
       "sha512": "sha512-354pl/Picmt5/AIrm8urFwtxfK4n4NbmfBnLA9yvP8VtILSQF3/sFo3+lGuz+q4iyD18QeNFy0NMNBzsocFVlw==",
       "path": "npgsql/4.1.3.1",
       "hashPath": "npgsql.4.1.3.1.nupkg.sha512"
+    },
+    "Npgsql.EntityFrameworkCore.PostgreSQL/3.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OsuFPlLHx8fyZQOF6e1AOOZ5Wn93eMAGyMihTe/06WEfTy/a367XwU9xJR+sqfvwXKUy+fvLafgFVG0etLTklQ==",
+      "path": "npgsql.entityframeworkcore.postgresql/3.1.3",
+      "hashPath": "npgsql.entityframeworkcore.postgresql.3.1.3.nupkg.sha512"
     },
     "System.Collections.Immutable/1.7.0": {
       "type": "package",

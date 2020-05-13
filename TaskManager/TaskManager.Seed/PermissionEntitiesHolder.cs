@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TaskManager.Entities.Tables;
 
 namespace TaskManager.Seed
 {
-    class PermissionEnititiesHolder
+    public class PermissionEntitiesHolder
     {
+        public List<Permission> GetPermissions()
+        {
+            return new List<Permission>();
+        }
     }
 }

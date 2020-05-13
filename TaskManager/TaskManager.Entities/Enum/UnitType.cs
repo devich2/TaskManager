@@ -4,7 +4,11 @@ using System.Text;
 
 namespace TaskManager.Entities.Enum
 {
-    class UnitType
+    public enum UnitType
     {
+        Comment,
+        Milestone,
+        Project,
+        Task
     }
 }

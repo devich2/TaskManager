@@ -4,7 +4,10 @@ using System.Text;
 
 namespace TaskManager.Entities.Enum
 {
-    class Status
+    public enum Status
     {
+        Open,
+        InProgress,
+        Closed
     }
 }
