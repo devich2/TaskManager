@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstract\Unit\ExtendedProcessStrategy\Base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManager.Common\TaskManager.Common.csproj" />
+    <ProjectReference Include="..\TaskManager.Configuration\TaskManager.Configuration.csproj" />
+    <ProjectReference Include="..\TaskManager.Dal\TaskManager.Dal.csproj" />
+    <ProjectReference Include="..\TaskManager.Models\TaskManager.Models.csproj" />
+  </ItemGroup>
+
+</Project>

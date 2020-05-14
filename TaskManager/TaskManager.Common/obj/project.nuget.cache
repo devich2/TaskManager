@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "mQZFBjBS8m1X45jnzSQ0mHxNeGxs0I29+JR8sg2dypfPhBs4V4zztUb4snNlJFahskCEv+dXhfuxMsy+sTGAdQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Common\\TaskManager.Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.3\\microsoft.extensions.logging.abstractions.3.1.3.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
