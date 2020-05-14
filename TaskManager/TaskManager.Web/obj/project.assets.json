@@ -2528,6 +2528,7 @@
         "dependencies": {
           "AutoMapper": "9.0.0",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "7.0.0",
+          "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.4",
           "TaskManager.Common": "1.0.0",
           "TaskManager.Configuration": "1.0.0",
           "TaskManager.Dal": "1.0.0",
@@ -2538,7 +2539,10 @@
         },
         "runtime": {
           "bin/placeholder/TaskManager.Bll.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "TaskManager.Common/1.0.0": {
         "type": "project",

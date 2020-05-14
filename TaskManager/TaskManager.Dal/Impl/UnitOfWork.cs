@@ -19,6 +19,7 @@ namespace TaskManager.Dal.Impl
             _taskManagerDbContext = taskManagerDbContext;
         }
 
+
         #region Fields
 
         private IPermissionRepository _permissionRepository;
@@ -34,6 +35,7 @@ namespace TaskManager.Dal.Impl
         #endregion
 
         #region Properties
+
         public IPermissionRepository Permissions
         {
             get

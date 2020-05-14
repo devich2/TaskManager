@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using TaskManager.Entities.Tables.Abstract;
 using TaskManager.Entities.Tables.Identity;
 
 namespace TaskManager.Entities.Tables
 {
-    public class Project
+    public class Project: IUnitExtensionTable
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

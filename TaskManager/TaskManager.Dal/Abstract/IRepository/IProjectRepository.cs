@@ -6,7 +6,7 @@ using TaskManager.Entities.Tables;
 
 namespace TaskManager.Dal.Abstract.IRepository
 {
-    public interface IProjectRepository
+    public interface IProjectRepository: IUnitFkRepository<Project>
     {
     }
 }

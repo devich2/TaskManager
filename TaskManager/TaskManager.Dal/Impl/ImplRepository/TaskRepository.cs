@@ -11,12 +11,11 @@ using Task = TaskManager.Entities.Tables.Task;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class TaskRepository: GenericKeyRepository<int, Task>, ITaskRepository
+    public class TaskRepository: UnitFkRepository<Task>, ITaskRepository
     {
         public TaskRepository(TaskManagerDbContext context) : base(context)
         {
         }
-
         public async Task<List<Task>> GetTasksByProjectId(int projectId)
         {
             return await Context.Tasks

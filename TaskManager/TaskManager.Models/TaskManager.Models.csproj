@@ -10,7 +10,6 @@
     <Folder Include="RelationShip\" />
     <Folder Include="Tag\" />
     <Folder Include="Task\" />
-    <Folder Include="Unit\" />
   </ItemGroup>
 
 </Project>
