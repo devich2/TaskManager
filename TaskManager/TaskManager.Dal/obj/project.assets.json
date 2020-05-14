@@ -300,6 +300,15 @@
           "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.dll": {}
         }
       },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "Npgsql/4.1.3.1": {
         "type": "package",
         "dependencies": {
@@ -366,6 +375,10 @@
       "TaskManager.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.3",
+          "Newtonsoft.Json": "12.0.3"
+        },
         "compile": {
           "bin/placeholder/TaskManager.Common.dll": {}
         },
@@ -384,6 +397,16 @@
         },
         "runtime": {
           "bin/placeholder/TaskManager.Entities.dll": {}
+        }
+      },
+      "TaskManager.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/TaskManager.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Models.dll": {}
         }
       },
       "TaskManager.Seed/1.0.0": {
@@ -877,6 +900,37 @@
         "microsoft.extensions.primitives.nuspec"
       ]
     },
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "type": "package",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Npgsql/4.1.3.1": {
       "sha512": "354pl/Picmt5/AIrm8urFwtxfK4n4NbmfBnLA9yvP8VtILSQF3/sFo3+lGuz+q4iyD18QeNFy0NMNBzsocFVlw==",
       "type": "package",
@@ -1086,6 +1140,11 @@
       "path": "../TaskManager.Entities/TaskManager.Entities.csproj",
       "msbuildProject": "../TaskManager.Entities/TaskManager.Entities.csproj"
     },
+    "TaskManager.Models/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Models/TaskManager.Models.csproj",
+      "msbuildProject": "../TaskManager.Models/TaskManager.Models.csproj"
+    },
     "TaskManager.Seed/1.0.0": {
       "type": "project",
       "path": "../TaskManager.Seed/TaskManager.Seed.csproj",
@@ -1101,6 +1160,7 @@
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 3.1.3",
       "TaskManager.Common >= 1.0.0",
       "TaskManager.Entities >= 1.0.0",
+      "TaskManager.Models >= 1.0.0",
       "TaskManager.Seed >= 1.0.0"
     ]
   },
@@ -1139,6 +1199,9 @@
             },
             "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Entities\\TaskManager.Entities.csproj": {
               "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Entities\\TaskManager.Entities.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Models\\TaskManager.Models.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Models\\TaskManager.Models.csproj"
             },
             "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Seed\\TaskManager.Seed.csproj": {
               "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Seed\\TaskManager.Seed.csproj"

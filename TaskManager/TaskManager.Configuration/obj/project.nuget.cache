@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "+ZDcVT3N2SYGpgR6Wt+nhm3lKeZF4uXZiwkCbAg86pLrqgC5w5zlDbBm4oz8O5VdqlbogqyA4MUmAmm4BpuH6w==",
+  "dgSpecHash": "/BNzCJbkMSxFVXuV/Q1wpATLzftNYAGYrILVmajFTlF/mCqToT3tGlrLtzRteVvRWsNq6ChL1MjMA3anq55ayw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Configuration\\TaskManager.Configuration.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.4\\microsoft.extensions.configuration.3.1.4.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\3.1.4\\microsoft.extensions.configuration.abstractions.3.1.4.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.configuration.binder\\3.1.4\\microsoft.extensions.configuration.binder.3.1.4.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.4\\microsoft.extensions.dependencyinjection.abstractions.3.1.4.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.options\\3.1.4\\microsoft.extensions.options.3.1.4.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\3.1.4\\microsoft.extensions.options.configurationextensions.3.1.4.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.4\\microsoft.extensions.primitives.3.1.4.nupkg.sha512"
+  ],
   "logs": []
 }

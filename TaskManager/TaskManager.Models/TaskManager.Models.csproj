@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Project\" />
+    <Folder Include="Permission\" />
+    <Folder Include="RelationShip\" />
+    <Folder Include="Tag\" />
+    <Folder Include="Task\" />
+    <Folder Include="Unit\" />
+  </ItemGroup>
+
 </Project>

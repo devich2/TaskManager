@@ -113,6 +113,16 @@ namespace TaskManager.Dal
                 .WithOne(p => p.Unit)
                 .HasForeignKey<TermInfo>(p => p.UnitId);
 
+            builder.Entity<Unit>()
+                .HasOne(p => p.Creator)
+                .WithMany()
+                .HasForeignKey(p => p.CreatorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Unit>()
+                .Property(p => p.Key)
+                .HasDefaultValueSql("uuid_generate_v1()");
+
             #endregion
 
             DatabaseInitializer.SeedDatabase(builder);

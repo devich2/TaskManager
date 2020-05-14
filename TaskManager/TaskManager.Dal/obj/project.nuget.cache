@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/i+ETnWQhpLiw+GI2bWbXZzrstMkXujUcRdOpb7E8eQX31fLI2jUO896dnxTPUDyMVUWFFuY3HyD6oNkbiXwAA==",
+  "dgSpecHash": "lEEgIUp4nMfshBgK1JpnlJLv11VKsO/4/xtQwF02UKDJiJ3XfnOWyyuZuGf+KFb5bqULInbeaK2xI8Hx8tEKZQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Dal\\TaskManager.Dal.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,7 @@
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.3\\microsoft.extensions.logging.abstractions.3.1.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.options\\3.1.3\\microsoft.extensions.options.3.1.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.3\\microsoft.extensions.primitives.3.1.3.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\npgsql\\4.1.3.1\\npgsql.4.1.3.1.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\3.1.3\\npgsql.entityframeworkcore.postgresql.3.1.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\system.collections.immutable\\1.7.0\\system.collections.immutable.1.7.0.nupkg.sha512",

@@ -12,8 +12,8 @@ namespace TaskManager.Seed
             new Role
             {
                 Id = 1,
-                Name = "Manager",
-                NormalizedName = "MANAGER",
+                Name = "Guest",
+                NormalizedName = "GUEST",
                 ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
             },
             new Role
@@ -26,8 +26,15 @@ namespace TaskManager.Seed
             new Role
             {
                 Id = 3,
-                Name = "Guest",
-                NormalizedName = "GUEST",
+                Name = "Maintainer",
+                NormalizedName = "MAINTAINER",
+                ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78406aefd74b",
+            },
+            new Role
+            {
+                Id = 4,
+                Name = "Owner",
+                NormalizedName = "OWNER",
                 ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78406aefd74b",
             }
         };

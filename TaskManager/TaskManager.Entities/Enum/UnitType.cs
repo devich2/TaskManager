@@ -9,6 +9,7 @@ namespace TaskManager.Entities.Enum
         Comment,
         Milestone,
         Project,
-        Task
+        Task,
+        SubTask
     }
 }

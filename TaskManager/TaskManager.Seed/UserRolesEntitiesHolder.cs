@@ -11,17 +11,17 @@ namespace TaskManager.Seed
         {
             new UserRole
             {
-                RoleId = 1,
+                RoleId = 2,
                 UserId = 1,
             },
             new UserRole
             {
-                RoleId = 2,
+                RoleId = 3,
                 UserId  = 2,
             },
             new UserRole
             {
-                RoleId = 2,
+                RoleId = 4,
                 UserId = 1,
             }
         };

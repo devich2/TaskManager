@@ -4,6 +4,12 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaskManager.Dal.Abstract;
+using TaskManager.Dal.Abstract.IRepository;
+using TaskManager.Dal.Abstract.Transactions;
+using TaskManager.Dal.Impl;
+using TaskManager.Dal.Impl.ImplRepository;
+using TaskManager.Dal.Impl.Transactions;
 
 namespace TaskManager.Dal
 {
@@ -25,7 +31,18 @@ namespace TaskManager.Dal
                     });
             });
 
-            //
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITransactionManager, DbTransactionManager>();
+
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IProjectMemberRepository, ProjectMemberRepository>();
+            services.AddTransient<IRelationShipRepository, RelationShipRepository>();
+            services.AddTransient<ITagOnTaskRepository, TagOnTaskRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<ITermInfoRepository, TermInfoRepository>();
+            services.AddTransient<IUnitRepository, UnitRepository>();
         }
     }
 }

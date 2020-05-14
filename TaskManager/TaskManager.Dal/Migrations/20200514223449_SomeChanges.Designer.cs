@@ -10,15 +10,15 @@ using TaskManager.Dal;
 namespace TaskManager.Dal.Migrations
 {
     [DbContext(typeof(TaskManagerDbContext))]
-    [Migration("20200513201755_ResetSequences")]
-    partial class ResetSequences
+    [Migration("20200514223449_SomeChanges")]
+    partial class SomeChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:Enum:Status", "Open,InProgress,Closed")
-                .HasAnnotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task")
+                .HasAnnotation("Npgsql:Enum:Status", "Open,InProgress,Closed,None")
+                .HasAnnotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -165,8 +165,8 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 1,
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
+                            Name = "Guest",
+                            NormalizedName = "GUEST"
                         },
                         new
                         {
@@ -179,8 +179,15 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 3,
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78406aefd74b",
-                            Name = "Guest",
-                            NormalizedName = "GUEST"
+                            Name = "Maintainer",
+                            NormalizedName = "MAINTAINER"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78406aefd74b",
+                            Name = "Owner",
+                            NormalizedName = "OWNER"
                         });
                 });
 
@@ -210,6 +217,9 @@ namespace TaskManager.Dal.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("character varying(256)")
@@ -258,13 +268,14 @@ namespace TaskManager.Dal.Migrations
                             Email = "devidshylyuk85@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "David",
                             NormalizedEmail = "DEVIDSHYLYUK85@GMAIL.COM",
                             NormalizedUserName = "DAVID",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOsEiCYCnSWH79DhcMCqZwJ3L90XuNU5Ia+XUtm82M8yP++qu/hvRrpLOH60lc5+XQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJMqefM3jQQE7sOvJCM73AKmMaFQqF0t01IbCdmU+x7KcgHlBoETO6+XXtvJ+wB9UA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
-                            UserName = "David"
+                            UserName = "@devich"
                         },
                         new
                         {
@@ -274,13 +285,31 @@ namespace TaskManager.Dal.Migrations
                             Email = "olarevun23@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            Name = "Ola",
                             NormalizedEmail = "OLAREVUN23@GMAIL.COM",
                             NormalizedUserName = "OLA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMI6H30+yAoWzyqvwZOb2+vbQJdY92PBMxiLrazgPo5ms7CzMoYekn7V4WewIoT3uA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELhW7WoGTkP1aZcDoN5qwgHILFMMak47gnjEKYQ0YBgcEitvLKiKmpoXYliqdFfMVA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
-                            UserName = "Ola"
+                            UserName = "@olga"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
+                            Email = "olegrevun23@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Oleg",
+                            NormalizedEmail = "OLEGREVUN23@GMAIL.COM",
+                            NormalizedUserName = "OLEG",
+                            PasswordHash = "AQAAAAEAACcQAAAAELhW7WoGTkP1aZcDoN5qwgHILFMMak47gnjEKYQ0YBgcEitvLKiKmpoXYliqdFfMVA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
+                            TwoFactorEnabled = false,
+                            UserName = "@olegka"
                         });
                 });
 
@@ -292,11 +321,33 @@ namespace TaskManager.Dal.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ProjectMemberId1")
+                        .HasColumnType("integer");
+
                     b.HasKey("ProjectMemberId", "RoleId");
+
+                    b.HasIndex("ProjectMemberId1");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectMemberId = 1,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            ProjectMemberId = 10,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            ProjectMemberId = 15,
+                            RoleId = 4
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Project", b =>
@@ -323,6 +374,15 @@ namespace TaskManager.Dal.Migrations
                         .IsUnique();
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Members = 3,
+                            ProjectManagerId = 3,
+                            UnitId = 20
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.ProjectMember", b =>
@@ -345,6 +405,26 @@ namespace TaskManager.Dal.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ProjectMembers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProjectId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ProjectId = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ProjectId = 1,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.RelationShip", b =>
@@ -360,6 +440,33 @@ namespace TaskManager.Dal.Migrations
                     b.HasIndex("ParentUnitId");
 
                     b.ToTable("RelationShips");
+
+                    b.HasData(
+                        new
+                        {
+                            UnitId = 25,
+                            ParentUnitId = 5
+                        },
+                        new
+                        {
+                            UnitId = 26,
+                            ParentUnitId = 5
+                        },
+                        new
+                        {
+                            UnitId = 40,
+                            ParentUnitId = 4
+                        },
+                        new
+                        {
+                            UnitId = 41,
+                            ParentUnitId = 5
+                        },
+                        new
+                        {
+                            UnitId = 42,
+                            ParentUnitId = 5
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Tag", b =>
@@ -375,6 +482,58 @@ namespace TaskManager.Dal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            TextValue = "InProgress"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            TextValue = "Self-test"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            TextValue = "Adminka"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            TextValue = "Done"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            TextValue = "Blocked"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            TextValue = "CodeReview"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            TextValue = "Frontend"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            TextValue = "Backend"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            TextValue = "Backlog"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            TextValue = "Testing"
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.TagOnTask", b =>
@@ -390,6 +549,63 @@ namespace TaskManager.Dal.Migrations
                     b.HasIndex("TaskId");
 
                     b.ToTable("TagOnTasks");
+
+                    b.HasData(
+                        new
+                        {
+                            TagId = 5,
+                            TaskId = 1
+                        },
+                        new
+                        {
+                            TagId = 8,
+                            TaskId = 1
+                        },
+                        new
+                        {
+                            TagId = 9,
+                            TaskId = 1
+                        },
+                        new
+                        {
+                            TagId = 1,
+                            TaskId = 2
+                        },
+                        new
+                        {
+                            TagId = 8,
+                            TaskId = 2
+                        },
+                        new
+                        {
+                            TagId = 6,
+                            TaskId = 3
+                        },
+                        new
+                        {
+                            TagId = 8,
+                            TaskId = 3
+                        },
+                        new
+                        {
+                            TagId = 4,
+                            TaskId = 4
+                        },
+                        new
+                        {
+                            TagId = 8,
+                            TaskId = 4
+                        },
+                        new
+                        {
+                            TagId = 1,
+                            TaskId = 5
+                        },
+                        new
+                        {
+                            TagId = 10,
+                            TaskId = 5
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Task", b =>
@@ -399,7 +615,7 @@ namespace TaskManager.Dal.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("AssignedId")
+                    b.Property<int?>("AssignedId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProjectId")
@@ -418,6 +634,42 @@ namespace TaskManager.Dal.Migrations
                         .IsUnique();
 
                     b.ToTable("Tasks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProjectId = 1,
+                            UnitId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AssignedId = 1,
+                            ProjectId = 1,
+                            UnitId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AssignedId = 1,
+                            ProjectId = 1,
+                            UnitId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AssignedId = 2,
+                            ProjectId = 1,
+                            UnitId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AssignedId = 2,
+                            ProjectId = 1,
+                            UnitId = 5
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.TermInfo", b =>
@@ -427,7 +679,7 @@ namespace TaskManager.Dal.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTimeOffset>("DueTs")
+                    b.Property<DateTimeOffset?>("DueTs")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset>("StartTs")
@@ -450,10 +702,85 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 1,
-                            DueTs = new DateTimeOffset(new DateTime(2020, 6, 10, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 13, 23, 17, 54, 984, DateTimeKind.Unspecified).AddTicks(6077), new TimeSpan(0, 3, 0, 0, 0)),
+                            DueTs = new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 987, DateTimeKind.Unspecified).AddTicks(1063), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 0,
                             UnitId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DueTs = new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(761), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 1,
+                            UnitId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DueTs = new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(863), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 1,
+                            UnitId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DueTs = new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(875), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 1,
+                            UnitId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DueTs = new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(882), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 2,
+                            UnitId = 5
+                        },
+                        new
+                        {
+                            Id = 20,
+                            DueTs = new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(896), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 1,
+                            UnitId = 20
+                        },
+                        new
+                        {
+                            Id = 25,
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(903), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 1,
+                            UnitId = 25
+                        },
+                        new
+                        {
+                            Id = 26,
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(910), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 2,
+                            UnitId = 26
+                        },
+                        new
+                        {
+                            Id = 40,
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(917), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 3,
+                            UnitId = 40
+                        },
+                        new
+                        {
+                            Id = 41,
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(925), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 3,
+                            UnitId = 41
+                        },
+                        new
+                        {
+                            Id = 42,
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(932), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = 3,
+                            UnitId = 42
                         });
                 });
 
@@ -464,13 +791,16 @@ namespace TaskManager.Dal.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.Property<Guid>("Key")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValueSql("newsequentialid()");
+                        .HasDefaultValueSql("uuid_generate_v1()");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -480,12 +810,15 @@ namespace TaskManager.Dal.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatorId");
+
                     b.ToTable("Units");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CreatorId = 2,
                             Description = "Create user api, spam list and blocking users",
                             Key = new Guid("dea2c6f6-3064-40fb-9f75-8e695939e839"),
                             Name = "CRUD API creating and deleting users",
@@ -494,6 +827,7 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 2,
+                            CreatorId = 2,
                             Description = "Modify database, add email service for client sales",
                             Key = new Guid("814d9772-ef7c-4eb9-a932-18dc89d4a0b4"),
                             Name = "Api for email subscriptions",
@@ -502,6 +836,7 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 3,
+                            CreatorId = 2,
                             Description = "Change behaviour from delete cascade to restrict and rework service deleting logic",
                             Key = new Guid("a7d245d0-3280-4ef5-9acb-6787bc194db7"),
                             Name = "Delete cascade",
@@ -510,6 +845,7 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 4,
+                            CreatorId = 2,
                             Description = "Plug in PayPal",
                             Key = new Guid("90992949-51c7-4ad1-aa92-086a1c57ba5d"),
                             Name = "Api for donations",
@@ -518,10 +854,60 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 5,
+                            CreatorId = 2,
                             Description = "Config docker compose with dotnet and postgres image and write integration tests for content with",
                             Key = new Guid("3310e655-5b08-493c-972c-13f668b5c57e"),
                             Name = "Testing content",
                             UnitType = 3
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatorId = 3,
+                            Description = "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.",
+                            Key = new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"),
+                            Name = "TaskManager",
+                            UnitType = 2
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreatorId = 2,
+                            Key = new Guid("32ae9833-13f7-4350-a68e-70e0bfeeca30"),
+                            Name = "Create postgres image",
+                            UnitType = 4
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreatorId = 2,
+                            Key = new Guid("02d0d799-c713-4d50-997a-c4b116192153"),
+                            Name = "Create dotnet image",
+                            UnitType = 4
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CreatorId = 2,
+                            Key = new Guid("2da24682-8c31-4a23-b1e4-f979e8f80805"),
+                            Name = "add doc document with api desc",
+                            UnitType = 0
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CreatorId = 2,
+                            Key = new Guid("d719805a-5c72-4473-8e6a-16b23120e185"),
+                            Name = "we use postgres 11",
+                            UnitType = 0
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CreatorId = 1,
+                            Key = new Guid("2e5bc155-4842-4bf3-94de-36199204d917"),
+                            Name = "Ok",
+                            UnitType = 0
                         });
                 });
 
@@ -535,17 +921,17 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             UserId = 1,
-                            RoleId = 1
+                            RoleId = 2
                         },
                         new
                         {
                             UserId = 2,
-                            RoleId = 2
+                            RoleId = 3
                         },
                         new
                         {
                             UserId = 1,
-                            RoleId = 2
+                            RoleId = 4
                         });
                 });
 
@@ -608,8 +994,12 @@ namespace TaskManager.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TaskManager.Entities.Tables.ProjectMember", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("ProjectMemberId1");
+
                     b.HasOne("TaskManager.Entities.Tables.Identity.Role", "Role")
-                        .WithMany()
+                        .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -677,11 +1067,9 @@ namespace TaskManager.Dal.Migrations
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Task", b =>
                 {
-                    b.HasOne("TaskManager.Entities.Tables.ProjectMember", "Assigned")
+                    b.HasOne("TaskManager.Entities.Tables.Identity.User", "Assigned")
                         .WithMany()
-                        .HasForeignKey("AssignedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssignedId");
 
                     b.HasOne("TaskManager.Entities.Tables.Project", "Project")
                         .WithMany()
@@ -702,6 +1090,15 @@ namespace TaskManager.Dal.Migrations
                         .WithOne("TermInfo")
                         .HasForeignKey("TaskManager.Entities.Tables.TermInfo", "UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TaskManager.Entities.Tables.Unit", b =>
+                {
+                    b.HasOne("TaskManager.Entities.Tables.Identity.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

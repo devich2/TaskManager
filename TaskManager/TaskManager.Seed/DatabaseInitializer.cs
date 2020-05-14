@@ -35,7 +35,12 @@ namespace TaskManager.Seed
             foreach (var user in users)
             {
                 user.SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627";
-                user.PasswordHash = ph.HashPassword(user, newPassword);
+                if (user.PasswordHash == null ||
+                    ph.VerifyHashedPassword(user, user.PasswordHash, newPassword)
+                    == PasswordVerificationResult.Failed)
+                {
+                    user.PasswordHash = ph.HashPassword(user, newPassword);
+                }
             }
 
             AddEntities(builder, users);

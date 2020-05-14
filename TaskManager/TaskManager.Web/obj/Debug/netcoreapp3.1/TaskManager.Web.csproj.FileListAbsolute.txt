@@ -190,5 +190,11 @@ C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\obj\D
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Npgsql.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\obj\Debug\netcoreapp3.1\TaskManager.Web.csproj.CoreCompileInputs.cache
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\obj\Debug\netcoreapp3.1\TaskManager.Web.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll

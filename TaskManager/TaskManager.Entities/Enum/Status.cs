@@ -8,6 +8,7 @@ namespace TaskManager.Entities.Enum
     {
         Open,
         InProgress,
-        Closed
+        Closed,
+        None
     }
 }

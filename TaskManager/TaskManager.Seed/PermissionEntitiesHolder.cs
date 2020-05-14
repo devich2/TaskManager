@@ -9,7 +9,24 @@ namespace TaskManager.Seed
     {
         public List<Permission> GetPermissions()
         {
-            return new List<Permission>();
+            return new List<Permission>()
+            {
+                new Permission()
+                {
+                    ProjectMemberId = 1,
+                    RoleId = 2
+                },
+                new Permission()
+                {
+                    ProjectMemberId = 10,
+                    RoleId = 3
+                },
+                new Permission()
+                {
+                    ProjectMemberId = 15,
+                    RoleId = 4
+                },
+            };
         }
     }
 }

@@ -18,9 +18,9 @@ C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\bin\D
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\bin\Debug\netcoreapp3.1\TaskManager.Entities.pdb
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\bin\Debug\netcoreapp3.1\TaskManager.Seed.pdb
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.csprojAssemblyReference.cache
-C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.csproj.CoreCompileInputs.cache
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.AssemblyInfoInputs.cache
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.AssemblyInfo.cs
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.csproj.CopyComplete
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.pdb
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.csproj.CoreCompileInputs.cache
