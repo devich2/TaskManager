@@ -18,7 +18,7 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 1,
+                    UnitId = 1,
                     Name = "CRUD API creating and deleting users",
                     Description = "Create user api, spam list and blocking users",
                     UnitType = UnitType.Task,
@@ -27,7 +27,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 2,
+                    UnitId = 2,
                     Name = "Api for email subscriptions",
                     Description = "Modify database, add email service for client sales",
                     UnitType = UnitType.Task,
@@ -36,7 +36,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 3,
+                    UnitId = 3,
                     Name = "Delete cascade",
                     Description = "Change behaviour from delete cascade to restrict and rework service deleting logic",
                     UnitType = UnitType.Task,
@@ -45,7 +45,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 4,
+                    UnitId = 4,
                     Name = "Api for donations",
                     Description = "Plug in PayPal",
                     UnitType = UnitType.Task,
@@ -54,7 +54,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 5,
+                    UnitId = 5,
                     Name = "Testing content",
                     Description = "Config docker compose with dotnet and postgres image and write integration tests for content with",
                     UnitType = UnitType.Task,
@@ -68,7 +68,7 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 20,
+                    UnitId = 20,
                     Name = "TaskManager",
                     Description = "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.",
                     UnitType = UnitType.Project,
@@ -82,7 +82,7 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 25,
+                    UnitId = 25,
                     Name = "Create postgres image",
                     Description = null,
                     UnitType = UnitType.SubTask,
@@ -91,7 +91,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 26,
+                    UnitId = 26,
                     Name = "Create dotnet image",
                     Description = null,
                     UnitType = UnitType.SubTask,
@@ -104,7 +104,7 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 40,
+                    UnitId = 40,
                     Name = "add doc document with api desc",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -113,7 +113,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 41,
+                    UnitId = 41,
                     Name = "we use postgres 11",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -122,7 +122,7 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 42,
+                    UnitId = 42,
                     Name = "Ok",
                     Description = null,
                     UnitType = UnitType.Comment,

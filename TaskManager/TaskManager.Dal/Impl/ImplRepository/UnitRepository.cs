@@ -7,7 +7,7 @@ using TaskManager.Entities.Tables;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class UnitRepository: GenericKeyRepository<int, Unit>, IUnitRepository
+    public class UnitRepository: UnitFkRepository<Unit>, IUnitRepository
     {
         public UnitRepository(TaskManagerDbContext context) : base(context)
         {

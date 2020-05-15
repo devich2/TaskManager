@@ -6,7 +6,6 @@ namespace TaskManager.Entities.Tables
 {
     public class Project: IUnitExtensionTable
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int ProjectManagerId { get; set; }
         public User ProjectManager { get; set; }

@@ -11,8 +11,11 @@ C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\bi
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\bin\Debug\netcoreapp3.1\TaskManager.Models.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\bin\Debug\netcoreapp3.1\TaskManager.Models.pdb
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.csprojAssemblyReference.cache
-C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.csproj.CoreCompileInputs.cache
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.AssemblyInfoInputs.cache
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.AssemblyInfo.cs
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.pdb
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\bin\Debug\netcoreapp3.1\TaskManager.Entities.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\bin\Debug\netcoreapp3.1\TaskManager.Entities.pdb
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.csproj.CopyComplete
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Models\obj\Debug\netcoreapp3.1\TaskManager.Models.csproj.CoreCompileInputs.cache

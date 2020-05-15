@@ -6,7 +6,7 @@ using TaskManager.Entities.Tables;
 
 namespace TaskManager.Dal.Abstract.IRepository
 {
-    public interface IUnitRepository: IGenericKeyRepository<int, Unit>
+    public interface IUnitRepository: IUnitFkRepository<Unit>
     {
     }
 }

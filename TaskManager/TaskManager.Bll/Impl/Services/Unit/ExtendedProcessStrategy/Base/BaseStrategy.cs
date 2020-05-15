@@ -36,7 +36,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
         public virtual async Task<DataResult<JObject>>
             ProcessExistingModel(Entities.Tables.Unit unit)
         {
-            if (unit == null || unit.Id == 0)
+            if (unit == null || unit.UnitId == 0)
             {
                 return new DataResult<JObject>()
                 {
@@ -44,7 +44,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                     ResponseStatusType = ResponseStatusType.Error
                 };
             }
-            TEntity data = await _currentRepository.GetByUnitIdAsync(unit.Id);
+            TEntity data = await _currentRepository.GetByUnitIdAsync(unit.UnitId);
 
             if (data == null)
             {
@@ -55,12 +55,12 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                 };
             }
 
-            //TModel model = _mapper.Map(data);
+            TModel model = _mapper.Map<TModel>(data);
 
             return new DataResult<JObject>()
             {
                 ResponseStatusType = ResponseStatusType.Succeed,
-               // Data = JObject.FromObject(model)
+                Data = JObject.FromObject(model)
             };
         }
 
@@ -79,7 +79,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                 };
             }
 
-           /* TEntity entity = _modelMapper.MapBack(current);
+            TEntity entity = _mapper.Map<TEntity>(current);
             entity.UnitId = unitId;
 
             switch (state)
@@ -87,18 +87,18 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                 case ModelState.None:
                     break;
                 case ModelState.Added:
-                    await this.CreateAsync(entity);
+                    await CreateAsync(entity);
                     break;
                 case ModelState.Modify:
-                    await this.UpdateAsync(entity);
+                    await UpdateAsync(entity);
                     break;
                 case ModelState.Deleted:
-                    await this.DeleteAsync(entity);
+                    await DeleteAsync(entity);
                     break;
             }
 
-            await _currentRepository.SaveAsync();
-            */
+            await _currentRepository.SaveChangesAsync();
+
             return new Result()
             {
                 Message = ResponseMessageType.None,
@@ -106,7 +106,6 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
             };
             
         }
-
         protected virtual async Task CreateAsync(TEntity entity)
         {
             await _currentRepository.AddAsync(entity);
@@ -121,7 +120,6 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
 
         protected virtual async Task DeleteAsync(TEntity entity)
         {
-            //TODO Soft delete 
             await _currentRepository.DeleteAsync(entity);
             await _currentRepository.SaveChangesAsync();
         }

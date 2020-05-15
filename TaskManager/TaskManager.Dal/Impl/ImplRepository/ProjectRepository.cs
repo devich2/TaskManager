@@ -11,7 +11,7 @@ using TaskManager.Entities.Tables;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class ProjectRepository: GenericKeyRepository<int, Project>, IProjectRepository
+    public class ProjectRepository : UnitFkRepository<Project>, IProjectRepository
     {
         public ProjectRepository(TaskManagerDbContext context) : base(context)
         {

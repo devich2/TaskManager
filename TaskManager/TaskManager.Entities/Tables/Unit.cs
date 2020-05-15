@@ -10,7 +10,7 @@ namespace TaskManager.Entities.Tables
 {
     public class Unit: IUnitExtensionTable
     {
-        public int Id { get; set; }
+        public int UnitId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public UnitType UnitType { get; set; }

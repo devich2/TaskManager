@@ -701,7 +701,7 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 1,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 987, DateTimeKind.Unspecified).AddTicks(1063), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 856, DateTimeKind.Unspecified).AddTicks(5566), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 0,
                             UnitId = 1
                         },
@@ -709,7 +709,7 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 2,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(761), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5065), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 1,
                             UnitId = 2
                         },
@@ -717,7 +717,7 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 3,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(863), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5165), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 1,
                             UnitId = 3
                         },
@@ -725,7 +725,7 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 4,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(875), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5177), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 1,
                             UnitId = 4
                         },
@@ -733,7 +733,7 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 5,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(882), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5185), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 2,
                             UnitId = 5
                         },
@@ -741,42 +741,42 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 20,
                             DueTs = new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(896), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5197), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 1,
                             UnitId = 20
                         },
                         new
                         {
                             Id = 25,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(903), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5205), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 1,
                             UnitId = 25
                         },
                         new
                         {
                             Id = 26,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(910), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5212), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 2,
                             UnitId = 26
                         },
                         new
                         {
                             Id = 40,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(917), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5218), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 3,
                             UnitId = 40
                         },
                         new
                         {
                             Id = 41,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(925), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5226), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 3,
                             UnitId = 41
                         },
                         new
                         {
                             Id = 42,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 1, 34, 47, 990, DateTimeKind.Unspecified).AddTicks(932), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 5, 15, 17, 16, 56, 859, DateTimeKind.Unspecified).AddTicks(5233), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = 3,
                             UnitId = 42
                         });
@@ -784,7 +784,7 @@ namespace TaskManager.Dal.Migrations
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Unit", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UnitId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -806,7 +806,7 @@ namespace TaskManager.Dal.Migrations
                     b.Property<int>("UnitType")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("UnitId");
 
                     b.HasIndex("CreatorId");
 
@@ -815,7 +815,7 @@ namespace TaskManager.Dal.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            UnitId = 1,
                             CreatorId = 2,
                             Description = "Create user api, spam list and blocking users",
                             Key = new Guid("dea2c6f6-3064-40fb-9f75-8e695939e839"),
@@ -824,7 +824,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            UnitId = 2,
                             CreatorId = 2,
                             Description = "Modify database, add email service for client sales",
                             Key = new Guid("814d9772-ef7c-4eb9-a932-18dc89d4a0b4"),
@@ -833,7 +833,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            UnitId = 3,
                             CreatorId = 2,
                             Description = "Change behaviour from delete cascade to restrict and rework service deleting logic",
                             Key = new Guid("a7d245d0-3280-4ef5-9acb-6787bc194db7"),
@@ -842,7 +842,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            UnitId = 4,
                             CreatorId = 2,
                             Description = "Plug in PayPal",
                             Key = new Guid("90992949-51c7-4ad1-aa92-086a1c57ba5d"),
@@ -851,7 +851,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 5,
+                            UnitId = 5,
                             CreatorId = 2,
                             Description = "Config docker compose with dotnet and postgres image and write integration tests for content with",
                             Key = new Guid("3310e655-5b08-493c-972c-13f668b5c57e"),
@@ -860,7 +860,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 20,
+                            UnitId = 20,
                             CreatorId = 3,
                             Description = "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.",
                             Key = new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"),
@@ -869,7 +869,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 25,
+                            UnitId = 25,
                             CreatorId = 2,
                             Key = new Guid("32ae9833-13f7-4350-a68e-70e0bfeeca30"),
                             Name = "Create postgres image",
@@ -877,7 +877,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 26,
+                            UnitId = 26,
                             CreatorId = 2,
                             Key = new Guid("02d0d799-c713-4d50-997a-c4b116192153"),
                             Name = "Create dotnet image",
@@ -885,7 +885,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 40,
+                            UnitId = 40,
                             CreatorId = 2,
                             Key = new Guid("2da24682-8c31-4a23-b1e4-f979e8f80805"),
                             Name = "add doc document with api desc",
@@ -893,7 +893,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 41,
+                            UnitId = 41,
                             CreatorId = 2,
                             Key = new Guid("d719805a-5c72-4473-8e6a-16b23120e185"),
                             Name = "we use postgres 11",
@@ -901,7 +901,7 @@ namespace TaskManager.Dal.Migrations
                         },
                         new
                         {
-                            Id = 42,
+                            UnitId = 42,
                             CreatorId = 1,
                             Key = new Guid("2e5bc155-4842-4bf3-94de-36199204d917"),
                             Name = "Ok",

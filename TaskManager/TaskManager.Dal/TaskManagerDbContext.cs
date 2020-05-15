@@ -39,7 +39,7 @@ namespace TaskManager.Dal
             builder.Entity<Tag>().HasKey(c => c.Id);
             builder.Entity<TagOnTask>().HasKey(c => new { c.TagId, c.TaskId });
             builder.Entity<Task>().HasKey(c => c.Id);
-            builder.Entity<Unit>().HasKey(c => c.Id);
+            builder.Entity<Unit>().HasKey(c => c.UnitId);
 
             #endregion
 
@@ -66,7 +66,7 @@ namespace TaskManager.Dal
                 .ValueGeneratedOnAdd();
 
             builder.Entity<Unit>()
-                .Property(p => p.Id)
+                .Property(p => p.UnitId)
                 .ValueGeneratedOnAdd();
 
             #endregion

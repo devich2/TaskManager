@@ -23,6 +23,7 @@ using TaskManager.Common.Utils;
 using TaskManager.Configuration;
 using TaskManager.Dal;
 using TaskManager.Dal.Abstract.IRepository;
+using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables;
 using TaskManager.Entities.Tables.Identity;
 using TaskManager.Web.Infrastructure.Extension;
@@ -106,14 +107,16 @@ namespace TaskManager.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, ILogger<Startup> logger)
+        public async void Configure(IApplicationBuilder app, ILogger<Startup> logger)
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<TaskManagerDbContext>();
-                var rep = scope.ServiceProvider.GetService<ITaskRepository>();
-                var list = rep.GetTasksByProjectId(1).Result;
-                Console.WriteLine(list);
+                var rep = scope.ServiceProvider.GetService<IUnitRepository>();
+                //context.Database.EnsureDeleted();
+                var list = await 
+                    context.Units.Where(x => x.UnitId == 1).Include(x => x.TermInfo).ToListAsync();
+                await rep.SaveChangesAsync();
 
             }
             if (Env.IsDevelopment())

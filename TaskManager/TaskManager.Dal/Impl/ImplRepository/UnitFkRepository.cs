@@ -16,6 +16,10 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
         }
 
+        public async Task<int> SaveChangesAsync()
+        {
+            return await Context.SaveChangesAsync();
+        }
         public async Task<TEntity> GetByUnitIdAsync(int id)
         {
             return await Context.Set<TEntity>()

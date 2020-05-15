@@ -23,3 +23,4 @@ C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\D
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.csproj.CopyComplete
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.pdb
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Bll\obj\Debug\netcoreapp3.1\TaskManager.Bll.csproj.CoreCompileInputs.cache

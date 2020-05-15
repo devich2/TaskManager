@@ -7,16 +7,17 @@ using Microsoft.EntityFrameworkCore;
 using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Dal.Impl.ImplRepository.Base;
 using TaskManager.Entities.Tables;
-using Task = TaskManager.Entities.Tables.Task;
+using TaskAlias = TaskManager.Entities.Tables.Task;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class TaskRepository: UnitFkRepository<Task>, ITaskRepository
+    public class TaskRepository: UnitFkRepository<TaskAlias>, ITaskRepository
     {
         public TaskRepository(TaskManagerDbContext context) : base(context)
         {
         }
-        public async Task<List<Task>> GetTasksByProjectId(int projectId)
+
+        public async Task<List<TaskAlias>> GetTasksByProjectId(int projectId)
         {
             return await Context.Tasks
                 .Where(x => x.ProjectId == projectId)

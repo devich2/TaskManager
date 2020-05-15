@@ -7,7 +7,7 @@ using TaskManager.Entities.Tables;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class RelationShipRepository: GenericKeyRepository<int, RelationShip>, IRelationShipRepository
+    public class RelationShipRepository: UnitFkRepository<RelationShip>, IRelationShipRepository
     {
         public RelationShipRepository(TaskManagerDbContext context) : base(context)
         {
