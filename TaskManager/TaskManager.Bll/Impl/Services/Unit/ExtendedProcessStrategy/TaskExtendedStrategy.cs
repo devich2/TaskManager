@@ -6,19 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base;
 using TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base;
+using TaskManager.Dal.Abstract;
 using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Entities.Tables;
 using TaskManager.Models.Task;
 
 namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
 {
-    class TaskExtendedStrategy : BaseStrategy<int, Task, TaskModel>, IUnitExtendedStrategy
+    public class TaskExtendedStrategy : BaseStrategy<int, Task, TaskModel>, IUnitExtendedStrategy
     {
-        public TaskExtendedStrategy(
-            ITaskRepository taskRepository,
+        private readonly IUnitOfWork _unitOfWork;
+
+        public TaskExtendedStrategy(IUnitOfWork unitOfWork,
             IMapper mapper,
-            IOptions<MvcNewtonsoftJsonOptions> jsonOptions) : base(taskRepository, mapper, jsonOptions)
+            IOptions<MvcNewtonsoftJsonOptions> jsonOptions) : base(unitOfWork.Tasks, mapper, jsonOptions)
         {
+            _unitOfWork = unitOfWork;
+        }
+
+        protected override async System.Threading.Tasks.Task CreateDependency(TaskModel model, int unitId)
+        {
+            Task task = await _currentRepository.GetByUnitIdAsync(unitId);
+            await _unitOfWork.TagOnTasks.AddToTags(task.Id, model.Tags);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

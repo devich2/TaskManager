@@ -4,6 +4,8 @@ using System.Net.Mime;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using Npgsql.NameTranslation;
 using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables;
 using TaskManager.Entities.Tables.Identity;
@@ -17,6 +19,14 @@ namespace TaskManager.Dal
         public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options)
             : base(options)
         {
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Status>(
+                nameof(Status),
+                new NpgsqlNullNameTranslator()
+            );
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<UnitType>(
+                nameof(UnitType),
+                new NpgsqlNullNameTranslator()
+            );
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -27,7 +37,6 @@ namespace TaskManager.Dal
 
             builder.HasPostgresEnum(nameof(Status), typeof(Status).GetEnumNames());
             builder.HasPostgresEnum(nameof(UnitType), typeof(UnitType).GetEnumNames());
-
             #endregion
 
             #region Key
@@ -40,7 +49,7 @@ namespace TaskManager.Dal
             builder.Entity<TagOnTask>().HasKey(c => new { c.TagId, c.TaskId });
             builder.Entity<Task>().HasKey(c => c.Id);
             builder.Entity<Unit>().HasKey(c => c.UnitId);
-
+            builder.Entity<TermInfo>().HasKey(c => c.UnitId);
             #endregion
 
             #region ValueGenerations
@@ -61,9 +70,10 @@ namespace TaskManager.Dal
                 .Property(p => p.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Entity<TermInfo>()
+            /*builder.Entity<TermInfo>()
                 .Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+                */
 
             builder.Entity<Unit>()
                 .Property(p => p.UnitId)

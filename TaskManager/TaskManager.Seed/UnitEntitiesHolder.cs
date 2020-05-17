@@ -242,7 +242,6 @@ namespace TaskManager.Seed
                 // Tasks
                 new TermInfo()
                 {
-                    Id = 1,
                     UnitId = 1,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 25, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -250,7 +249,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 2,
                     UnitId = 2,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 30, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -258,7 +256,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 3,
                     UnitId = 3,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 27, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -266,7 +263,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 4,
                     UnitId = 4,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 26, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -274,7 +270,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 5,
                     UnitId = 5,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 23, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -283,7 +278,6 @@ namespace TaskManager.Seed
                 // Projects
                 new TermInfo()
                 {
-                    Id = 20,
                     UnitId = 20,
                     StartTs = DateTimeOffset.Now,
                     DueTs =  new DateTimeOffset(2020, 06, 23, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -292,7 +286,6 @@ namespace TaskManager.Seed
                 // SubTasks
                 new TermInfo()
                 {
-                    Id = 25,
                     UnitId = 25,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -300,7 +293,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 26,
                     UnitId = 26,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -310,7 +302,6 @@ namespace TaskManager.Seed
                 // Comments
                 new TermInfo()
                 {
-                    Id = 40,
                     UnitId = 40,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -318,7 +309,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 41,
                     UnitId = 41,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -326,7 +316,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 42,
                     UnitId = 42,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,

@@ -21,6 +21,7 @@
     <ProjectReference Include="..\TaskManager.Common\TaskManager.Common.csproj" />
     <ProjectReference Include="..\TaskManager.Configuration\TaskManager.Configuration.csproj" />
     <ProjectReference Include="..\TaskManager.Dal\TaskManager.Dal.csproj" />
+    <ProjectReference Include="..\TaskManager.Entities\TaskManager.Entities.csproj" />
     <ProjectReference Include="..\TaskManager.Models\TaskManager.Models.csproj" />
   </ItemGroup>
 

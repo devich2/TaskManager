@@ -20,7 +20,6 @@ namespace TaskManager.Dal.Impl.ImplRepository
         public ProjectMemberRepository(TaskManagerDbContext context) : base(context)
         {
         }
-
         public async Task<List<ProjectMember>> GetMembersById(int projectId)
         {
             return await Context.ProjectMembers

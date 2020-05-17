@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using TaskManager.Entities.Enum;
+using TaskManager.Entities.Tables;
 
 namespace TaskManager.Models.Unit
 {

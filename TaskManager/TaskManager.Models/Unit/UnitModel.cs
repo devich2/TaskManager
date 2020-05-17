@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TaskManager.Entities.Tables;
+using TaskManager.Models.TermInfo;
 
 namespace TaskManager.Models.Unit
 {

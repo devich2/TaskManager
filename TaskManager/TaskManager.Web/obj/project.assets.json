@@ -8086,6 +8086,7 @@
       "TaskManager.Common >= 1.0.0",
       "TaskManager.Configuration >= 1.0.0",
       "TaskManager.Dal >= 1.0.0",
+      "TaskManager.Entities >= 1.0.0",
       "TaskManager.Models >= 1.0.0"
     ]
   },
@@ -8130,6 +8131,9 @@
             },
             "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Dal\\TaskManager.Dal.csproj": {
               "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Dal\\TaskManager.Dal.csproj"
+            },
+            "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Entities\\TaskManager.Entities.csproj": {
+              "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Entities\\TaskManager.Entities.csproj"
             },
             "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Models\\TaskManager.Models.csproj": {
               "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Models\\TaskManager.Models.csproj"

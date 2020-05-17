@@ -15,13 +15,12 @@ namespace TaskManager.Dal.Migrations
             migrationBuilder.RestartSequence(name: "Projects_Id_seq", 1000);
             migrationBuilder.RestartSequence(name: "Tags_Id_seq", 1000);
             migrationBuilder.RestartSequence(name: "Tasks_Id_seq", 1000);
-            migrationBuilder.RestartSequence(name: "TermInfos_Id_seq", 1000);
-            migrationBuilder.RestartSequence(name: "Units_Id_seq", 1000);
+            migrationBuilder.RestartSequence("Units_UnitId_seq", 1000);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            
+           
         }
     }
 }

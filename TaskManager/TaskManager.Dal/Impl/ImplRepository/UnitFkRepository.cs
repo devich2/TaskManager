@@ -20,7 +20,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
             return await Context.SaveChangesAsync();
         }
-        public async Task<TEntity> GetByUnitIdAsync(int id)
+        public virtual async Task<TEntity> GetByUnitIdAsync(int id)
         {
             return await Context.Set<TEntity>()
                 .FirstOrDefaultAsync(e => e.UnitId == id);

@@ -20,7 +20,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
         where TEntity : class, IUnitExtensionTable
         where TModel : class
     {
-        private readonly IUnitFkRepository<TEntity> _currentRepository;
+        protected readonly IUnitFkRepository<TEntity> _currentRepository;
         private readonly IMapper _mapper;
         private readonly JsonSerializerSettings _serializerSettings;
         public BaseStrategy(IUnitFkRepository<TEntity> currentRepository,
@@ -31,7 +31,6 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
             _mapper = mapper;
             _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
-
 
         public virtual async Task<DataResult<JObject>>
             ProcessExistingModel(Entities.Tables.Unit unit)
@@ -78,26 +77,29 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                     ResponseStatusType = ResponseStatusType.Error
                 };
             }
-
-            TEntity entity = _mapper.Map<TEntity>(current);
-            entity.UnitId = unitId;
-
-            switch (state)
+            if (ContinueProcessing(current))
             {
-                case ModelState.None:
-                    break;
-                case ModelState.Added:
-                    await CreateAsync(entity);
-                    break;
-                case ModelState.Modify:
-                    await UpdateAsync(entity);
-                    break;
-                case ModelState.Deleted:
-                    await DeleteAsync(entity);
-                    break;
-            }
+                TEntity entity = _mapper.Map<TEntity>(current);
+                entity.UnitId = unitId;
 
-            await _currentRepository.SaveChangesAsync();
+                switch (state)
+                {
+                    case ModelState.None:
+                        break;
+                    case ModelState.Added:
+                        await CreateAsync(entity);
+                        await CreateDependency(current, unitId);
+                        break;
+                    case ModelState.Modify:
+                        await UpdateAsync(entity);
+                        break;
+                    case ModelState.Deleted:
+                        await DeleteAsync(entity);
+                        break;
+                }
+
+                await _currentRepository.SaveChangesAsync();
+            }
 
             return new Result()
             {
@@ -110,6 +112,11 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
         {
             await _currentRepository.AddAsync(entity);
             await _currentRepository.SaveChangesAsync();
+        }
+        protected virtual bool ContinueProcessing(TModel model) => true;
+        protected virtual Task CreateDependency(TModel model, int unitId)
+        {
+            return Task.FromResult(0);
         }
 
         protected virtual async Task UpdateAsync(TEntity entity)

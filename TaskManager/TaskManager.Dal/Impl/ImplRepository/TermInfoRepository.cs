@@ -7,10 +7,11 @@ using TaskManager.Entities.Tables;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class TermInfoRepository: GenericKeyRepository<int, TermInfo>, ITermInfoRepository
+    public class TermInfoRepository: UnitFkRepository<TermInfo>, ITermInfoRepository
     {
         public TermInfoRepository(TaskManagerDbContext context) : base(context)
         {
         }
+
     }
 }

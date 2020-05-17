@@ -18,7 +18,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using TaskManager.Bll;
+using TaskManager.Bll.Abstract.Unit;
 using TaskManager.Common.Utils;
 using TaskManager.Configuration;
 using TaskManager.Dal;
@@ -26,6 +28,10 @@ using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables;
 using TaskManager.Entities.Tables.Identity;
+using TaskManager.Models.Project;
+using TaskManager.Models.Task;
+using TaskManager.Models.TermInfo;
+using TaskManager.Models.Unit;
 using TaskManager.Web.Infrastructure.Extension;
 using TaskManager.Web.Infrastructure.Middleware;
 using Task = System.Threading.Tasks.Task;
@@ -34,9 +40,9 @@ namespace TaskManager.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public Startup(IWebHostEnvironment hostingEnvironment)
         {
-            var appAssembly = Assembly.Load(new AssemblyName(hostingEnvironment.ApplicationName));
+            Assembly.Load(new AssemblyName(hostingEnvironment.ApplicationName));
             ConfigurationBuilder configBuilder = new ConfigurationBuilder();
             configBuilder
                 .SetBasePath(hostingEnvironment.ContentRootPath)
@@ -112,11 +118,69 @@ namespace TaskManager.Web
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<TaskManagerDbContext>();
-                var rep = scope.ServiceProvider.GetService<IUnitRepository>();
+                var service = scope.ServiceProvider.GetService <IUnitEditService> ();
+
+                await service.ProcessUnitCreate(new UnitCreateOrUpdateModel()
+                {
+                    UserId = 1,
+                    UnitStateModel = new UnitStateModel()
+                    {
+                        UnitModel = new UnitModel()
+                        {
+                            Name = "Pro",
+                            Description = "2",
+                            TermInfo = new TermInfoCreateModel()
+                            {
+                                Status = Status.Open,
+                                DueTs = DateTimeOffset.Now
+                            }
+                        },
+                        ExtendedType = UnitType.Project,
+                        ProcessToState = ModelState.Added,
+                        Data = JObject.FromObject(new ProjectModel()
+                        {
+                            ProjectManagerId = 1,
+                            Members = 1
+                        })
+                    }
+
+                });
                 //context.Database.EnsureDeleted();
-                var list = await 
-                    context.Units.Where(x => x.UnitId == 1).Include(x => x.TermInfo).ToListAsync();
-                await rep.SaveChangesAsync();
+                /* var list = await service.ProcessUnitCreate(new UnitCreateOrUpdateModel()
+                 {
+                     UserId = 1,
+                     UnitStateModel = new UnitStateModel()
+                     {
+                         UnitModel = new UnitModel()
+                         {
+                             Name = "FUCKu",
+                             Description = "GO FUCK",
+                             TermInfo = new TermInfoModel()
+                             {
+                                 Status = Status.Open,
+                                 DueTs = DateTimeOffset.Now
+                             }
+                         },
+                         ExtendedType = UnitType.Task,
+                         ProcessToState = ModelState.Added,
+                         Data = JObject.FromObject(new TaskModel()
+                         {
+                             Tags = new List<int>()
+                             {
+                                 1,2,3
+                             },
+                             ProjectId = 1
+                         })
+                     }
+                     
+ 
+                 });
+                 */
+                /* var el = await context.Units.Where(x => x.UnitId == 1)
+                     .Include(x => x.TermInfo).FirstAsync();
+                 el.TermInfo.Status = Status.Open;
+                 await context.SaveChangesAsync();
+                 */
 
             }
             if (Env.IsDevelopment())

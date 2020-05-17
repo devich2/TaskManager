@@ -34,6 +34,7 @@
           "TaskManager.Common": "1.0.0",
           "TaskManager.Configuration": "1.0.0",
           "TaskManager.Dal": "1.0.0",
+          "TaskManager.Entities": "1.0.0",
           "TaskManager.Models": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions.Reference": "3.1.0.0",

@@ -27,5 +27,6 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
         {
         }
 
+        protected override bool ContinueProcessing(RelationShipModel model) => model.ParentUnitId != null;
     }
 }
