@@ -18,7 +18,6 @@ namespace TaskManager.Web.Infrastructure.Extension
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-
             var objectResult = context.Result as ObjectResult;
             Result result = objectResult?.Value as Result;
 

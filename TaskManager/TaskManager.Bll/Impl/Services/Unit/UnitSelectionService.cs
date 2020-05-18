@@ -87,9 +87,10 @@ namespace TaskManager.Bll.Impl.Services.Unit
             foreach (var item in selectionResult)
             {
                 UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
-                model.Creator = (await _userService.GetUser(item.CreatorId, options.ProjectId)).Data;
+                Entities.Tables.Project project = await _unitOfWork.Projects.GetProjectByUnitId(item.UnitId, item.UnitType);
+                model.Creator = (await _userService.GetUser(item.CreatorId, project.Id)).Data;
                 model.TermInfo = _mapper.Map<TermInfoSelectionModel>(item.TermInfo);
-                model.Data = await GetRelatedData(item, options.ProjectId, options.UserId);
+                model.Data = await GetRelatedData(item, options.UserId);
                 result.Add(model);
             }
 
@@ -172,7 +173,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             };
         }
 
-        private async Task<JObject> GetRelatedData(Entities.Tables.Unit item, int projectId, int userId)
+        private async Task<JObject> GetRelatedData(Entities.Tables.Unit item, int userId)
         {
             JObject current = null;
             JsonSerializer jsonSerializer = JsonSerializer.Create(_serializerSettings);
@@ -193,8 +194,8 @@ namespace TaskManager.Bll.Impl.Services.Unit
                     current = JObject.FromObject(model, jsonSerializer);
                     break;
                 case UnitType.Project:
-                    int tasksCount = await _unitOfWork.Tasks.GetTaskCountByProjectId(projectId);
-                    UserModel userModel = (await _userService.GetUser(userId, projectId)).Data;
+                    int tasksCount = await _unitOfWork.Tasks.GetTaskCountByProjectId(item.Project.Id);
+                    UserModel userModel = (await _userService.GetUser(userId, item.Project.Id)).Data;
                     ProjectSelectionModel prModel = _mapper.Map<ProjectSelectionModel>(item.Project);
                     prModel.Permissions = userModel.Roles;
                     prModel.TasksCount = tasksCount;

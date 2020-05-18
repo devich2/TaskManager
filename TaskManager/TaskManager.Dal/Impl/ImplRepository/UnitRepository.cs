@@ -38,8 +38,6 @@ namespace TaskManager.Dal.Impl.ImplRepository
 
             switch (type)
             {
-                case UnitType.Comment:
-                    break;
                 case UnitType.Milestone:
                     entityQuery = entityQuery.Include(x => x.SubUnits);
                     break;
@@ -47,13 +45,8 @@ namespace TaskManager.Dal.Impl.ImplRepository
                     entityQuery = entityQuery.Include(x => x.Project);
                     break;
                 case UnitType.Task:
-                    entityQuery = entityQuery.Include(x => x.Task)
-                        .Include(x=>x.Creator);
+                    entityQuery = entityQuery.Include(x => x.Task);
                     break;
-                case UnitType.SubTask:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
 
             if (entityQuery == null)

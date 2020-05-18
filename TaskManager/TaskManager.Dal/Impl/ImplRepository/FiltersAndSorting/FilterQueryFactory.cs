@@ -47,17 +47,17 @@ namespace TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting
                     break;
                 case UnitFilterType.Label:
                     string tag = (string)item.Value;
-                    IQueryable<int> id = _dbContext.Tags
-                        .Where(t => t.TextValue == tag).Select(t=>t.Id);
-                    result = _dbContext.Tasks.Include(x=>x.TagOnTasks)
-                        .Where(x=> x.TagOnTasks.Any(tot=>id.Contains(tot.TagId)))
-                        .Select(p => p.UnitId);
+                    result = _dbContext.Tasks
+                        .Join(_dbContext.TagOnTasks, 
+                            x => x.Id, y => y.TaskId, (x, y) => new {x.UnitId, y.TagId})
+                        .Join(_dbContext.Tags.Where(x=>x.TextValue == tag),
+                            x => x.TagId, y => y.Id, (x, y) => x.UnitId);
                     break;
                 case UnitFilterType.Project:
                     int projectId = (int) item.Value;
                     result = _dbContext.Tasks
                         .Where(x => x.ProjectId == projectId)
-                        .Select(x => x.Id);
+                        .Select(x => x.UnitId);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
