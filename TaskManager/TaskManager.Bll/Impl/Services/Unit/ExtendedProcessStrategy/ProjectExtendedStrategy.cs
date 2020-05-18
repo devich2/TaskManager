@@ -18,7 +18,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
 {
-    public class ProjectExtendedStrategy : BaseStrategy<int, Project, ProjectModel>, IUnitExtendedStrategy
+    public class ProjectExtendedStrategy : BaseStrategy<int, Project, ProjectCreateModel>, IUnitExtendedStrategy
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly RoleManager<Role> _roleManager;
@@ -32,7 +32,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
             _roleManager = roleManager;
         }
 
-        protected override async Task CreateDependency(ProjectModel model, int unitId)
+        protected override async Task CreateDependency(ProjectCreateModel model, int unitId)
         {
             Project project = await _unitOfWork.Projects.GetByUnitIdAsync(unitId);
             Role role = await _roleManager.FindByNameAsync("Owner");

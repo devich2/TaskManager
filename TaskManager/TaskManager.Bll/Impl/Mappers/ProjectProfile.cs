@@ -11,7 +11,7 @@ namespace TaskManager.Bll.Impl.Mappers
     {
         public ProjectProfile()
         {
-            CreateMap<ProjectModel, Project>()
+            CreateMap<ProjectCreateModel, Project>()
                 .ForMember(x => x.Members, opt =>
                     opt.MapFrom(x => x.Members))
                 .ForMember(x=>x.ProjectManagerId, opt=>

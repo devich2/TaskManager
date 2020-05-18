@@ -25,5 +25,12 @@ namespace TaskManager.Dal.Impl.ImplRepository
                 .OrderBy(x=>x.Unit.TermInfo.StartTs)
                 .ToListAsync();
         }
+
+        public async Task<int> GetTaskCountByProjectId(int projectId)
+        {
+            return await Context.Tasks
+                .Where(x => x.ProjectId == projectId)
+                .CountAsync();
+        }
     }
 }

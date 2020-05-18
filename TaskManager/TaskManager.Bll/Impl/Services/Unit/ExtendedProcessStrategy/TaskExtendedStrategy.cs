@@ -13,7 +13,7 @@ using TaskManager.Models.Task;
 
 namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
 {
-    public class TaskExtendedStrategy : BaseStrategy<int, Task, TaskModel>, IUnitExtendedStrategy
+    public class TaskExtendedStrategy : BaseStrategy<int, Task, TaskCreateModel>, IUnitExtendedStrategy
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -24,7 +24,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
             _unitOfWork = unitOfWork;
         }
 
-        protected override async System.Threading.Tasks.Task CreateDependency(TaskModel model, int unitId)
+        protected override async System.Threading.Tasks.Task CreateDependency(TaskCreateModel model, int unitId)
         {
             Task task = await _currentRepository.GetByUnitIdAsync(unitId);
             await _unitOfWork.TagOnTasks.AddToTags(task.Id, model.Tags);

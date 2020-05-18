@@ -44,9 +44,11 @@ namespace TaskManager.Dal.Impl.ImplRepository
                     entityQuery = entityQuery.Include(x => x.SubUnits);
                     break;
                 case UnitType.Project:
+                    entityQuery = entityQuery.Include(x => x.Project);
                     break;
                 case UnitType.Task:
-                    entityQuery = entityQuery.Include(x => x.SubUnits);
+                    entityQuery = entityQuery.Include(x => x.Task)
+                        .Include(x=>x.Creator);
                     break;
                 case UnitType.SubTask:
                     break;

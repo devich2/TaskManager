@@ -18,6 +18,8 @@ namespace TaskManager.Entities.Tables
         public Guid Key { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
+        public Task Task { get; set; }
+        public Project Project { get; set; }
         public ICollection<RelationShip> SubUnits { get; set; }
     }
 }

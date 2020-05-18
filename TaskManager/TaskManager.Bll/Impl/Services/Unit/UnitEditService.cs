@@ -14,6 +14,7 @@ using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables;
 using TaskManager.Models.Response;
 using TaskManager.Models.Unit;
+using Task = TaskManager.Entities.Tables.Task;
 
 namespace TaskManager.Bll.Impl.Services.Unit
 {
@@ -45,6 +46,70 @@ namespace TaskManager.Bll.Impl.Services.Unit
         public async Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdate(UnitCreateOrUpdateModel model)
         {
             return await ProcessUnitUpdateTransaction(model);
+        }
+
+        public async Task<Result> ProcessUnitDelete(int unitId)
+        {
+            return await ProcessUnitDeleteTransaction(unitId);
+        }
+
+        public async Task<Result> ProcessUnitDeleteTransaction(int unitId)
+        {
+            if (unitId < 0)
+            {
+                return new Result
+                {
+                    Message = ResponseMessageType.InvalidId,
+                    ResponseStatusType = ResponseStatusType.Error,
+                    MessageDetails = "id could not be less or equal to 0"
+                };
+
+            }
+            return await _transactionManager.ExecuteInImplicitTransactionAsync(async () =>
+            {
+                var itemToDelete = await _unitOfWork.Units.GetByUnitIdAsync(unitId);
+
+                if (itemToDelete != null)
+                {
+                    await _unitOfWork.Units.DeleteAsync(itemToDelete);
+                    return new Result
+                    {
+                        ResponseStatusType = ResponseStatusType.Succeed
+                    };
+                }
+                return new Result
+                {
+                    Message = ResponseMessageType.NotFound,
+                    ResponseStatusType = ResponseStatusType.Error,
+                    MessageDetails = "Could not find menu item with given id"
+                };
+            });
+        }
+
+        public async Task<DataResult<UnitUpdateResponse>> ProcessContentChangeStatus(UnitStatusPatchModel model)
+        {
+            DataResult<UnitUpdateResponse> methodResult =
+                new DataResult<UnitUpdateResponse>();
+
+            Entities.Tables.Unit unitEntity =
+                await _unitOfWork.Units.GetByUnitIdAsync(model.UnitId);
+
+            if (unitEntity == null)
+            {
+                methodResult.ResponseStatusType = ResponseStatusType.Error;
+                methodResult.Message = ResponseMessageType.NotFound;
+                methodResult.MessageDetails = "Unit not found";
+            }
+            else
+            {
+                unitEntity.TermInfo.Status = model.Status;
+                await _unitOfWork.SaveAsync();
+                methodResult.Data.UnitState = model.Status;
+                methodResult.ResponseStatusType = ResponseStatusType.Succeed;
+                methodResult.Data.UnitId = unitEntity.UnitId;
+            }
+
+            return methodResult;
         }
 
         private async Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdateTransaction(UnitCreateOrUpdateModel model)

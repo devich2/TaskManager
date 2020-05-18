@@ -19,7 +19,10 @@ using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models;
 using TaskManager.Models.MileStone;
+using TaskManager.Models.Project;
 using TaskManager.Models.Response;
+using TaskManager.Models.Role;
+using TaskManager.Models.Task;
 using TaskManager.Models.TermInfo;
 using TaskManager.Models.Unit;
 using TaskManager.Models.User;
@@ -79,15 +82,14 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 await _unitOfWork.Units.SelectByType(options.ExtendedType, options.PagingOptions,
                     compoundQueryableFilter, sortingExpression);
 
-            List<UnitSelectionModel> result =
-                new List<UnitSelectionModel>();
+            List<UnitSelectionModel> result = new List<UnitSelectionModel>();
 
             foreach (var item in selectionResult)
             {
                 UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
                 model.Creator = (await _userService.GetUser(item.CreatorId, options.ProjectId)).Data;
                 model.TermInfo = _mapper.Map<TermInfoSelectionModel>(item.TermInfo);
-                model.Data = GetRelatedData(item);
+                model.Data = await GetRelatedData(item, options.ProjectId, options.UserId);
                 result.Add(model);
             }
 
@@ -170,7 +172,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             };
         }
 
-        private JObject GetRelatedData(Entities.Tables.Unit item)
+        private async Task<JObject> GetRelatedData(Entities.Tables.Unit item, int projectId, int userId)
         {
             JObject current = null;
             JsonSerializer jsonSerializer = JsonSerializer.Create(_serializerSettings);
@@ -179,13 +181,29 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 case UnitType.Comment:
                     break;
                 case UnitType.Milestone:
-                    List<Tuple<>
-                    current = JObject.FromObject(
-                        _mapper.Map<MileStoneSelectionModel>(item), jsonSerializer);
+                    List<int> subUnits= item.SubUnits.Select(x => x.UnitId).ToList();
+                    int countDone = await _unitOfWork.TermInfos.GetByStatusCount(subUnits, Status.Closed);
+                    MileStoneSelectionModel model = new MileStoneSelectionModel()
+                    {
+                        ClosedTasksCount = countDone,
+                        Total = subUnits.Count,
+                        Expired = item.TermInfo.DueTs < DateTimeOffset.Now,
+                        CompletedPercentage = (decimal)countDone/subUnits.Count
+                    };
+                    current = JObject.FromObject(model, jsonSerializer);
                     break;
                 case UnitType.Project:
+                    int tasksCount = await _unitOfWork.Tasks.GetTaskCountByProjectId(projectId);
+                    UserModel userModel = (await _userService.GetUser(userId, projectId)).Data;
+                    ProjectSelectionModel prModel = _mapper.Map<ProjectSelectionModel>(item.Project);
+                    prModel.Permissions = userModel.Roles;
+                    prModel.TasksCount = tasksCount;
+                    current = JObject.FromObject(prModel, jsonSerializer);
                     break;
                 case UnitType.Task:
+                    TaskSelectionModel taskModel = _mapper.Map<TaskSelectionModel>(item.Task);
+                    taskModel.Tags = await _unitOfWork.TagOnTasks.GetTagsByTaskId(item.Task.Id);
+                    current = JObject.FromObject(taskModel, jsonSerializer);
                     break;
                 case UnitType.SubTask:
                     break;

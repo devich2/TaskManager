@@ -137,7 +137,7 @@ namespace TaskManager.Web
                         },
                         ExtendedType = UnitType.Project,
                         ProcessToState = ModelState.Added,
-                        Data = JObject.FromObject(new ProjectModel()
+                        Data = JObject.FromObject(new ProjectCreateModel()
                         {
                             ProjectManagerId = 1,
                             Members = 1

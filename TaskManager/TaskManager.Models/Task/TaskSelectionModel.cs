@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using TaskManager.Entities.Tables;
 
 namespace TaskManager.Models.Task
 {
-    public class TaskModel
+    public class TaskSelectionModel
     {
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
         public int? AssignedId { get; set; }
+        public string AssignedName { get; set; }
         public List<string> Tags { get; set; }
     }
 }

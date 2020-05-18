@@ -12,7 +12,7 @@ namespace TaskManager.Bll.Impl.Mappers
     {
         public TaskProfile()
         {
-            CreateMap<TaskModel, Task>()
+            CreateMap<TaskCreateModel, Task>()
                 .ForMember(x=>x.Assigned, 
                     opt=>opt.MapFrom(d=>d.AssignedId))
                 .ForMember(x=>x.ProjectId, 

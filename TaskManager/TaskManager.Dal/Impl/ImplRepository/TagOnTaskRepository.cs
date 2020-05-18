@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,14 @@ namespace TaskManager.Dal.Impl.ImplRepository
                     });
                 }
             }
+        }
+
+        public async Task<List<string>> GetTagsByTaskId(int taskId)
+        {
+            return await Context.TagOnTasks
+                .Where(x => x.TaskId == taskId)
+                .Join(Context.Tags, x => x.TagId, y => y.Id,
+                    (x, y) => y.TextValue).ToListAsync();
         }
     }
 }

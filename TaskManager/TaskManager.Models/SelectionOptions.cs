@@ -33,6 +33,7 @@ namespace TaskManager.Models
     public class SelectionOptions
     {
         public int ProjectId { get; set; }
+        public int UserId { get; set; }
         public PagingOptions PagingOptions{ get; set; }
         public FilterOptions FilterOptions { get; set; }
         public SortingOptions SortingOptions { get; set; }
