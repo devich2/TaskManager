@@ -3,35 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManager.Entities.Enum;
 using TaskManager.Models;
 using TaskManager.Models.Response;
+using static System.Int32;
 
 namespace TaskManager.Web.Infrastructure.Extension
 {
     public static class UnitFilterExtractor
     {
-        private static readonly Dictionary<ContentFilterType,
+        private static readonly Dictionary<UnitFilterType,
             Tuple<Type, Func<string, Tuple<object, bool>>>> _filtersTypeAndConvertors;
 
-        static ContentFilterExtractor()
+        static UnitFilterExtractor()
         {
-            _filtersTypeAndConvertors = new Dictionary<ContentFilterType, Tuple<Type, Func<string, Tuple<object, bool>>>>();
-            //_filtersTypeAndConvertors.Add(ContentFilterType.IsDeleted,
-            //    new Tuple<FormType,Func<string, Tuple<object,bool>>> (typeof(bool), (s) =>
-            //    
-            //    {
-            //        bool res = Boolean.TryParse(s, out bool convRes);
-            //        return new Tuple<object, bool>(convRes,res);
-            //    }));
+            Func<string, Tuple<object, bool>> intParser = (s) =>
+           {
+               bool res = TryParse(s, out int convRes);
+               return new Tuple<object, bool>(convRes, res);
+           };
 
-            _filtersTypeAndConvertors.Add(ContentFilterType.State,
-                new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(State), (s) =>
-                //TODO: think Possible migrate inside other class or replace
-                //TODO:all logic to json serialize and use post method 
+            _filtersTypeAndConvertors = new Dictionary<UnitFilterType, Tuple<Type, Func<string, Tuple<object, bool>>>>
+            {
                 {
-                    bool res = Enum.TryParse(s, true, out State convRes);
-                    return new Tuple<object, bool>(convRes, res);
-                }));
+                    UnitFilterType.Status, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(Status), (s) =>
+                    {
+                        bool res = Enum.TryParse(s, true, out Status convRes);
+                        return new Tuple<object, bool>(convRes, res);
+                    })
+                },
+                {UnitFilterType.Assignee, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
+                {UnitFilterType.Project, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
+                {UnitFilterType.MileStone, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
+                {UnitFilterType.Author, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
+                {
+                    UnitFilterType.Label, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int),
+                        (s) => new Tuple<object, bool>(s, true))
+                }
+            };
         }
 
         public static DataResult<FilterOptions> ExtractFilterOptionsDataResult(string query)
@@ -72,9 +81,7 @@ namespace TaskManager.Web.Infrastructure.Extension
                 }
                 else
                 {
-                    UnitFilterType filterType;
-
-                    if (Enum.TryParse(strKeyValue[0], true, out filterType))
+                    if (Enum.TryParse(strKeyValue[0], true, out UnitFilterType filterType))
                     {
                         Tuple<object, bool> res =
                             _filtersTypeAndConvertors[filterType].Item2.Invoke(strKeyValue[1]);

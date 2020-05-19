@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Mime;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -93,6 +94,19 @@ namespace TaskManager.Dal.Impl.ImplRepository
             var query = Context.Set<Unit>().Where(x => x.UnitId == id)
                 .Include(x => x.TermInfo).FirstAsync();
             return await query;
+        }
+
+        public async Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByType(UnitType unitType, IQueryable<int> unitFilterQuery)
+        {
+            IQueryable<Unit> entityQuery = Context.Units.Include(x => x.TermInfo).Where(x=>x.UnitType == unitType);
+            if (unitFilterQuery != null)
+            {
+                entityQuery = entityQuery
+                    .Where(x => unitFilterQuery.Contains(x.UnitId));
+            }
+            return await entityQuery
+                .GroupBy(x => x.TermInfo.Status)
+                .ToDictionaryAsync(x => x.Key, x => x.ToList());
         }
     }
 }

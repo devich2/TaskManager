@@ -13,10 +13,11 @@ namespace TaskManager.Dal.Abstract.IRepository
 {
     public interface IUnitRepository: IUnitFkRepository<Unit>
     {
-        public Task<List<Unit>> SelectByType(UnitType type,
+        Task<List<Unit>> SelectByType(UnitType type,
             PagingOptions po,
             IQueryable<int> unitFilterQuery,
             List<Tuple<Expression<Func<Unit, object>>, SortingType>> orderByQuery);
-        public Task<int> SelectByTypeCount(UnitType type, IQueryable<int> unitFilterQuery);
+        Task<int> SelectByTypeCount(UnitType type, IQueryable<int> unitFilterQuery);
+        Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByType(UnitType unitType,IQueryable<int> unitFilterQuery);
     }
 }

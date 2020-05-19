@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TaskManager.Models.Project
 {
-    public class ProjectModel
+    public class ProjectCreateModel
     {
         public int Id { get; set; }
         public int ProjectManagerId { get; set; }

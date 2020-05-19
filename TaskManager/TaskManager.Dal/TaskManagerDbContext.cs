@@ -94,6 +94,11 @@ namespace TaskManager.Dal
                 .HasForeignKey<Task>(p => p.UnitId);
 
             builder.Entity<Project>()
+                .HasMany(p => p.Tasks)
+                .WithOne(p => p.Project)
+                .HasForeignKey(p => p.ProjectId);
+
+            builder.Entity<Project>()
                 .HasOne(p => p.Unit)
                 .WithOne()
                 .HasForeignKey<Project>(p => p.UnitId);

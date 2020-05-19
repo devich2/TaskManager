@@ -35,6 +35,8 @@ namespace TaskManager.Bll.Impl.Mappers
                     opt => opt.MapFrom(x => x.Description))
                 .ForMember(x => x.UnitModel.Name,
                     opt => opt.MapFrom(x => x.Name))
+                .ForMember(x=>x.TermInfo, 
+                    opts=>opts.MapFrom(x=>x.TermInfo))
                 .ForMember(x => x.ProcessToState,
                     opts => opts.AllowNull());
         }

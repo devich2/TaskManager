@@ -76,6 +76,10 @@ namespace TaskManager.Web
 
             services.AddSingleton<UnauthorizedApiHandler>();
 
+            services.AddIdentity<User, Role>(
+                    options => { options.User.RequireUniqueEmail = true; })
+                .AddEntityFrameworkStores<TaskManagerDbContext>().Add
+                .AddDefaultTokenProviders();
             //Configure cookies
             services.ConfigureApplicationCookie(options =>
             {

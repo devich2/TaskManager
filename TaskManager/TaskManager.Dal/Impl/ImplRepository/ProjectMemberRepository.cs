@@ -12,6 +12,7 @@ using TaskManager.Dal.Impl.ImplRepository.Base;
 using TaskManager.Entities.Tables;
 using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models.ProjectMember;
+using Task = TaskManager.Entities.Tables.Task;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
@@ -24,6 +25,15 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
             return await Context.ProjectMembers
                 .Where(x => x.ProjectId == projectId).ToListAsync();
+        }
+
+        public async Task<List<Project>> GetProjectsForUser(int userId)
+        {
+            return await Context.ProjectMembers
+                .Include(x => x.Project)
+                    .Where(x => x.UserId == userId)
+                        .Select(x=>x.Project)
+                .Distinct().ToListAsync();
         }
     }
 }

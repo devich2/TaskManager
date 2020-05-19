@@ -18,7 +18,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
         }
 
-        public async Task<Project> GetProjectByUnitId(int unitId, UnitType unitType)
+        public async Task<Project> GetProjectByParentUnitId(int unitId, UnitType unitType)
         {
             IQueryable<Project> project;
             switch (unitType)
@@ -38,7 +38,6 @@ namespace TaskManager.Dal.Impl.ImplRepository
                     IQueryable<int> id = Context.RelationShips
                         .Where(x => x.UnitId == unitId)
                         .Select(x => x.ParentUnitId);
-
                     project = Context.Tasks
                         .Include(x => x.Project)
                         .Where(x => x.UnitId == id.FirstOrDefault())
@@ -48,5 +47,6 @@ namespace TaskManager.Dal.Impl.ImplRepository
 
             return await project.FirstOrDefaultAsync();
         }
+
     }
 }

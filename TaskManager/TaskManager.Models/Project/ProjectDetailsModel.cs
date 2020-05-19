@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TaskManager.Entities.Enum;
+using TaskManager.Models.Task;
 
 namespace TaskManager.Models.Project
 {
-    class ProjectDetailsModel
+    public class ProjectDetailsModel: ProjectPreviewModel
     {
+        public List<Dictionary<Status, int>> TaskStatusList { get; set; }
+        public List<TaskDetailsModel> Tasks { get; set; }
     }
 }

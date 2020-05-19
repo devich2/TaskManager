@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TaskManager.Bll.Abstract.Task;
 using TaskManager.Bll.Abstract.Unit;
 using TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base;
 using TaskManager.Bll.Abstract.User;
@@ -34,6 +35,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
         private readonly IUnitExtendedStrategyFactory _unitExtendedStrategyFactory;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly ITaskService _taskService;
         private readonly IFiltersQueryFactory _filtersQueryFactory;
         private readonly IOrderQueryFactory _orderQueryFactory;
         private readonly IUnitOfWork _unitOfWork;
@@ -43,6 +45,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
         public UnitSelectionService(IUnitExtendedStrategyFactory unitExtendedStrategyFactory,
             IMapper mapper,
             IUserService userService,
+            ITaskService taskService,
             IFiltersQueryFactory filtersQueryFactory,
             IOrderQueryFactory orderQueryFactory,
             IUnitOfWork unitOfWork,
@@ -51,13 +54,14 @@ namespace TaskManager.Bll.Impl.Services.Unit
             _unitExtendedStrategyFactory = unitExtendedStrategyFactory;
             _mapper = mapper;
             _userService = userService;
+            _taskService = taskService;
             _filtersQueryFactory = filtersQueryFactory;
             _orderQueryFactory = orderQueryFactory;
             _unitOfWork = unitOfWork;
             _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
 
-        public async Task<DataResult<List<UnitSelectionModel>>> GetUnit(SelectionOptions options)
+        public async Task<List<Entities.Tables.Unit>> GetFilteredUnits(SelectionOptions options)
         {
             IQueryable<int> compoundQueryableFilter = null;
             List<Tuple<Expression<Func<Entities.Tables.Unit, object>>, SortingType>> sortingExpression = null;
@@ -66,7 +70,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 options.FilterOptions.Filters.Any())
             {
                 compoundQueryableFilter = options.FilterOptions.Filters.Select(filter =>
-                    _filtersQueryFactory.GetFilterQuery(options.ExtendedType, filter))
+                        _filtersQueryFactory.GetFilterQuery(options.ExtendedType, filter))
                     .Aggregate((prev, cur) => prev.Intersect(cur));
             }
 
@@ -77,21 +81,27 @@ namespace TaskManager.Bll.Impl.Services.Unit
                     .Select(sortItem => _orderQueryFactory
                         .GetOrderQuery(options.ExtendedType, sortItem)).ToList();
             }
-
-            var selectionResult =
-                await _unitOfWork.Units.SelectByType(options.ExtendedType, options.PagingOptions,
-                    compoundQueryableFilter, sortingExpression);
+            return await _unitOfWork.Units
+                .SelectByType(options.ExtendedType, options.PagingOptions, compoundQueryableFilter, sortingExpression);
+        }
+        public async Task<DataResult<List<UnitSelectionModel>>> GetUnitPreview(SelectionOptions options)
+        {
+            var selectionResult = await GetFilteredUnits(options);
 
             List<UnitSelectionModel> result = new List<UnitSelectionModel>();
-
+            List<Entities.Tables.Project> projects =
+                await _unitOfWork.ProjectMembers.GetProjectsForUser(options.UserId);
             foreach (var item in selectionResult)
             {
-                UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
-                Entities.Tables.Project project = await _unitOfWork.Projects.GetProjectByUnitId(item.UnitId, item.UnitType);
-                model.Creator = (await _userService.GetUser(item.CreatorId, project.Id)).Data;
-                model.TermInfo = _mapper.Map<TermInfoSelectionModel>(item.TermInfo);
-                model.Data = await GetRelatedData(item, options.UserId);
-                result.Add(model);
+                Entities.Tables.Project itemProject = 
+                    await _unitOfWork.Projects.GetProjectByParentUnitId(item.UnitId, item.UnitType);
+                if (projects.Contains(itemProject))
+                {
+                    UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
+                    model.Creator = (await _userService.GetUser(item.CreatorId, itemProject.Id)).Data;
+                    model.Data = await GetRelatedData(item, options.UserId);
+                    result.Add(model);
+                }
             }
 
             DataResult<List<UnitSelectionModel>> methodResult =
@@ -194,16 +204,24 @@ namespace TaskManager.Bll.Impl.Services.Unit
                     current = JObject.FromObject(model, jsonSerializer);
                     break;
                 case UnitType.Project:
-                    int tasksCount = await _unitOfWork.Tasks.GetTaskCountByProjectId(item.Project.Id);
+                    int tasksCount = (await _unitOfWork.Tasks.GetTasksByProjectId(item.Project.Id)).Count();
                     UserModel userModel = (await _userService.GetUser(userId, item.Project.Id)).Data;
-                    ProjectSelectionModel prModel = _mapper.Map<ProjectSelectionModel>(item.Project);
+                    ProjectPreviewModel prModel = _mapper.Map<ProjectPreviewModel>(item.Project);
                     prModel.Permissions = userModel.Roles;
                     prModel.TasksCount = tasksCount;
                     current = JObject.FromObject(prModel, jsonSerializer);
                     break;
                 case UnitType.Task:
-                    TaskSelectionModel taskModel = _mapper.Map<TaskSelectionModel>(item.Task);
+                    TaskPreviewModel taskModel = _mapper.Map<TaskPreviewModel>(item.Task);
                     taskModel.Tags = await _unitOfWork.TagOnTasks.GetTagsByTaskId(item.Task.Id);
+                    subUnits = item.SubUnits.Select(x => x.UnitId).ToList();
+                    int doneTasks = await _unitOfWork.TermInfos.GetByStatusCount(subUnits, Status.Closed);
+                    taskModel.TotalTasks = subUnits.Count;
+                    taskModel.SubTasksCompleted = doneTasks;
+                    taskModel.AssignedId = item.Task.AssignedId;
+                    //ToDo
+                    taskModel.Comments =
+                        await _unitOfWork.Tasks.GetTaskSubUnitsCountByType(UnitType.Comment, item.Task.Id);
                     current = JObject.FromObject(taskModel, jsonSerializer);
                     break;
                 case UnitType.SubTask:

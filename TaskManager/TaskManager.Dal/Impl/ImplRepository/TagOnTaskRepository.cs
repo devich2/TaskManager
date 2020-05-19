@@ -21,7 +21,8 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
             foreach (var tag in tags)
             {
-                Tag entity = await Context.Tags.FirstOrDefaultAsync(x => x.TextValue == tag);
+                Tag entity = await Context.Tags
+                    .FirstOrDefaultAsync(x => x.TextValue == tag);
                 if (entity != null)
                 {
                     await Context.TagOnTasks.AddAsync(new TagOnTask()

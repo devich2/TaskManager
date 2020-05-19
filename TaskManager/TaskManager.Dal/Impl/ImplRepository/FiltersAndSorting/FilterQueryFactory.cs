@@ -20,7 +20,7 @@ namespace TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting
         }
         public IQueryable<int> GetFilterQuery(UnitType ut, KeyValuePair<UnitFilterType, dynamic> item)
         {
-            IQueryable<int> result = null;
+            IQueryable<int> result;
             switch (item.Key)
             {
                 case UnitFilterType.Status: 
@@ -54,9 +54,15 @@ namespace TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting
                             x => x.TagId, y => y.Id, (x, y) => x.UnitId);
                     break;
                 case UnitFilterType.Project:
-                    int projectId = (int) item.Value;
+                    int projectId = (int)item.Value;
                     result = _dbContext.Tasks
                         .Where(x => x.ProjectId == projectId)
+                        .Select(x => x.UnitId);
+                    break;
+                case UnitFilterType.UnitType:
+                    UnitType unitType = (UnitType)item.Value;
+                    result = _dbContext.Units
+                        .Where(x => x.UnitType == unitType)
                         .Select(x => x.UnitId);
                     break;
                 default:
