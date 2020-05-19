@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 using TaskManager.Bll.Abstract.Task;
 using TaskManager.Bll.Abstract.User;
 using TaskManager.Bll.Impl.Services.Unit;
@@ -50,11 +51,13 @@ namespace TaskManager.Bll.Impl.Services.Task
             UserModel assignee = entityTask.AssignedId == null
                 ? null
                 : (await _userService.GetUser(entityTask.AssignedId.Value, entityTask.ProjectId)).Data;
+
             List<SubUnitModel> subModels = new List<SubUnitModel>();
             foreach (var unit in subUnits)
             {
                 SubUnitModel unitModel = _mapper.Map<SubUnitModel>(unit);
                 unitModel.Creator = (await _userService.GetUser(unit.CreatorId, entityTask.ProjectId)).Data;
+                subModels.Add(unitModel);
             }
             List<string> tags = await _unitOfWork.TagOnTasks.GetTagsByTaskId(taskId);
             TaskDetailsModel taskModel = new TaskDetailsModel()
@@ -62,7 +65,13 @@ namespace TaskManager.Bll.Impl.Services.Task
                 Id = taskId,
                 Assignee = assignee,
                 Tags = tags,
-                Children = 
+                Children = subModels
+            };
+            model.Data = JObject.FromObject(taskModel);
+            return new DataResult<UnitSelectionModel>()
+            {
+                Data = model,
+                ResponseStatusType = ResponseStatusType.Succeed
             };
         }
     }

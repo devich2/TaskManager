@@ -12,7 +12,8 @@ namespace TaskManager.Models
         MileStone = 2,
         Author = 3,
         Label = 4,
-        Project = 5
+        Project = 5,
+        UnitType = 6
     }
 
     public enum SortingType

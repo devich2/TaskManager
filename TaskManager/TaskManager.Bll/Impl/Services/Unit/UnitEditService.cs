@@ -68,7 +68,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             return await _transactionManager.ExecuteInImplicitTransactionAsync(async () =>
             {
                 var itemToDelete = await _unitOfWork.Units.GetByUnitIdAsync(unitId);
-
+                var subUnits = await _unitOfWork
                 if (itemToDelete != null)
                 {
                     await _unitOfWork.Units.DeleteAsync(itemToDelete);
