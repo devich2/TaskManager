@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -75,30 +76,32 @@ namespace TaskManager.Web
                 .AddEntityFrameworkStores<TaskManagerDbContext>();
 
             services.AddSingleton<UnauthorizedApiHandler>();
-
+           UserManager<>
             services.AddIdentity<User, Role>(
                     options => { options.User.RequireUniqueEmail = true; })
-                .AddEntityFrameworkStores<TaskManagerDbContext>().Add
+                .AddEntityFrameworkStores<TaskManagerDbContext>()
                 .AddDefaultTokenProviders();
             //Configure cookies
             services.ConfigureApplicationCookie(options =>
             {
-
+                
                 options.Events.OnSigningIn = context =>
                 {
                     context.Properties.IsPersistent = true;
                     return Task.CompletedTask;
                 };
-
+                
                 options.Events.OnRedirectToLogin = ctx =>
                 {
                     var handler = ctx.HttpContext.RequestServices.GetService<UnauthorizedApiHandler>();
                     return handler.Handle(ctx);
                 };
-
+                options.Events.OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync;
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
+                UserClaimsPrincipalFactory>
+                IdentityRoleClaim<>
             });
 
             //Configure Swagger
@@ -124,7 +127,7 @@ namespace TaskManager.Web
                 var context = scope.ServiceProvider.GetService<TaskManagerDbContext>();
                 var service = scope.ServiceProvider.GetService <IUnitEditService> ();
 
-                await service.ProcessUnitCreate(new UnitCreateOrUpdateModel()
+                /*await service.ProcessUnitCreate(new UnitCreateOrUpdateModel()
                 {
                     UserId = 1,
                     UnitStateModel = new UnitStateModel()

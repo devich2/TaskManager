@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Bll.Abstract.Converter;
+using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models.Response;
 
 namespace TaskManager.Web.Infrastructure.Extension
@@ -32,6 +37,16 @@ namespace TaskManager.Web.Infrastructure.Extension
             var statusCode = statusConverter.Convert(result.Message);
 
             context.HttpContext.Response.StatusCode = statusCode;
+        }
+    }
+    public class MinimumAgeHandler : Attribute,IAuthorizationFilter
+    {
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+            var s = context.Result;
+            var objectResult = context.Result as ObjectResult;
+            context.U
+            var r = 3; UserStore
         }
     }
 }
