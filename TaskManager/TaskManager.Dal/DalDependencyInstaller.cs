@@ -31,18 +31,18 @@ namespace TaskManager.Dal
                     });
             });
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ITransactionManager, DbTransactionManager>();
-
-            services.AddTransient<IPermissionRepository, PermissionRepository>();
-            services.AddTransient<IProjectRepository, ProjectRepository>();
-            services.AddTransient<IProjectMemberRepository, ProjectMemberRepository>();
-            services.AddTransient<IRelationShipRepository, RelationShipRepository>();
-            services.AddTransient<ITagOnTaskRepository, TagOnTaskRepository>();
-            services.AddTransient<ITagRepository, TagRepository>();
-            services.AddTransient<ITaskRepository, TaskRepository>();
-            services.AddTransient<ITermInfoRepository, TermInfoRepository>();
-            services.AddTransient<IUnitRepository, UnitRepository>();
+            // services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // services.AddScoped<ITransactionManager, DbTransactionManager>();
+            //
+            // services.AddTransient<IPermissionRepository, PermissionRepository>();
+            // services.AddTransient<IProjectRepository, ProjectRepository>();
+            // services.AddTransient<IProjectMemberRepository, ProjectMemberRepository>();
+            // services.AddTransient<IRelationShipRepository, RelationShipRepository>();
+            // services.AddTransient<ITagOnTaskRepository, TagOnTaskRepository>();
+            // services.AddTransient<ITagRepository, TagRepository>();
+            // services.AddTransient<ITaskRepository, TaskRepository>();
+            // services.AddTransient<ITermInfoRepository, TermInfoRepository>();
+            // services.AddTransient<IUnitRepository, UnitRepository>();
         }
     }
 }

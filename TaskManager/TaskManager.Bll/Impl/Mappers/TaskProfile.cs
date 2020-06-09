@@ -12,12 +12,6 @@ namespace TaskManager.Bll.Impl.Mappers
     {
         public TaskProfile()
         {
-            CreateMap<TaskCreateModel, Task>()
-                .ForMember(x=>x.Assigned, 
-                    opt=>opt.MapFrom(d=>d.AssignedId))
-                .ForMember(x=>x.ProjectId, 
-                    opt=>opt.MapFrom(d=>d.ProjectId))
-                .ForAllOtherMembers(x=>x.AllowNull());
 
             CreateMap<TermInfoCreateModel, TermInfo>()
                 .ForMember(x => x.DueTs, opt =>

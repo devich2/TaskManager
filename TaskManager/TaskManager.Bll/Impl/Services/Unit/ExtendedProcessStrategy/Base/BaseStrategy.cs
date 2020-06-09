@@ -84,16 +84,14 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
 
                 switch (state)
                 {
-                    case ModelState.None:
-                        break;
-                    case ModelState.Added:
+                    case ModelState.Add:
                         await CreateAsync(entity);
                         await CreateDependency(current, unitId);
                         break;
                     case ModelState.Modify:
                         await UpdateAsync(entity);
                         break;
-                    case ModelState.Deleted:
+                    case ModelState.Delete:
                         await DeleteAsync(entity);
                         break;
                 }

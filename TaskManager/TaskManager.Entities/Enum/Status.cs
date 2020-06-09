@@ -6,9 +6,9 @@ namespace TaskManager.Entities.Enum
 {
     public enum Status
     {
+        None,
         Open,
         InProgress,
-        Closed,
-        None
+        Closed
     }
 }

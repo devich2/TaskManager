@@ -17,11 +17,11 @@ namespace TaskManager.Web.Infrastructure.Extension
 
         static UnitFilterExtractor()
         {
-            Func<string, Tuple<object, bool>> intParser = (s) =>
-           {
-               bool res = TryParse(s, out int convRes);
-               return new Tuple<object, bool>(convRes, res);
-           };
+            Tuple<object, bool> IntParser(string s)
+            {
+                bool res = TryParse(s, out var convRes);
+                return new Tuple<object, bool>(convRes, res);
+            }
 
             _filtersTypeAndConvertors = new Dictionary<UnitFilterType, Tuple<Type, Func<string, Tuple<object, bool>>>>
             {
@@ -32,10 +32,10 @@ namespace TaskManager.Web.Infrastructure.Extension
                         return new Tuple<object, bool>(convRes, res);
                     })
                 },
-                {UnitFilterType.Assignee, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
-                {UnitFilterType.Project, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
-                {UnitFilterType.MileStone, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
-                {UnitFilterType.Author, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), intParser)},
+                {UnitFilterType.Assignee, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
+                {UnitFilterType.Project, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
+                {UnitFilterType.MileStone, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
+                {UnitFilterType.Author, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
                 {
                     UnitFilterType.Label, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int),
                         (s) => new Tuple<object, bool>(s, true))

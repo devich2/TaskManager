@@ -12,7 +12,7 @@ namespace TaskManager.Dal.Migrations
         {
             migrationBuilder.Sql(Resource.script_up);
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:Status", "Open,InProgress,Closed,None")
+                .Annotation("Npgsql:Enum:Status", "None,Open,InProgress,Closed")
                 .Annotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask");
 
             migrationBuilder.CreateTable(
@@ -24,7 +24,7 @@ namespace TaskManager.Dal.Migrations
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Rank = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,8 +138,7 @@ namespace TaskManager.Dal.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false)
+                    RoleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -179,6 +178,25 @@ namespace TaskManager.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    UnitId = table.Column<int>(nullable: false),
+                    ProjectManagerId = table.Column<int>(nullable: false),
+                    Members = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.UnitId);
+                    table.ForeignKey(
+                        name: "FK_Projects_AspNetUsers_ProjectManagerId",
+                        column: x => x.ProjectManagerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Units",
                 columns: table => new
                 {
@@ -188,7 +206,9 @@ namespace TaskManager.Dal.Migrations
                     Description = table.Column<string>(nullable: true),
                     UnitType = table.Column<UnitType>(nullable: false),
                     Key = table.Column<Guid>(nullable: false, defaultValueSql: "uuid_generate_v1()"),
-                    CreatorId = table.Column<int>(nullable: false)
+                    CreatorId = table.Column<int>(nullable: false),
+                    ProjectUnitId = table.Column<int>(nullable: true),
+                    UnitParentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,57 +219,51 @@ namespace TaskManager.Dal.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Units_Projects_ProjectUnitId",
+                        column: x => x.ProjectUnitId,
+                        principalTable: "Projects",
+                        principalColumn: "UnitId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Units_Units_UnitParentId",
+                        column: x => x.UnitParentId,
+                        principalTable: "Units",
+                        principalColumn: "UnitId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "Tasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProjectManagerId = table.Column<int>(nullable: false),
+                    AssignedId = table.Column<int>(nullable: true),
                     UnitId = table.Column<int>(nullable: false),
-                    Members = table.Column<int>(nullable: false)
+                    UnitId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_AspNetUsers_ProjectManagerId",
-                        column: x => x.ProjectManagerId,
+                        name: "FK_Tasks_AspNetUsers_AssignedId",
+                        column: x => x.AssignedId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Projects_Units_UnitId",
+                        name: "FK_Tasks_Units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "UnitId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RelationShips",
-                columns: table => new
-                {
-                    UnitId = table.Column<int>(nullable: false),
-                    ParentUnitId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RelationShips", x => new { x.UnitId, x.ParentUnitId });
                     table.ForeignKey(
-                        name: "FK_RelationShips_Units_ParentUnitId",
-                        column: x => x.ParentUnitId,
+                        name: "FK_Tasks_Units_UnitId1",
+                        column: x => x.UnitId1,
                         principalTable: "Units",
                         principalColumn: "UnitId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RelationShips_Units_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Units",
-                        principalColumn: "UnitId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,96 +283,6 @@ namespace TaskManager.Dal.Migrations
                         column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "UnitId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectMembers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(nullable: false),
-                    ProjectId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectMembers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProjectMembers_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectMembers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tasks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProjectId = table.Column<int>(nullable: false),
-                    AssignedId = table.Column<int>(nullable: true),
-                    UnitId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tasks_AspNetUsers_AssignedId",
-                        column: x => x.AssignedId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tasks_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tasks_Units_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Units",
-                        principalColumn: "UnitId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permissions",
-                columns: table => new
-                {
-                    RoleId = table.Column<int>(nullable: false),
-                    ProjectMemberId = table.Column<int>(nullable: false),
-                    ProjectMemberId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permissions", x => new { x.ProjectMemberId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_Permissions_ProjectMembers_ProjectMemberId",
-                        column: x => x.ProjectMemberId,
-                        principalTable: "ProjectMembers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Permissions_ProjectMembers_ProjectMemberId1",
-                        column: x => x.ProjectMemberId1,
-                        principalTable: "ProjectMembers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Permissions_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -388,13 +312,13 @@ namespace TaskManager.Dal.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "Rank" },
                 values: new object[,]
                 {
-                    { 1, "cda9194a-63f5-4643-afdd-78006aefd74b", null, "Guest", "GUEST" },
-                    { 2, "cda9194a-63f5-4643-afdd-78006aefd74b", null, "Developer", "DEVELOPER" },
-                    { 3, "cda9194a-63f5-4643-afdd-78406aefd74b", null, "Maintainer", "MAINTAINER" },
-                    { 4, "cda9194a-63f5-4643-afdd-78406aefd74b", null, "Owner", "OWNER" }
+                    { 1, "cda9194a-63f5-4643-afdd-78006aefd74b", "Guest", "GUEST", 1m },
+                    { 2, "cda9194a-63f5-4643-afdd-78006aefd74b", "Developer", "DEVELOPER", 2m },
+                    { 3, "cda9194a-63f5-4643-afdd-78406aefd74b", "Maintainer", "MAINTAINER", 3m },
+                    { 4, "cda9194a-63f5-4643-afdd-78406aefd74b", "Owner", "OWNER", 4m }
                 });
 
             migrationBuilder.InsertData(
@@ -425,48 +349,52 @@ namespace TaskManager.Dal.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "UserId", "RoleId", "Discriminator" },
+                table: "AspNetUserClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 2, "UserRole" },
-                    { 1, 4, "UserRole" },
-                    { 2, 3, "UserRole" }
+                    { 1, "role", "Admin_1", 1 },
+                    { 2, "role", "Guest_1", 1 },
+                    { 3, "role", "Maintainer_1", 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Units",
-                columns: new[] { "UnitId", "CreatorId", "Description", "Key", "Name", "UnitType" },
-                values: new object[,]
-                {
-                    { 42, 1, null, new Guid("2e5bc155-4842-4bf3-94de-36199204d917"), "Ok", UnitType.Comment },
-                    { 1, 2, "Create user api, spam list and blocking users", new Guid("dea2c6f6-3064-40fb-9f75-8e695939e839"), "CRUD API creating and deleting users", UnitType.Task },
-                    { 2, 2, "Modify database, add email service for client sales", new Guid("814d9772-ef7c-4eb9-a932-18dc89d4a0b4"), "Api for email subscriptions", UnitType.Task },
-                    { 3, 2, "Change behaviour from delete cascade to restrict and rework service deleting logic", new Guid("a7d245d0-3280-4ef5-9acb-6787bc194db7"), "Delete cascade", UnitType.Task },
-                    { 4, 2, "Plug in PayPal", new Guid("90992949-51c7-4ad1-aa92-086a1c57ba5d"), "Api for donations", UnitType.Task },
-                    { 5, 2, "Config docker compose with dotnet and postgres image and write integration tests for content with", new Guid("3310e655-5b08-493c-972c-13f668b5c57e"), "Testing content", UnitType.Task },
-                    { 25, 2, null, new Guid("32ae9833-13f7-4350-a68e-70e0bfeeca30"), "Create postgres image", UnitType.SubTask },
-                    { 26, 2, null, new Guid("02d0d799-c713-4d50-997a-c4b116192153"), "Create dotnet image", UnitType.SubTask },
-                    { 40, 2, null, new Guid("2da24682-8c31-4a23-b1e4-f979e8f80805"), "add doc document with api desc", UnitType.Comment },
-                    { 41, 2, null, new Guid("d719805a-5c72-4473-8e6a-16b23120e185"), "we use postgres 11", UnitType.Comment },
-                    { 20, 3, "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.", new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"), "TaskManager", UnitType.Project }
-                });
+                columns: new[] { "UnitId", "CreatorId", "Description", "Key", "Name", "ProjectUnitId", "UnitParentId", "UnitType" },
+                values: new object[] { 20, 3, "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.", new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"), "TaskManager", null, null, UnitType.Project });
 
             migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "Members", "ProjectManagerId", "UnitId" },
-                values: new object[] { 1, 3, 3, 20 });
+                columns: new[] { "UnitId", "Members", "ProjectManagerId" },
+                values: new object[] { 20, 1, 1 });
 
             migrationBuilder.InsertData(
-                table: "RelationShips",
-                columns: new[] { "UnitId", "ParentUnitId" },
+                table: "TermInfos",
+                columns: new[] { "UnitId", "DueTs", "StartTs", "Status" },
+                values: new object[] { 20, new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1641), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress });
+
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "UnitId", "CreatorId", "Description", "Key", "Name", "ProjectUnitId", "UnitParentId", "UnitType" },
                 values: new object[,]
                 {
-                    { 41, 5 },
-                    { 40, 4 },
-                    { 42, 5 },
-                    { 25, 5 },
-                    { 26, 5 }
+                    { 1, 2, "Create user api, spam list and blocking users", new Guid("dea2c6f6-3064-40fb-9f75-8e695939e839"), "CRUD API creating and deleting users", null, 20, UnitType.Task },
+                    { 2, 2, "Modify database, add email service for client sales", new Guid("814d9772-ef7c-4eb9-a932-18dc89d4a0b4"), "Api for email subscriptions", null, 20, UnitType.Task },
+                    { 3, 2, "Change behaviour from delete cascade to restrict and rework service deleting logic", new Guid("a7d245d0-3280-4ef5-9acb-6787bc194db7"), "Delete cascade", null, 20, UnitType.Task },
+                    { 4, 2, "Plug in PayPal", new Guid("90992949-51c7-4ad1-aa92-086a1c57ba5d"), "Api for donations", null, 20, UnitType.Task },
+                    { 5, 2, "Config docker compose with dotnet and postgres image and write integration tests for content with", new Guid("3310e655-5b08-493c-972c-13f668b5c57e"), "Testing content", null, 20, UnitType.Task }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tasks",
+                columns: new[] { "Id", "AssignedId", "UnitId", "UnitId1" },
+                values: new object[,]
+                {
+                    { 1, null, 1, null },
+                    { 2, 1, 2, null },
+                    { 3, 1, 3, null },
+                    { 4, 2, 4, null },
+                    { 5, 2, 5, null }
                 });
 
             migrationBuilder.InsertData(
@@ -474,49 +402,23 @@ namespace TaskManager.Dal.Migrations
                 columns: new[] { "UnitId", "DueTs", "StartTs", "Status" },
                 values: new object[,]
                 {
-                    { 42, null, new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8537), new TimeSpan(0, 3, 0, 0, 0)), Status.None },
-                    { 41, null, new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8530), new TimeSpan(0, 3, 0, 0, 0)), Status.None },
-                    { 40, null, new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8523), new TimeSpan(0, 3, 0, 0, 0)), Status.None },
-                    { 26, null, new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8516), new TimeSpan(0, 3, 0, 0, 0)), Status.Closed },
-                    { 25, null, new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8509), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
-                    { 4, new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8482), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
-                    { 3, new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8469), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
-                    { 2, new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8379), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
-                    { 1, new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 237, DateTimeKind.Unspecified).AddTicks(1806), new TimeSpan(0, 3, 0, 0, 0)), Status.Open },
-                    { 5, new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8490), new TimeSpan(0, 3, 0, 0, 0)), Status.Closed },
-                    { 20, new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 5, 16, 19, 3, 49, 239, DateTimeKind.Unspecified).AddTicks(8502), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress }
+                    { 1, new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 31, DateTimeKind.Unspecified).AddTicks(4532), new TimeSpan(0, 3, 0, 0, 0)), Status.Open },
+                    { 2, new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1373), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
+                    { 3, new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1480), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
+                    { 4, new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1493), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
+                    { 5, new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)), new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1629), new TimeSpan(0, 3, 0, 0, 0)), Status.Closed }
                 });
 
             migrationBuilder.InsertData(
-                table: "ProjectMembers",
-                columns: new[] { "Id", "ProjectId", "UserId" },
+                table: "Units",
+                columns: new[] { "UnitId", "CreatorId", "Description", "Key", "Name", "ProjectUnitId", "UnitParentId", "UnitType" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 10, 1, 2 },
-                    { 15, 1, 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Tasks",
-                columns: new[] { "Id", "AssignedId", "ProjectId", "UnitId" },
-                values: new object[,]
-                {
-                    { 1, null, 1, 1 },
-                    { 2, 1, 1, 2 },
-                    { 3, 1, 1, 3 },
-                    { 4, 2, 1, 4 },
-                    { 5, 2, 1, 5 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Permissions",
-                columns: new[] { "ProjectMemberId", "RoleId", "ProjectMemberId1" },
-                values: new object[,]
-                {
-                    { 1, 2, null },
-                    { 10, 3, null },
-                    { 15, 4, null }
+                    { 40, 2, null, new Guid("2da24682-8c31-4a23-b1e4-f979e8f80805"), "add doc document with api desc", null, 4, UnitType.Comment },
+                    { 25, 2, null, new Guid("32ae9833-13f7-4350-a68e-70e0bfeeca30"), "Create postgres image", null, 5, UnitType.SubTask },
+                    { 26, 2, null, new Guid("02d0d799-c713-4d50-997a-c4b116192153"), "Create dotnet image", null, 5, UnitType.SubTask },
+                    { 41, 2, null, new Guid("d719805a-5c72-4473-8e6a-16b23120e185"), "we use postgres 11", null, 5, UnitType.Comment },
+                    { 42, 1, null, new Guid("2e5bc155-4842-4bf3-94de-36199204d917"), "Ok", null, 5, UnitType.Comment }
                 });
 
             migrationBuilder.InsertData(
@@ -535,6 +437,18 @@ namespace TaskManager.Dal.Migrations
                     { 8, 4 },
                     { 1, 5 },
                     { 10, 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TermInfos",
+                columns: new[] { "UnitId", "DueTs", "StartTs", "Status" },
+                values: new object[,]
+                {
+                    { 40, null, new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1661), new TimeSpan(0, 3, 0, 0, 0)), Status.None },
+                    { 25, null, new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1648), new TimeSpan(0, 3, 0, 0, 0)), Status.InProgress },
+                    { 26, null, new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1655), new TimeSpan(0, 3, 0, 0, 0)), Status.Closed },
+                    { 41, null, new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1761), new TimeSpan(0, 3, 0, 0, 0)), Status.None },
+                    { 42, null, new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1770), new TimeSpan(0, 3, 0, 0, 0)), Status.None }
                 });
 
             migrationBuilder.CreateIndex(
@@ -575,40 +489,9 @@ namespace TaskManager.Dal.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permissions_ProjectMemberId1",
-                table: "Permissions",
-                column: "ProjectMemberId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Permissions_RoleId",
-                table: "Permissions",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectMembers_ProjectId",
-                table: "ProjectMembers",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectMembers_UserId",
-                table: "ProjectMembers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectManagerId",
                 table: "Projects",
                 column: "ProjectManagerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_UnitId",
-                table: "Projects",
-                column: "UnitId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RelationShips_ParentUnitId",
-                table: "RelationShips",
-                column: "ParentUnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TagOnTasks_TaskId",
@@ -621,25 +504,56 @@ namespace TaskManager.Dal.Migrations
                 column: "AssignedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ProjectId",
-                table: "Tasks",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_UnitId",
                 table: "Tasks",
                 column: "UnitId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tasks_UnitId1",
+                table: "Tasks",
+                column: "UnitId1",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Units_CreatorId",
                 table: "Units",
                 column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Units_ProjectUnitId",
+                table: "Units",
+                column: "ProjectUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Units_UnitParentId",
+                table: "Units",
+                column: "UnitParentId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Projects_Units_UnitId",
+                table: "Projects",
+                column: "UnitId",
+                principalTable: "Units",
+                principalColumn: "UnitId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(Resource.script_down);
+            migrationBuilder.DropForeignKey(
+                name: "FK_Projects_AspNetUsers_ProjectManagerId",
+                table: "Projects");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Units_AspNetUsers_CreatorId",
+                table: "Units");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Projects_Units_UnitId",
+                table: "Projects");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -656,19 +570,10 @@ namespace TaskManager.Dal.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "RelationShips");
-
-            migrationBuilder.DropTable(
                 name: "TagOnTasks");
 
             migrationBuilder.DropTable(
                 name: "TermInfos");
-
-            migrationBuilder.DropTable(
-                name: "ProjectMembers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -680,13 +585,13 @@ namespace TaskManager.Dal.Migrations
                 name: "Tasks");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Units");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Projects");
         }
     }
 }

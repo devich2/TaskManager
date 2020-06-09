@@ -39,14 +39,4 @@ namespace TaskManager.Web.Infrastructure.Extension
             context.HttpContext.Response.StatusCode = statusCode;
         }
     }
-    public class MinimumAgeHandler : Attribute,IAuthorizationFilter
-    {
-        public void OnAuthorization(AuthorizationFilterContext context)
-        {
-            var s = context.Result;
-            var objectResult = context.Result as ObjectResult;
-            context.U
-            var r = 3; UserStore
-        }
-    }
 }

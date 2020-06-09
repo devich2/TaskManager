@@ -76,7 +76,7 @@ namespace TaskManager.Web
                 .AddEntityFrameworkStores<TaskManagerDbContext>();
 
             services.AddSingleton<UnauthorizedApiHandler>();
-           UserManager<>
+
             services.AddIdentity<User, Role>(
                     options => { options.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<TaskManagerDbContext>()
@@ -100,8 +100,6 @@ namespace TaskManager.Web
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
-                UserClaimsPrincipalFactory>
-                IdentityRoleClaim<>
             });
 
             //Configure Swagger

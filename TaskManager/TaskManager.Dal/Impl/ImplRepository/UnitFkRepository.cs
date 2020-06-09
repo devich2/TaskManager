@@ -23,6 +23,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
         public virtual async Task<TEntity> GetByUnitIdAsync(int id)
         {
             return await Context.Set<TEntity>()
+                .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.UnitId == id);
         }
     }

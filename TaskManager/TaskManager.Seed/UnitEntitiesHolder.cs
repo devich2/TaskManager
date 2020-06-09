@@ -19,6 +19,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 1,
+                    UnitParentId = 20,
                     Name = "CRUD API creating and deleting users",
                     Description = "Create user api, spam list and blocking users",
                     UnitType = UnitType.Task,
@@ -28,6 +29,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 2,
+                    UnitParentId = 20,
                     Name = "Api for email subscriptions",
                     Description = "Modify database, add email service for client sales",
                     UnitType = UnitType.Task,
@@ -37,6 +39,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 3,
+                    UnitParentId = 20,
                     Name = "Delete cascade",
                     Description = "Change behaviour from delete cascade to restrict and rework service deleting logic",
                     UnitType = UnitType.Task,
@@ -46,6 +49,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 4,
+                    UnitParentId = 20,
                     Name = "Api for donations",
                     Description = "Plug in PayPal",
                     UnitType = UnitType.Task,
@@ -55,6 +59,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 5,
+                    UnitParentId = 20,
                     Name = "Testing content",
                     Description = "Config docker compose with dotnet and postgres image and write integration tests for content with",
                     UnitType = UnitType.Task,
@@ -83,6 +88,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 25,
+                    UnitParentId = 5,
                     Name = "Create postgres image",
                     Description = null,
                     UnitType = UnitType.SubTask,
@@ -92,6 +98,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 26,
+                    UnitParentId = 5,
                     Name = "Create dotnet image",
                     Description = null,
                     UnitType = UnitType.SubTask,
@@ -105,6 +112,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 40,
+                    UnitParentId = 4,
                     Name = "add doc document with api desc",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -114,6 +122,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 41,
+                    UnitParentId = 5,
                     Name = "we use postgres 11",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -123,6 +132,7 @@ namespace TaskManager.Seed
                 new Unit()
                 {
                     UnitId = 42,
+                    UnitParentId = 5,
                     Name = "Ok",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -132,7 +142,7 @@ namespace TaskManager.Seed
                 #endregion
             };
         }
-
+        
         public List<Tag> GeTags()
         {
             return new List<Tag>()
@@ -201,34 +211,29 @@ namespace TaskManager.Seed
                 new Task()
                 {
                     Id = 1,
-                    ProjectId = 1,
                     UnitId = 1
                 },
                 new Task()
                 {
                     Id = 2,
-                    ProjectId = 1,
                     AssignedId = 1,
                     UnitId = 2
                 },
                 new Task()
                 {
                     Id = 3,
-                    ProjectId = 1,
                     AssignedId = 1,
                     UnitId = 3
                 },
                 new Task()
                 {
                     Id = 4,
-                    ProjectId = 1,
                     AssignedId = 2,
                     UnitId = 4
                 },
                 new Task()
                 {
                     Id = 5,
-                    ProjectId = 1,
                     AssignedId = 2,
                     UnitId = 5
                 }
@@ -394,40 +399,6 @@ namespace TaskManager.Seed
             };
         }
 
-        public List<RelationShip> GetRelationShips()
-        {
-            return new List<RelationShip>()
-            {
-                //SubTasks
-                new RelationShip()
-                {
-                    UnitId = 25,
-                    ParentUnitId = 5
-                },
-                new RelationShip()
-                {
-                    UnitId = 26,
-                    ParentUnitId = 5
-                },
-                //Comments
-                new RelationShip()
-                {
-                    UnitId = 40,
-                    ParentUnitId = 4
-                },
-                new RelationShip()
-                {
-                    UnitId = 41,
-                    ParentUnitId = 5
-                },
-                new RelationShip()
-                {
-                    UnitId = 42,
-                    ParentUnitId = 5
-                },
-            };
-        }
-
         #endregion
 
         #region Projects
@@ -437,42 +408,12 @@ namespace TaskManager.Seed
             {
                 new Project()
                 {
-                    Id = 1,
-                    ProjectManagerId = 3,
+                    ProjectManagerId = 1,
                     UnitId = 20,
-                    Members = 3
+                    Members = 1
                 }
             };
         }
-        public List<ProjectMember> GetProjectMembers()
-        {
-            return new List<ProjectMember>()
-            {
-                //Developer
-                new ProjectMember()
-                {
-                    Id = 1,
-                    UserId = 1,
-                    ProjectId = 1
-                },
-
-                //TeamLead
-                new ProjectMember()
-                {
-                    Id = 10,
-                    UserId = 2,
-                    ProjectId = 1
-                },
-                //ProjectManager
-                new ProjectMember()
-                {
-                    Id = 15,
-                    UserId = 3,
-                    ProjectId = 1
-                }
-            };
-        }
-
         #endregion
 
     }

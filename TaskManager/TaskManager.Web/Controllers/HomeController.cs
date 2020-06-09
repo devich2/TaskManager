@@ -10,7 +10,6 @@ namespace TaskManager.Web.Controllers
 {
     
     [Route("api/home")]
-    [MinimumAgeHandler]
     [ApiController]
     public class HomeController : ControllerBase
     {

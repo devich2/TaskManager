@@ -8,12 +8,11 @@ namespace TaskManager.Entities.Tables
 {
     public class Project: IUnitExtensionTable
     {
-        public int Id { get; set; }
         public int ProjectManagerId { get; set; }
+        
         public User ProjectManager { get; set; }
         public int UnitId { get; set; }
         public Unit Unit { get; set; }
         public int Members { get; set; }
-        public ICollection<Task> Tasks { get; set; }
     }
 }
