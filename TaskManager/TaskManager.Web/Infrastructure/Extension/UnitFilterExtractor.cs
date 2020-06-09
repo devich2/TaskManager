@@ -33,8 +33,8 @@ namespace TaskManager.Web.Infrastructure.Extension
                     })
                 },
                 {UnitFilterType.Assignee, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
-                {UnitFilterType.Project, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
                 {UnitFilterType.MileStone, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
+                {UnitFilterType.Project, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
                 {UnitFilterType.Author, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int), IntParser)},
                 {
                     UnitFilterType.Label, new Tuple<Type, Func<string, Tuple<object, bool>>>(typeof(int),
@@ -71,7 +71,6 @@ namespace TaskManager.Web.Infrastructure.Extension
 
             foreach (string filterItem in filterItems)
             {
-
                 string[] strKeyValue = filterItem.Split(':',
                     StringSplitOptions.RemoveEmptyEntries);
 
@@ -94,7 +93,7 @@ namespace TaskManager.Web.Infrastructure.Extension
                         {
                             sbValidationErrors
                                 .AppendLine($"Cant convert {strKeyValue[1]} to type " +
-                                                          $"{_filtersTypeAndConvertors[filterType].Item1.ToString()}");
+                                            $"{_filtersTypeAndConvertors[filterType].Item1.ToString()}");
                         }
                     }
                     else

@@ -12,7 +12,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
     public class UnitFkRepository<TEntity>: GenericKeyRepository<int, TEntity>,
         IUnitFkRepository<TEntity> where TEntity : class, IUnitExtensionTable
     {
-        public UnitFkRepository(TaskManagerDbContext context) : base(context)
+        protected UnitFkRepository(TaskManagerDbContext context) : base(context)
         {
         }
 

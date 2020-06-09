@@ -6,8 +6,8 @@ namespace TaskManager.Models.Unit
 {
     public enum ModelState
     {
-        Add = 1,
-        Modify = 2,
-        Delete = 3
+        Add,
+        Modify,
+        Delete
     }
 }

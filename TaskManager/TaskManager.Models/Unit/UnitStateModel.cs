@@ -13,6 +13,5 @@ namespace TaskManager.Models.Unit
         public UnitModel UnitModel { get; set; }
         public JObject Data { get; set; }
         public UnitType ExtendedType { get; set; }
-        public ModelState ProcessToState { get; set; }
     }
 }

@@ -12,11 +12,12 @@ using TaskAlias = TaskManager.Entities.Tables.Task;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
-    public class TagOnTaskRepository: GenericKeyRepository<int, TagOnTask>, ITagOnTaskRepository
+    public class TagOnTaskRepository : GenericKeyRepository<int, TagOnTask>, ITagOnTaskRepository
     {
         public TagOnTaskRepository(TaskManagerDbContext context) : base(context)
         {
         }
+
         public async Task AddToTags(int taskId, List<string> tags)
         {
             foreach (var tag in tags)

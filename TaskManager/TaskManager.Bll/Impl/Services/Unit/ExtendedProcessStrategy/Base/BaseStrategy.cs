@@ -16,14 +16,15 @@ using TaskManager.Models.Unit;
 
 namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
 {
-    public class BaseStrategy<TKey, TEntity, TModel>: IUnitExtendedStrategy
+    public class BaseStrategy<TEntity, TModel> : IUnitExtendedStrategy
         where TEntity : class, IUnitExtensionTable
         where TModel : class
     {
         protected readonly IUnitFkRepository<TEntity> _currentRepository;
         private readonly IMapper _mapper;
         private readonly JsonSerializerSettings _serializerSettings;
-        public BaseStrategy(IUnitFkRepository<TEntity> currentRepository,
+
+        protected BaseStrategy(IUnitFkRepository<TEntity> currentRepository,
             IMapper mapper,
             IOptions<MvcNewtonsoftJsonOptions> jsonOptions)
         {
@@ -43,6 +44,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                     ResponseStatusType = ResponseStatusType.Error
                 };
             }
+
             TEntity data = await _currentRepository.GetByUnitIdAsync(unit.UnitId);
 
             if (data == null)
@@ -62,9 +64,14 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                 Data = JObject.FromObject(model)
             };
         }
-
+        public virtual async Task<bool> IsExisting(int unitId)
+        {
+            TEntity  res = await _currentRepository.GetByUnitIdAsync(unitId);
+            return res != null;
+        }
+        
         public virtual async Task<Result>
-           ProcessExtendedItem(JObject boxingItem, ModelState state, int unitId)
+            ProcessExtendedItem(JObject boxingItem, ModelState state, int unitId)
         {
             TModel current =
                 boxingItem.ToObject<TModel>(JsonSerializer.Create(_serializerSettings));
@@ -77,44 +84,36 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
                     ResponseStatusType = ResponseStatusType.Error
                 };
             }
-            if (ContinueProcessing(current))
+
+            TEntity entity = _mapper.Map<TEntity>(current);
+            entity.UnitId = unitId;
+
+            switch (state)
             {
-                TEntity entity = _mapper.Map<TEntity>(current);
-                entity.UnitId = unitId;
-
-                switch (state)
-                {
-                    case ModelState.Add:
-                        await CreateAsync(entity);
-                        await CreateDependency(current, unitId);
-                        break;
-                    case ModelState.Modify:
-                        await UpdateAsync(entity);
-                        break;
-                    case ModelState.Delete:
-                        await DeleteAsync(entity);
-                        break;
-                }
-
-                await _currentRepository.SaveChangesAsync();
+                case ModelState.Add:
+                    await CreateAsync(entity, current);
+                    break;
+                case ModelState.Modify:
+                    await UpdateAsync(entity);
+                    break;
+                case ModelState.Delete:
+                    await DeleteAsync(entity);
+                    break;
             }
+
+            await _currentRepository.SaveChangesAsync();
 
             return new Result()
             {
                 Message = ResponseMessageType.None,
                 ResponseStatusType = ResponseStatusType.Succeed
             };
-            
         }
-        protected virtual async Task CreateAsync(TEntity entity)
+
+        protected virtual async Task CreateAsync(TEntity entity, TModel model)
         {
             await _currentRepository.AddAsync(entity);
             await _currentRepository.SaveChangesAsync();
-        }
-        protected virtual bool ContinueProcessing(TModel model) => true;
-        protected virtual Task CreateDependency(TModel model, int unitId)
-        {
-            return Task.FromResult(0);
         }
 
         protected virtual async Task UpdateAsync(TEntity entity)

@@ -15,7 +15,7 @@ namespace TaskManager.Entities.Tables
         public string Name { get; set; }
         public string Description { get; set; }
         public UnitType UnitType { get; set; }
-        public TermInfo? TermInfo { get; set; }
+        public TermInfo TermInfo { get; set; }
         public Guid Key { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }

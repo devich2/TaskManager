@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TaskManager.Entities.Enum;
 using TaskManager.Models.User;
 
-namespace TaskManager.Models.RelationShip
+namespace TaskManager.Models.Unit
 {
     public class SubUnitModel
     {

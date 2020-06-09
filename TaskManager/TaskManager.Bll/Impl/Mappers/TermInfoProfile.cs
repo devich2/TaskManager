@@ -12,6 +12,12 @@ namespace TaskManager.Bll.Impl.Mappers
     {
         public TermInfoProfile()
         {
+            CreateMap<TermInfoCreateModel, TermInfo>()
+                .ForMember(x=> x.DueTs, opt=>
+                    opt.MapFrom(src=>src.DueTs))
+                .ForMember(x=>x.Status, opt=>
+                    opt.MapFrom(src=>src.Status));
+                    
             CreateMap<TermInfo, TermInfoSelectionModel>()
                 .ForMember(x => x.Status,
                     opt => opt.MapFrom(x => x.Status))

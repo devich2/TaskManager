@@ -123,7 +123,6 @@ namespace TaskManager.Dal
         public DbSet<Project> Projects { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagOnTask> TagOnTasks { get; set; }
-        
         public DbSet<Task> Tasks { get; set; }
         public DbSet<TermInfo> TermInfos { get; set; }
         public DbSet<Permission> Permissions {get;set;}

@@ -10,8 +10,5 @@ namespace TaskManager.Dal.Abstract.IRepository
 {
     public interface ITaskRepository: IUnitFkRepository<Task>
     {
-        Task<List<Task>> GetTasksByProjectId(int projectId);
-        Task<int> GetTaskSubUnitsCountByType(UnitType unitType, int taskId);
-        Task<Task> GetTaskExpanded(int taskId);
     }
 }

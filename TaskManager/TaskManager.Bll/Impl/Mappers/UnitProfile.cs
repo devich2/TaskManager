@@ -24,7 +24,8 @@ namespace TaskManager.Bll.Impl.Mappers
                 .ForMember(x=>x.Description,
                         opt=>
                         opt.MapFrom(x=>x.UnitStateModel.UnitModel.Description))
-                .ForAllOtherMembers(opt=>opt.AllowNull());
+                .ForMember(x=>x.UnitParentId, opt=>
+                        opt.MapFrom(src=>src.ParentId));
 
             CreateMap<Unit, UnitSelectionModel>()
                 .ForMember(x => x.UnitId,
@@ -36,9 +37,7 @@ namespace TaskManager.Bll.Impl.Mappers
                 .ForMember(x => x.UnitModel.Name,
                     opt => opt.MapFrom(x => x.Name))
                 .ForMember(x=>x.TermInfo, 
-                    opts=>opts.MapFrom(x=>x.TermInfo))
-                .ForMember(x => x.ProcessToState,
-                    opts => opts.AllowNull());
+                    opts=>opts.MapFrom(x=>x.TermInfo));
         }
     }
 }

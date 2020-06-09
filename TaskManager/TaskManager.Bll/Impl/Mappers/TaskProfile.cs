@@ -13,12 +13,7 @@ namespace TaskManager.Bll.Impl.Mappers
         public TaskProfile()
         {
 
-            CreateMap<TermInfoCreateModel, TermInfo>()
-                .ForMember(x => x.DueTs, opt =>
-                    opt.MapFrom(x => x.DueTs))
-                .ForMember(x => x.Status, opt =>
-                    opt.MapFrom(x => x.Status))
-                .ForAllOtherMembers(opt=>opt.AllowNull());
+          
         }
     }
 }

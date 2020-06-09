@@ -11,7 +11,7 @@ namespace TaskManager.Models.Task
         public string AssignedName { get; set; }
         public List<string> Tags { get; set; }
         public int SubTasksCompleted { get; set; }
-        public int TotalTasks { get; set; }
+        public int SubTasksTotal { get; set; }
         public int Comments { get; set; }
     }
 }

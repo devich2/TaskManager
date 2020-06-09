@@ -13,5 +13,6 @@ namespace TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base
     {
         Task<Result> ProcessExtendedItem(JObject boxingItem, ModelState state, int unitId);
         Task<DataResult<JObject>> ProcessExistingModel(Entities.Tables.Unit unit);
+        Task<bool> IsExisting(int unitId);
     }
 }

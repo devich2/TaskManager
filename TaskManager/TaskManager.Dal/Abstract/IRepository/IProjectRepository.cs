@@ -9,7 +9,6 @@ using TaskManager.Entities.Tables;
 namespace TaskManager.Dal.Abstract.IRepository
 {
     public interface IProjectRepository: IUnitFkRepository<Project>
-    { 
-        Task<Project> GetProjectByParentUnitId(int unitId, UnitType unitType);
+    {
     }
 }

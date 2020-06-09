@@ -5,11 +5,13 @@ using TaskManager.Models.TermInfo;
 
 namespace TaskManager.Models.Unit
 {
-    public class UnitCreateOrUpdateModel
+    public class UnitCreateOrUpdateModel: UnitAuthModel
     {
         public TermInfoCreateModel TermInfo { get; set; }
         public UnitStateModel UnitStateModel { get; set; }
         public int UserId { get; set; }
         public int UnitId { get; set; }
+        
+        public int? ParentId {get; set;}
     }
 }

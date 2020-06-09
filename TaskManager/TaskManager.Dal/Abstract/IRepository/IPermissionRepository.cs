@@ -7,7 +7,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Dal.Abstract.IRepository
 {
-    public interface IPermissionRepository: IGenericKeyRepository<int, IdentityUserClaim<User>>
+    public interface IPermissionRepository: IGenericKeyRepository<int, Permission>
     {
     }
 }

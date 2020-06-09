@@ -8,7 +8,6 @@ namespace TaskManager.Models.MileStone
     {
         public int Total { get; set; }
         public decimal CompletedPercentage { get; set; }
-        public bool Expired { get; set; }
         public int ClosedTasksCount { get; set; }
     }
 }
