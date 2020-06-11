@@ -10,27 +10,29 @@ namespace TaskManager.Seed
     {
         private readonly List<IdentityUserClaim<int>> _userClaims = new List<IdentityUserClaim<int>>()
         {
+            
             new IdentityUserClaim<int>()
             {
                 Id = 1,
                 UserId = 1,
                 ClaimType = "role",
-                ClaimValue = "Admin_1"
+                ClaimValue = "Maintainer_20"
             },
             new IdentityUserClaim<int>()
             {
                 Id = 2,
-                UserId = 1,
+                UserId = 2,
                 ClaimType = "role",
-                ClaimValue = "Guest_1"
+                ClaimValue = "Owner_20"
             },
             new IdentityUserClaim<int>()
             {
                 Id = 3,
-                UserId = 1,
+                UserId = 3,
                 ClaimType = "role",
-                ClaimValue = "Maintainer_1"
+                ClaimValue = "Developer_20"
             }
+            
         };
 
         public List<IdentityUserClaim<int>> GetUserClaims()

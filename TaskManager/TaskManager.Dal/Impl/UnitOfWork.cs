@@ -29,7 +29,7 @@ namespace TaskManager.Dal.Impl
         private ITaskRepository _taskRepository;
         private ITermInfoRepository _termInfoRepository;
         private IUnitRepository _unitRepository;
-
+        private IMileStoneRepository _mileStoneRepository;
         #endregion
 
         #region Properties
@@ -41,7 +41,13 @@ namespace TaskManager.Dal.Impl
                 return _permissionRepository ??= new PermissionRepository(_taskManagerDbContext);
             }
         }
-        
+        public IMileStoneRepository MileStones
+        {
+            get
+            {
+                return _mileStoneRepository ??= new MileStoneRepository(_taskManagerDbContext);
+            }
+        }
         public IProjectRepository Projects
         {
             get

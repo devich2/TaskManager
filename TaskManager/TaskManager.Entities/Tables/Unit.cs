@@ -21,6 +21,8 @@ namespace TaskManager.Entities.Tables
         public User Creator { get; set; }
         public Task Task { get; set; }
         public Project Project { get; set; }
+        
+        public MileStone MileStone {get; set;}
         public int? UnitParentId {get; set;}
         public Unit UnitParent {get;set;}
         public ICollection<Unit> Children { get; set; }

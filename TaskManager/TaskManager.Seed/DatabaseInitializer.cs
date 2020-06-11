@@ -17,6 +17,7 @@ namespace TaskManager.Seed
             AddEntities(builder, unitEntitiesHolder.GeTermInfos());
             AddEntities(builder, unitEntitiesHolder.GeTags());
             AddEntities(builder, unitEntitiesHolder.GetProjects());
+            AddEntities(builder, unitEntitiesHolder.GetMileStones());
             AddEntities(builder, unitEntitiesHolder.GeTasks());
             AddEntities(builder, unitEntitiesHolder.GeTagOnTasks());
 

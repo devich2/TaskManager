@@ -70,17 +70,16 @@ namespace TaskManager.Web
             DalDependencyInstaller.Install(services, Configuration);
             ConfigurationDependencyInstaller.Install(services, Configuration);
 
-            //Configure auth
-            services.AddIdentity<User, Role>(
-                    options => { options.User.RequireUniqueEmail = true; })
-                .AddEntityFrameworkStores<TaskManagerDbContext>();
-
             services.AddSingleton<UnauthorizedApiHandler>();
 
             services.AddIdentity<User, Role>(
                     options => { options.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<TaskManagerDbContext>()
                 .AddDefaultTokenProviders();
+            
+            services.Configure<SecurityStampValidatorOptions>(
+                options => options.ValidationInterval = TimeSpan.Zero
+            );
             //Configure cookies
             services.ConfigureApplicationCookie(options =>
             {
@@ -96,7 +95,6 @@ namespace TaskManager.Web
                     var handler = ctx.HttpContext.RequestServices.GetService<UnauthorizedApiHandler>();
                     return handler.Handle(ctx);
                 };
-                options.Events.OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync;
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
@@ -118,76 +116,9 @@ namespace TaskManager.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<TaskManagerDbContext>();
-                var service = scope.ServiceProvider.GetService <IUnitEditService> ();
-
-                /*await service.ProcessUnitCreate(new UnitCreateOrUpdateModel()
-                {
-                    UserId = 1,
-                    UnitStateModel = new UnitStateModel()
-                    {
-                        UnitModel = new UnitModel()
-                        {
-                            Name = "Pro",
-                            Description = "2",
-                            TermInfo = new TermInfoCreateModel()
-                            {
-                                Status = Status.Open,
-                                DueTs = DateTimeOffset.Now
-                            }
-                        },
-                        ExtendedType = UnitType.Project,
-                        ProcessToState = ModelState.Added,
-                        Data = JObject.FromObject(new ProjectCreateModel()
-                        {
-                            ProjectManagerId = 1,
-                            Members = 1
-                        })
-                    }
-
-                });
-                //context.Database.EnsureDeleted();
-                /* var list = await service.ProcessUnitCreate(new UnitCreateOrUpdateModel()
-                 {
-                     UserId = 1,
-                     UnitStateModel = new UnitStateModel()
-                     {
-                         UnitModel = new UnitModel()
-                         {
-                             Name = "FUCKu",
-                             Description = "GO FUCK",
-                             TermInfo = new TermInfoModel()
-                             {
-                                 Status = Status.Open,
-                                 DueTs = DateTimeOffset.Now
-                             }
-                         },
-                         ExtendedType = UnitType.Task,
-                         ProcessToState = ModelState.Added,
-                         Data = JObject.FromObject(new TaskModel()
-                         {
-                             Tags = new List<int>()
-                             {
-                                 1,2,3
-                             },
-                             ProjectId = 1
-                         })
-                     }
-                     
- 
-                 });
-                 */
-                /* var el = await context.Units.Where(x => x.UnitId == 1)
-                     .Include(x => x.TermInfo).FirstAsync();
-                 el.TermInfo.Status = Status.Open;
-                 await context.SaveChangesAsync();
-                 */
-
-            }
+            
             if (Env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

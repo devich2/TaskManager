@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TaskManager.Models.Unit;
 
-namespace TaskManager.Models.Unit
+namespace TaskManager.Models.Response
 {
     public class UnitAddResponse: UnitBaseResponse
     {

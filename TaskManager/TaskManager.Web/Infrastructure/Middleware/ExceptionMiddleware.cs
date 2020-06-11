@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using TaskManager.Common.Utils;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Web.Infrastructure.Middleware
 {

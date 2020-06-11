@@ -45,7 +45,9 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
                 case UnitType.Project:
                     current = new ProjectExtendedStrategy(_unitOfWork, _userManager, _mapper, _jsonOptions);
                     break;
-
+                case UnitType.Milestone:
+                    current = new MileStoneExtendedStrategy(_unitOfWork.MileStones, _mapper, _jsonOptions);
+                    break;
                 default:
                     current = new NoUnitExtendedStrategy(_jsonOptions);
                     break;

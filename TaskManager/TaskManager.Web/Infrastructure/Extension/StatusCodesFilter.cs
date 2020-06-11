@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Bll.Abstract.Converter;
 using TaskManager.Entities.Tables.Identity;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Web.Infrastructure.Extension
 {

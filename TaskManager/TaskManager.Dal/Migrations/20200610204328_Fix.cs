@@ -1,169 +1,99 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TaskManager.Entities.Enum;
 
 namespace TaskManager.Dal.Migrations
 {
-    public partial class AddPemissions : Migration
+    public partial class Fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:PermissionType", "ProjectModify,ProjectDelete,MilestoneAdd,MilestoneModify,MilestoneDelete,SubTaskAdd,SubTaskModify,SubTaskDelete,TaskAdd,TaskModify,TaskDelete,CommentAdd,CommentModify,CommentDelete,RoleChange,StatusChange,UserInvite,UserKick,TagAdd,TagDelete,Read")
-                .Annotation("Npgsql:Enum:Status", "None,Open,InProgress,Closed")
-                .Annotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask")
-                .OldAnnotation("Npgsql:Enum:Status", "None,Open,InProgress,Closed")
-                .OldAnnotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Units_Units_UnitParentId",
+                table: "Units");
 
-            migrationBuilder.CreateTable(
-                name: "Permissions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<int>(nullable: false),
-                    PermissionType = table.Column<PermissionType>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permissions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Permissions_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Permissions",
-                columns: new[] { "Id", "PermissionType", "RoleId" },
-                values: new object[,]
-                {
-                    { 1, PermissionType.Read, 1 },
-                    { 26, PermissionType.CommentAdd, 4 },
-                    { 27, PermissionType.CommentDelete, 4 },
-                    { 28, PermissionType.CommentModify, 4 },
-                    { 29, PermissionType.MilestoneAdd, 4 },
-                    { 30, PermissionType.MilestoneDelete, 4 },
-                    { 31, PermissionType.MilestoneModify, 4 },
-                    { 32, PermissionType.TaskAdd, 4 },
-                    { 33, PermissionType.TaskDelete, 4 },
-                    { 35, PermissionType.SubTaskAdd, 4 },
-                    { 36, PermissionType.SubTaskDelete, 4 },
-                    { 37, PermissionType.SubTaskModify, 4 },
-                    { 38, PermissionType.ProjectDelete, 4 },
-                    { 39, PermissionType.ProjectModify, 4 },
-                    { 40, PermissionType.RoleChange, 4 },
-                    { 41, PermissionType.UserInvite, 4 },
-                    { 42, PermissionType.UserKick, 4 },
-                    { 43, PermissionType.TagAdd, 4 },
-                    { 44, PermissionType.TagDelete, 4 },
-                    { 45, PermissionType.StatusChange, 4 },
-                    { 25, PermissionType.Read, 4 },
-                    { 24, PermissionType.StatusChange, 3 },
-                    { 34, PermissionType.TaskModify, 4 },
-                    { 22, PermissionType.TagAdd, 3 },
-                    { 23, PermissionType.TagDelete, 3 },
-                    { 3, PermissionType.CommentAdd, 2 },
-                    { 4, PermissionType.CommentDelete, 2 },
-                    { 5, PermissionType.CommentModify, 2 },
-                    { 6, PermissionType.TagAdd, 2 },
-                    { 7, PermissionType.TagDelete, 2 },
-                    { 8, PermissionType.StatusChange, 2 },
-                    { 9, PermissionType.Read, 3 },
-                    { 10, PermissionType.CommentAdd, 3 },
-                    { 11, PermissionType.CommentDelete, 3 },
-                    { 2, PermissionType.Read, 2 },
-                    { 13, PermissionType.MilestoneAdd, 3 },
-                    { 14, PermissionType.MilestoneDelete, 3 },
-                    { 15, PermissionType.MilestoneModify, 3 },
-                    { 16, PermissionType.TaskAdd, 3 },
-                    { 17, PermissionType.TaskDelete, 3 },
-                    { 18, PermissionType.TaskModify, 3 },
-                    { 19, PermissionType.SubTaskAdd, 3 },
-                    { 20, PermissionType.SubTaskDelete, 3 },
-                    { 21, PermissionType.SubTaskModify, 3 },
-                    { 12, PermissionType.CommentModify, 3 }
-                });
+            migrationBuilder.AlterColumn<int>(
+                name: "UnitParentId",
+                table: "Units",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "integer");
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 1,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 45, DateTimeKind.Unspecified).AddTicks(2221), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 980, DateTimeKind.Unspecified).AddTicks(524), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 2,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7080), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6609), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 3,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7192), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6706), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 4,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7204), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6718), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 5,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7212), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6725), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 20,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7225), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6736), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 25,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7233), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6743), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 26,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7239), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6750), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 40,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7246), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6756), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 41,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7254), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6764), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 42,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 16, 39, 58, 49, DateTimeKind.Unspecified).AddTicks(7260), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 43, 27, 982, DateTimeKind.Unspecified).AddTicks(6771), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Units",
@@ -204,8 +134,8 @@ namespace TaskManager.Dal.Migrations
                 table: "Units",
                 keyColumn: "UnitId",
                 keyValue: 20,
-                column: "Key",
-                value: new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"));
+                columns: new[] { "Key", "UnitParentId" },
+                values: new object[] { new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"), null });
 
             migrationBuilder.UpdateData(
                 table: "Units",
@@ -242,100 +172,112 @@ namespace TaskManager.Dal.Migrations
                 column: "Key",
                 value: new Guid("2e5bc155-4842-4bf3-94de-36199204d917"));
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Permissions_RoleId",
-                table: "Permissions",
-                column: "RoleId");
+            migrationBuilder.UpdateData(
+                table: "Units",
+                keyColumn: "UnitId",
+                keyValue: 50,
+                column: "Key",
+                value: new Guid("2e5bc155-4842-4bf3-94de-36194204d917"));
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Units_Units_UnitParentId",
+                table: "Units",
+                column: "UnitParentId",
+                principalTable: "Units",
+                principalColumn: "UnitId",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Permissions");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Units_Units_UnitParentId",
+                table: "Units");
 
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:Status", "None,Open,InProgress,Closed")
-                .Annotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask")
-                .OldAnnotation("Npgsql:Enum:PermissionType", "ProjectModify,ProjectDelete,MilestoneAdd,MilestoneModify,MilestoneDelete,SubTaskAdd,SubTaskModify,SubTaskDelete,TaskAdd,TaskModify,TaskDelete,CommentAdd,CommentModify,CommentDelete,RoleChange,StatusChange,UserInvite,UserKick,TagAdd,TagDelete,Read")
-                .OldAnnotation("Npgsql:Enum:Status", "None,Open,InProgress,Closed")
-                .OldAnnotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask");
+            migrationBuilder.AlterColumn<int>(
+                name: "UnitParentId",
+                table: "Units",
+                type: "integer",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldNullable: true);
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 1,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 31, DateTimeKind.Unspecified).AddTicks(4532), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 937, DateTimeKind.Unspecified).AddTicks(6510), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 2,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1373), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3261), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 3,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1480), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3342), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 4,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1493), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3353), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 5,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1629), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3361), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 20,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1641), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3377), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 25,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1648), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3385), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 26,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1655), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3392), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 40,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1661), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3398), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 41,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1761), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3406), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "TermInfos",
                 keyColumn: "UnitId",
                 keyValue: 42,
                 column: "StartTs",
-                value: new DateTimeOffset(new DateTime(2020, 6, 9, 14, 47, 59, 34, DateTimeKind.Unspecified).AddTicks(1770), new TimeSpan(0, 3, 0, 0, 0)));
+                value: new DateTimeOffset(new DateTime(2020, 6, 10, 23, 38, 20, 940, DateTimeKind.Unspecified).AddTicks(3414), new TimeSpan(0, 3, 0, 0, 0)));
 
             migrationBuilder.UpdateData(
                 table: "Units",
@@ -376,8 +318,8 @@ namespace TaskManager.Dal.Migrations
                 table: "Units",
                 keyColumn: "UnitId",
                 keyValue: 20,
-                column: "Key",
-                value: new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"));
+                columns: new[] { "Key", "UnitParentId" },
+                values: new object[] { new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"), 0 });
 
             migrationBuilder.UpdateData(
                 table: "Units",
@@ -413,6 +355,21 @@ namespace TaskManager.Dal.Migrations
                 keyValue: 42,
                 column: "Key",
                 value: new Guid("2e5bc155-4842-4bf3-94de-36199204d917"));
+
+            migrationBuilder.UpdateData(
+                table: "Units",
+                keyColumn: "UnitId",
+                keyValue: 50,
+                column: "Key",
+                value: new Guid("2e5bc155-4842-4bf3-94de-36194204d917"));
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Units_Units_UnitParentId",
+                table: "Units",
+                column: "UnitParentId",
+                principalTable: "Units",
+                principalColumn: "UnitId",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

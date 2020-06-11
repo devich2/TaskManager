@@ -19,18 +19,21 @@ namespace TaskManager.Dal.Impl.ImplRepository
         }
 
         public async Task AddToTags(int taskId, List<string> tags)
-        {
-            foreach (var tag in tags)
+        {    
+            if(tags != null)
             {
-                Tag entity = await Context.Tags
-                    .FirstOrDefaultAsync(x => x.TextValue == tag);
-                if (entity != null)
+                foreach (var tag in tags)
                 {
-                    await Context.TagOnTasks.AddAsync(new TagOnTask()
+                    Tag entity = await Context.Tags
+                        .FirstOrDefaultAsync(x => x.TextValue == tag);
+                    if (entity != null)
                     {
-                        TaskId = taskId,
-                        TagId = entity.Id
-                    });
+                        await Context.TagOnTasks.AddAsync(new TagOnTask()
+                        {
+                            TaskId = taskId,
+                            TagId = entity.Id
+                        });
+                    }
                 }
             }
         }

@@ -11,10 +11,8 @@ namespace TaskManager.Bll
     {
         public static void Install(IServiceCollection services)
         {
-            //ServiceDependencyInstaller.Install(services);
-
+            ServiceDependencyInstaller.Install(services);
             services.AddAutoMapper(typeof(BllDependencyInstaller));
-            //MapperDependencyInstaller.Install(services);
         }
     }
 }

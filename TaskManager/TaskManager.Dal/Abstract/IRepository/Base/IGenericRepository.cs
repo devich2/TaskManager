@@ -19,5 +19,6 @@ namespace TaskManager.Dal.Abstract.IRepository.Base
         Task<List<TEntity>> PagingFetchAsync(int startIndex, int count);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         Task<int> GetCountAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> IsExisting(TKey id);
     }
 }

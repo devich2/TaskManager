@@ -11,6 +11,8 @@ namespace TaskManager.Dal.Migrations
             migrationBuilder.RestartSequence("AspNetRoles_Id_seq", 1000);
             migrationBuilder.RestartSequence("AspNetUserClaims_Id_seq", 1000);
             migrationBuilder.RestartSequence("AspNetUsers_Id_seq", 1000);
+            migrationBuilder.RestartSequence("AspNetRoleClaims_Id_seq", 1000);
+            migrationBuilder.RestartSequence("MileStones_Id_seq", 1000);
             migrationBuilder.RestartSequence("Permissions_Id_seq", 1000);
             migrationBuilder.RestartSequence("Tags_Id_seq", 1000);
             migrationBuilder.RestartSequence("Tasks_Id_seq", 1000);

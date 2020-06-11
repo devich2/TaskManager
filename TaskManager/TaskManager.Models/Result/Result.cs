@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TaskManager.Models.Response
+﻿namespace TaskManager.Models.Result
 {
     public class Result
     {

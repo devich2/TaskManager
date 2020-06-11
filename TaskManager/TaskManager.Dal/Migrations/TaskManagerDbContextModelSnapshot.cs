@@ -73,22 +73,22 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 1,
                             ClaimType = "role",
-                            ClaimValue = "Admin_1",
+                            ClaimValue = "Maintainer_20",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             ClaimType = "role",
-                            ClaimValue = "Guest_1",
-                            UserId = 1
+                            ClaimValue = "Owner_20",
+                            UserId = 2
                         },
                         new
                         {
                             Id = 3,
                             ClaimType = "role",
-                            ClaimValue = "Maintainer_1",
-                            UserId = 1
+                            ClaimValue = "Developer_20",
+                            UserId = 3
                         });
                 });
 
@@ -331,6 +331,31 @@ namespace TaskManager.Dal.Migrations
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@olegka"
+                        });
+                });
+
+            modelBuilder.Entity("TaskManager.Entities.Tables.MileStone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("UnitId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitId")
+                        .IsUnique();
+
+                    b.ToTable("MileStones");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            UnitId = 50
                         });
                 });
 
@@ -634,12 +659,7 @@ namespace TaskManager.Dal.Migrations
                     b.Property<int>("Members")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProjectManagerId")
-                        .HasColumnType("integer");
-
                     b.HasKey("UnitId");
-
-                    b.HasIndex("ProjectManagerId");
 
                     b.ToTable("Projects");
 
@@ -647,8 +667,7 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             UnitId = 20,
-                            Members = 1,
-                            ProjectManagerId = 1
+                            Members = 1
                         });
                 });
 
@@ -801,20 +820,19 @@ namespace TaskManager.Dal.Migrations
                     b.Property<int?>("AssignedId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UnitId")
+                    b.Property<int?>("MileStoneId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UnitId1")
+                    b.Property<int>("UnitId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssignedId");
 
-                    b.HasIndex("UnitId")
-                        .IsUnique();
+                    b.HasIndex("MileStoneId");
 
-                    b.HasIndex("UnitId1")
+                    b.HasIndex("UnitId")
                         .IsUnique();
 
                     b.ToTable("Tasks");
@@ -841,12 +859,14 @@ namespace TaskManager.Dal.Migrations
                         {
                             Id = 4,
                             AssignedId = 2,
+                            MileStoneId = 1,
                             UnitId = 4
                         },
                         new
                         {
                             Id = 5,
                             AssignedId = 2,
+                            MileStoneId = 1,
                             UnitId = 5
                         });
                 });
@@ -874,73 +894,79 @@ namespace TaskManager.Dal.Migrations
                         {
                             UnitId = 1,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 698, DateTimeKind.Unspecified).AddTicks(5089), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 714, DateTimeKind.Unspecified).AddTicks(3361), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Open
                         },
                         new
                         {
                             UnitId = 2,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1336), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(488), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 3,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1420), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(578), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 4,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1432), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(589), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 5,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1439), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(596), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Closed
                         },
                         new
                         {
                             UnitId = 20,
                             DueTs = new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1450), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(608), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 25,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1456), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(617), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 26,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1463), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(624), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Closed
                         },
                         new
                         {
                             UnitId = 40,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1469), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(630), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 41,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1476), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(638), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 42,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 9, 16, 43, 34, 701, DateTimeKind.Unspecified).AddTicks(1483), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(644), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
+                        },
+                        new
+                        {
+                            UnitId = 50,
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 14, 48, 6, 717, DateTimeKind.Unspecified).AddTicks(651), new TimeSpan(0, 3, 0, 0, 0)),
+                            Status = Status.InProgress
                         });
                 });
 
@@ -965,9 +991,6 @@ namespace TaskManager.Dal.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("ProjectUnitId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("UnitParentId")
                         .HasColumnType("integer");
 
@@ -977,8 +1000,6 @@ namespace TaskManager.Dal.Migrations
                     b.HasKey("UnitId");
 
                     b.HasIndex("CreatorId");
-
-                    b.HasIndex("ProjectUnitId");
 
                     b.HasIndex("UnitParentId");
 
@@ -1038,7 +1059,7 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             UnitId = 20,
-                            CreatorId = 3,
+                            CreatorId = 1,
                             Description = "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.",
                             Key = new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca"),
                             Name = "TaskManager",
@@ -1088,6 +1109,15 @@ namespace TaskManager.Dal.Migrations
                             Name = "Ok",
                             UnitParentId = 5,
                             UnitType = UnitType.Comment
+                        },
+                        new
+                        {
+                            UnitId = 50,
+                            CreatorId = 1,
+                            Key = new Guid("2e5bc155-4842-4bf3-94de-36194204d917"),
+                            Name = "MileStone1",
+                            UnitParentId = 20,
+                            UnitType = UnitType.Milestone
                         });
                 });
 
@@ -1142,6 +1172,15 @@ namespace TaskManager.Dal.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TaskManager.Entities.Tables.MileStone", b =>
+                {
+                    b.HasOne("TaskManager.Entities.Tables.Unit", "Unit")
+                        .WithOne("MileStone")
+                        .HasForeignKey("TaskManager.Entities.Tables.MileStone", "UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TaskManager.Entities.Tables.Permission", b =>
                 {
                     b.HasOne("TaskManager.Entities.Tables.Identity.Role", "Role")
@@ -1153,14 +1192,8 @@ namespace TaskManager.Dal.Migrations
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Project", b =>
                 {
-                    b.HasOne("TaskManager.Entities.Tables.Identity.User", "ProjectManager")
-                        .WithMany()
-                        .HasForeignKey("ProjectManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskManager.Entities.Tables.Unit", "Unit")
-                        .WithOne()
+                        .WithOne("Project")
                         .HasForeignKey("TaskManager.Entities.Tables.Project", "UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1187,15 +1220,15 @@ namespace TaskManager.Dal.Migrations
                         .WithMany()
                         .HasForeignKey("AssignedId");
 
+                    b.HasOne("TaskManager.Entities.Tables.MileStone", "MileStone")
+                        .WithMany("Tasks")
+                        .HasForeignKey("MileStoneId");
+
                     b.HasOne("TaskManager.Entities.Tables.Unit", "Unit")
-                        .WithOne()
+                        .WithOne("Task")
                         .HasForeignKey("TaskManager.Entities.Tables.Task", "UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("TaskManager.Entities.Tables.Unit", null)
-                        .WithOne("Task")
-                        .HasForeignKey("TaskManager.Entities.Tables.Task", "UnitId1");
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.TermInfo", b =>
@@ -1215,13 +1248,10 @@ namespace TaskManager.Dal.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Entities.Tables.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectUnitId");
-
                     b.HasOne("TaskManager.Entities.Tables.Unit", "UnitParent")
                         .WithMany("Children")
-                        .HasForeignKey("UnitParentId");
+                        .HasForeignKey("UnitParentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

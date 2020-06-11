@@ -37,19 +37,6 @@ namespace TaskManager.Dal.Impl.ImplRepository
                     .Include(x => x.TermInfo);
             }
 
-            switch (type)
-            {
-                case UnitType.Project:
-                    entityQuery = entityQuery.Include(x => x.Project);
-                    break;
-                case UnitType.Task:
-                    entityQuery = entityQuery.Include(x => x.Task);
-                    break;
-                default:
-                    entityQuery = entityQuery.Include(x=>x.Children).ThenInclude(x=>x.TermInfo);
-                    break;
-            }
-
             if (entityQuery == null)
                 return null;
 
@@ -98,19 +85,37 @@ namespace TaskManager.Dal.Impl.ImplRepository
             return await query;
         }
 
-        public async Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByType(UnitType unitType,
-            IQueryable<int> unitFilterQuery)
+        public override async Task<List<Unit>> GetByAsync(Expression<Func<Unit, bool>> predicate)
+        {
+            return await Context.Units.Include(x => x.TermInfo).Where(predicate).ToListAsync();
+        }
+
+        public async Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByTypeAndParent(UnitType unitType,
+            int? unitParentId)
         {
             IQueryable<Unit> entityQuery = Context.Units.Include(x => x.TermInfo).Where(x => x.UnitType == unitType);
-            if (unitFilterQuery != null)
+            if (unitParentId.HasValue)
             {
-                entityQuery = entityQuery
-                    .Where(x => unitFilterQuery.Contains(x.UnitId));
+                entityQuery = entityQuery.Where(x => x.UnitParentId == unitParentId.Value);
             }
 
             return await entityQuery
                 .GroupBy(x => x.TermInfo.Status)
                 .ToDictionaryAsync(x => x.Key, x => x.ToList());
+        }
+        
+        public async Task<Dictionary<Status, int>> GetUnitStatusCountByTypeAndParent(UnitType unitType,
+            int? unitParentId)
+        {
+            IQueryable<Unit> entityQuery = Context.Units.Include(x => x.TermInfo).Where(x => x.UnitType == unitType);
+            if (unitParentId.HasValue)
+            {
+                entityQuery = entityQuery.Where(x => x.UnitParentId == unitParentId.Value);
+            }
+
+            return await entityQuery
+                .GroupBy(x => x.TermInfo.Status)
+                .ToDictionaryAsync(x => x.Key, x => x.Count());
         }
     }
 }

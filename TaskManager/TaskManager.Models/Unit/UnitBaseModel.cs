@@ -1,9 +1,13 @@
-﻿namespace TaskManager.Models.Unit
+﻿using Newtonsoft.Json.Linq;
+using TaskManager.Entities.Enum;
+
+namespace TaskManager.Models.Unit
 {
-    public class UnitAuthModel
+    public class UnitBaseModel
     {
-        public int ProjectId{get;set;}
-        
-        public ModelState ProcessToState { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public JObject Data { get; set; }
+        public UnitType ExtendedType { get; set; }
     }
 }

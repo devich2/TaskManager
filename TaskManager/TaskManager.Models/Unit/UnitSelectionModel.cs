@@ -7,9 +7,9 @@ using TaskManager.Models.User;
 
 namespace TaskManager.Models.Unit
 {
-    public class UnitSelectionModel: UnitStateModel
+    public class UnitSelectionModel: UnitBaseModel
     {
-        public int UnitId { get; set; }
+        public int UnitId {get;set;}
         public TermInfoSelectionModel TermInfo { get; set; }
         public UserModel Creator { get; set; }
     }

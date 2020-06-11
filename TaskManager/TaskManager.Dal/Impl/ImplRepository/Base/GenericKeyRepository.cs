@@ -84,5 +84,10 @@ namespace TaskManager.Dal.Impl.ImplRepository.Base
             return await Context.Set<TEntity>().Where(predicate)
                 .Skip(startIndex).Take(count).ToListAsync();
         }
+        public virtual async Task<bool> IsExisting(TKey id)
+        {
+            TEntity res = await GetByIdAsync(id);
+            return res != null;
+        }
     }
 }

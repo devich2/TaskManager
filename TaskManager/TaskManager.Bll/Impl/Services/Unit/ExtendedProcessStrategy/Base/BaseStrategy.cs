@@ -11,7 +11,7 @@ using TaskManager.Dal.Impl;
 using TaskManager.Dal.Impl.ImplRepository;
 using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables.Abstract;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 using TaskManager.Models.Unit;
 
 namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
@@ -110,19 +110,19 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
             };
         }
 
-        protected virtual async Task CreateAsync(TEntity entity, TModel model)
+        protected virtual async System.Threading.Tasks.Task CreateAsync(TEntity entity, TModel model)
         {
             await _currentRepository.AddAsync(entity);
             await _currentRepository.SaveChangesAsync();
         }
 
-        protected virtual async Task UpdateAsync(TEntity entity)
+        protected virtual async System.Threading.Tasks.Task UpdateAsync(TEntity entity)
         {
             await _currentRepository.UpdateAsync(entity);
             await _currentRepository.SaveChangesAsync();
         }
 
-        protected virtual async Task DeleteAsync(TEntity entity)
+        protected virtual async System.Threading.Tasks.Task DeleteAsync(TEntity entity)
         {
             await _currentRepository.DeleteAsync(entity);
             await _currentRepository.SaveChangesAsync();

@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using TaskManager.Entities.Enum;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 using TaskManager.Models.Unit;
 
 namespace TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base

@@ -8,17 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TaskManager.Bll.Abstract.MileStone;
+using TaskManager.Bll.Abstract.Project;
+using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Bll.Abstract.Task;
 using TaskManager.Bll.Abstract.Unit;
 using TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base;
-using TaskManager.Bll.Abstract.User;
 using TaskManager.Dal.Abstract;
+using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Dal.Abstract.IRepository.FiltersAndSorting;
 using TaskManager.Entities.Enum;
 using TaskManager.Models;
 using TaskManager.Models.MileStone;
 using TaskManager.Models.Project;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 using TaskManager.Models.Task;
 using TaskManager.Models.Unit;
 using TaskManager.Models.User;
@@ -29,7 +32,10 @@ namespace TaskManager.Bll.Impl.Services.Unit
     {
         private readonly IUnitExtendedStrategyFactory _unitExtendedStrategyFactory;
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
+        private readonly IProjectMemberService _projectMemberService;
+        private readonly ITaskService _taskService;
+        private readonly IProjectService _projectService;
+        private readonly IMileStoneService _mileStoneService;
         private readonly IFiltersQueryFactory _filtersQueryFactory;
         private readonly IOrderQueryFactory _orderQueryFactory;
         private readonly IUnitOfWork _unitOfWork;
@@ -38,8 +44,10 @@ namespace TaskManager.Bll.Impl.Services.Unit
         // ReSharper disable once UnusedParameter.Local
         public UnitSelectionService(IUnitExtendedStrategyFactory unitExtendedStrategyFactory,
             IMapper mapper,
-            IUserService userService,
+            IProjectMemberService projectMemberService,
             ITaskService taskService,
+            IProjectService projectService,
+            IMileStoneService mileStoneService,
             IFiltersQueryFactory filtersQueryFactory,
             IOrderQueryFactory orderQueryFactory,
             IUnitOfWork unitOfWork,
@@ -47,7 +55,10 @@ namespace TaskManager.Bll.Impl.Services.Unit
         {
             _unitExtendedStrategyFactory = unitExtendedStrategyFactory;
             _mapper = mapper;
-            _userService = userService;
+            _projectMemberService = projectMemberService;
+            _taskService = taskService;
+            _projectService = projectService;
+            _mileStoneService = mileStoneService;
             _filtersQueryFactory = filtersQueryFactory;
             _orderQueryFactory = orderQueryFactory;
             _unitOfWork = unitOfWork;
@@ -86,8 +97,8 @@ namespace TaskManager.Bll.Impl.Services.Unit
             foreach (var item in selectionResult)
             {
                 UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
-                model.Creator = (await _userService.GetUser(item.CreatorId, options.ProjectId)).Data;
-                model.Data = await GetRelatedPreviewData(item, options.UserId);
+                model.Data = await GetRelatedPreviewData(item);
+                model.Creator = (await _projectMemberService.GetUserInfo(item.CreatorId, item.UnitParentId.Value)).Data;
                 result.Add(model);
             }
 
@@ -108,33 +119,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
 
             return methodResult;
         }
-
-        public async Task<DataResult<int>> GetFilteredCountByType(UnitType type, FilterOptions filterOptions)
-        {
-            IQueryable<int> filters = null;
-            if (filterOptions != null && filterOptions.Filters.Any())
-            {
-                filters = filterOptions.Filters
-                    .Select(x => _filtersQueryFactory.GetFilterQuery(type, x))
-                    .Aggregate((prev, cur) => prev.Intersect(cur));
-            }
-
-            int count = await _unitOfWork.Units.SelectByTypeCount(type, filters);
-
-            DataResult<int> methodResult = new DataResult<int>()
-            {
-                Data = count,
-                ResponseStatusType = (count == 0)
-                    ? ResponseStatusType.Warning
-                    : ResponseStatusType.Succeed,
-                Message = (count == 0)
-                    ? ResponseMessageType.EmptyResult
-                    : ResponseMessageType.None
-            };
-
-            return methodResult;
-        }
-
+        
         public async Task<DataResult<UnitSelectionModel>> GetUnitById(int unitId)
         {
             Entities.Tables.Unit unitEntity = await _unitOfWork.Units.GetByUnitIdAsync(unitId);
@@ -173,48 +158,20 @@ namespace TaskManager.Bll.Impl.Services.Unit
             };
         }
 
-        private async Task<JObject> GetRelatedPreviewData(Entities.Tables.Unit item, int userId)
+        private async Task<JObject> GetRelatedPreviewData(Entities.Tables.Unit item)
         {
             JObject current = null;
             JsonSerializer jsonSerializer = JsonSerializer.Create(_serializerSettings);
             switch (item.UnitType)
             {
-                case UnitType.Milestone: ;
-                    int countDone = item.Children.Count(x => x.TermInfo.Status == Status.Closed);
-                    int total = item.Children.Count();
-                    MileStoneSelectionModel model = new MileStoneSelectionModel()
-                    {
-                        ClosedTasksCount = countDone,
-                        Total = total,
-                        CompletedPercentage = (decimal)countDone/total
-                    };
+                case UnitType.Milestone: 
+                    MileStoneSelectionModel model = await _mileStoneService.GetPreviewModel(item.UnitId);
                     current = JObject.FromObject(model, jsonSerializer);
                     break;
-                case UnitType.Project:
-                    int tasksCount = item.Children.Count(x => x.UnitType == UnitType.Task);
-                    UserModel userModel = (await _userService.GetUser(userId, item.Project.UnitId)).Data;
-                    ProjectPreviewModel prModel = new ProjectPreviewModel()
-                    {
-                        Role = userModel.Role,
-                        TasksCount = tasksCount,
-                        Members = item.Project.Members
-                    };
-                    current = JObject.FromObject(prModel, jsonSerializer);
-                    break;
                 case UnitType.Task:
-                    TaskPreviewModel taskModel = _mapper.Map<TaskPreviewModel>(item.Task);
-                    taskModel.Tags = await _unitOfWork.TagOnTasks.GetTagsByTaskId(item.Task.Id);
-                    taskModel.SubTasksTotal = item.Children.Count(x=>x.UnitType == UnitType.SubTask);
-                    taskModel.SubTasksCompleted = item.Children.Count(x => x.TermInfo.Status == Status.Closed);
-                    taskModel.Comments = item.Children.Count(x => x.UnitType == UnitType.Comment);
+                    TaskPreviewModel taskModel = await _taskService.GetPreviewModel(item.UnitId);
                     current = JObject.FromObject(taskModel, jsonSerializer);
                     break;
-                case UnitType.SubTask:
-                    break;
-                case UnitType.Comment:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             return current;

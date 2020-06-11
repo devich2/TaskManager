@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TaskManager.Entities.Tables;
+﻿using Newtonsoft.Json.Linq;
+using TaskManager.Entities.Enum;
 using TaskManager.Models.TermInfo;
 
 namespace TaskManager.Models.Unit
 {
-    public class UnitModel
+    public class UnitModel: UnitBaseModel, IUnitAuth
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public TermInfoCreateModel TermInfo { get; set; }
+        public int? ParentId { get; set; }
+        public ModelState ProcessToState { get; set; }
     }
 }

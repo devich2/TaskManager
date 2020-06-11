@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 using TaskManager.Models.Unit;
 
 namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
@@ -20,7 +20,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
 
         public  Task<Result> ProcessExtendedItem(JObject boxingItem, ModelState state, int contentId)
         {
-            return Task.FromResult(new Result()
+            return System.Threading.Tasks.Task.FromResult(new Result()
             {
                 Message = ResponseMessageType.None,
                 ResponseStatusType = ResponseStatusType.Succeed
@@ -29,7 +29,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
 
         public Task<DataResult<JObject>> ProcessExistingModel(Entities.Tables.Unit unit)
         {
-            return Task.FromResult(new DataResult<JObject>()
+            return System.Threading.Tasks.Task.FromResult(new DataResult<JObject>()
             {
                 Message = ResponseMessageType.None,
                 ResponseStatusType = ResponseStatusType.Succeed
@@ -38,7 +38,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
         
         public Task<bool> IsExisting(int unitId)
         {
-            return Task.FromResult(true);
+            return System.Threading.Tasks.Task.FromResult(true);
         }
     }
 }

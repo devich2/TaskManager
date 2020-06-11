@@ -18,6 +18,7 @@ namespace TaskManager.Dal.Abstract.IRepository
             IQueryable<int> unitFilterQuery,
             List<Tuple<Expression<Func<Unit, object>>, SortingType>> orderByQuery);
         Task<int> SelectByTypeCount(UnitType type, IQueryable<int> unitFilterQuery);
-        Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByType(UnitType unitType,IQueryable<int> unitFilterQuery);
+        Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByTypeAndParent(UnitType unitType,int? unitParentId);
+        Task<Dictionary<Status, int>> GetUnitStatusCountByTypeAndParent(UnitType unitType, int? unitParentId);
     }
 }

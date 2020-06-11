@@ -16,6 +16,7 @@ namespace TaskManager.Dal.Abstract
         public ITaskRepository Tasks { get; }
         public ITermInfoRepository TermInfos { get; }
         public IUnitRepository Units { get; }
+        public IMileStoneRepository MileStones {get;}
         public Task<int> SaveAsync();
     }
 }

@@ -13,6 +13,7 @@ using TaskManager.Dal.Abstract.Transactions;
 using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables;
 using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 using TaskManager.Models.Unit;
 using Task = TaskManager.Entities.Tables.Task;
 
@@ -39,12 +40,12 @@ namespace TaskManager.Bll.Impl.Services.Unit
             _logger = logger;
         }
 
-        public async Task<DataResult<UnitAddResponse>> ProcessUnitCreate(UnitCreateOrUpdateModel model)
+        public async Task<DataResult<UnitAddResponse>> ProcessUnitCreate(UnitBlModel model)
         {
             return await ProcessUnitCreateTransaction(model);
         }
 
-        public async Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdate(UnitCreateOrUpdateModel model)
+        public async Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdate(UnitBlModel model)
         {
             return await ProcessUnitUpdateTransaction(model);
         }
@@ -72,6 +73,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 if (itemToDelete != null)
                 {
                     await _unitOfWork.Units.DeleteAsync(itemToDelete);
+                    await _unitOfWork.SaveAsync();
                     return new Result
                     {
                         ResponseStatusType = ResponseStatusType.Succeed
@@ -114,16 +116,21 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 methodResult.MessageDetails = "Extended table doesnt exist";
                 return methodResult;
             }
+
             unitEntity.TermInfo.Status = model.Status;
+            await _unitOfWork.Units.UpdateAsync(unitEntity);
             await _unitOfWork.SaveAsync();
             
-            methodResult.Data.UnitState = model.Status;
             methodResult.ResponseStatusType = ResponseStatusType.Succeed;
-            methodResult.Data.UnitId = unitEntity.UnitId;
+            methodResult.Data = new UnitUpdateResponse()
+            {
+                UnitId = unitEntity.UnitId,
+                UnitState = model.Status
+            };
             return methodResult;
         }
 
-        private async Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdateTransaction(UnitCreateOrUpdateModel model)
+        private async Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdateTransaction(UnitBlModel model)
         {
             return await _transactionManager.ExecuteInTransactionAsync(async transaction =>
             {
@@ -141,8 +148,8 @@ namespace TaskManager.Bll.Impl.Services.Unit
                         };
                     }
 
-                    unitEntity.Name = model.UnitStateModel.UnitModel.Name;
-                    unitEntity.Description = model.UnitStateModel.UnitModel.Description;
+                    unitEntity.Name = model.Name;
+                    unitEntity.Description = model.Description;
 
                     var termInfo = model.TermInfo;
 
@@ -156,11 +163,11 @@ namespace TaskManager.Bll.Impl.Services.Unit
                     await _unitOfWork.SaveAsync();
 
                     IUnitExtendedStrategy strategy =
-                        _unitExtendedStrategyFactory.GetInstance(model.UnitStateModel.ExtendedType);
+                        _unitExtendedStrategyFactory.GetInstance(model.ExtendedType);
 
                     Result extendedProcessResult =
                         await strategy.ProcessExtendedItem
-                            (model.UnitStateModel.Data, ModelState.Modify, unitEntity.UnitId);
+                            (model.Data, ModelState.Modify, unitEntity.UnitId);
 
                     if (extendedProcessResult.ResponseStatusType == ResponseStatusType.Succeed)
                     {
@@ -208,33 +215,44 @@ namespace TaskManager.Bll.Impl.Services.Unit
             });
         }
 
-        private async Task<DataResult<UnitAddResponse>> ProcessUnitCreateTransaction(UnitCreateOrUpdateModel model)
+        private async Task<DataResult<UnitAddResponse>> ProcessUnitCreateTransaction(UnitBlModel model)
         {
             return await _transactionManager.ExecuteInTransactionAsync(async transaction =>
             {
                 try
                 {
                     Entities.Tables.Unit unitEntity = _mapper.Map<Entities.Tables.Unit>(model);
-
+                    unitEntity.CreatorId = model.UserId;
                     await _unitOfWork.Units.AddAsync(unitEntity);
                     await _unitOfWork.SaveAsync();
-
-                    TermInfo term = new TermInfo();
-                    if (model.TermInfo != null)
+                    
+                    if (model.TermInfo == null)
                     {
-                        term = _mapper.Map<TermInfo>(model.TermInfo);
-                        term.UnitId = unitEntity.UnitId;
-                        term.StartTs = DateTimeOffset.Now;
-                        await _unitOfWork.TermInfos.AddAsync(term);
-                        await _unitOfWork.SaveAsync();
+                        await transaction.RollbackAsync();
+                        return new DataResult<UnitAddResponse>()
+                        {
+                            Data = new UnitAddResponse()
+                            {
+                                UnitState = Status.None
+                            },
+                            Message = ResponseMessageType.TermInfoMissing,
+                            ResponseStatusType = ResponseStatusType.Error
+                        };
                     }
+                    
+                    TermInfo term = new TermInfo();
+                    term = _mapper.Map<TermInfo>(model.TermInfo);
+                    term.UnitId = unitEntity.UnitId;
+                    term.StartTs = DateTimeOffset.Now;
+                    await _unitOfWork.TermInfos.AddAsync(term);
+                    await _unitOfWork.SaveAsync();
 
                     IUnitExtendedStrategy strategy =
-                        _unitExtendedStrategyFactory.GetInstance(model.UnitStateModel.ExtendedType);
+                        _unitExtendedStrategyFactory.GetInstance(model.ExtendedType);
 
                     Result extendedProcessResult =
                         await strategy.ProcessExtendedItem
-                            (model.UnitStateModel.Data, ModelState.Add, unitEntity.UnitId);
+                            (model.Data, ModelState.Add, unitEntity.UnitId);
 
                     if (extendedProcessResult.ResponseStatusType == ResponseStatusType.Succeed)
                     {

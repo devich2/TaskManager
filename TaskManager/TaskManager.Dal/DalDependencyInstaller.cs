@@ -6,9 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Dal.Abstract;
 using TaskManager.Dal.Abstract.IRepository;
+using TaskManager.Dal.Abstract.IRepository.FiltersAndSorting;
 using TaskManager.Dal.Abstract.Transactions;
 using TaskManager.Dal.Impl;
 using TaskManager.Dal.Impl.ImplRepository;
+using TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting;
 using TaskManager.Dal.Impl.Transactions;
 
 namespace TaskManager.Dal
@@ -30,19 +32,22 @@ namespace TaskManager.Dal
                         p.MigrationsAssembly("TaskManager.Dal");
                     });
             });
-
-            // services.AddScoped<IUnitOfWork, UnitOfWork>();
-            // services.AddScoped<ITransactionManager, DbTransactionManager>();
-            //
-            // services.AddTransient<IPermissionRepository, PermissionRepository>();
-            // services.AddTransient<IProjectRepository, ProjectRepository>();
-            // services.AddTransient<IProjectMemberRepository, ProjectMemberRepository>();
-            // services.AddTransient<IRelationShipRepository, RelationShipRepository>();
-            // services.AddTransient<ITagOnTaskRepository, TagOnTaskRepository>();
-            // services.AddTransient<ITagRepository, TagRepository>();
-            // services.AddTransient<ITaskRepository, TaskRepository>();
-            // services.AddTransient<ITermInfoRepository, TermInfoRepository>();
-            // services.AddTransient<IUnitRepository, UnitRepository>();
+            
+            
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<ITagOnTaskRepository, TagOnTaskRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<ITermInfoRepository, TermInfoRepository>();
+            services.AddTransient<IUnitRepository, UnitRepository>();
+            services.AddTransient<IMileStoneRepository, MileStoneRepository>();
+            
+            //Other dependencies
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITransactionManager, DbTransactionManager>();
+            services.AddTransient<IFiltersQueryFactory, FilterQueryFactory>();
+            services.AddTransient<IOrderQueryFactory, OrderQueryFactory>();
         }
     }
 }

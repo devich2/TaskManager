@@ -32,10 +32,10 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
             _userManager = userManager;
         }
 
-        protected override async Task CreateAsync(Entities.Tables.Project entity, ProjectCreateOrUpdateModel model)
+        protected override async System.Threading.Tasks.Task CreateAsync(Entities.Tables.Project entity, ProjectCreateOrUpdateModel model)
         {
             await base.CreateAsync(entity, model);
-            var user = await _userManager.FindByIdAsync(entity.ProjectManagerId.ToString());
+            var user = await _userManager.FindByIdAsync(model.ProjectManagerId.ToString());
             await _userManager.AddClaimAsync(user, new Claim("role", $"Owner_{entity.UnitId}"));
         }
     }

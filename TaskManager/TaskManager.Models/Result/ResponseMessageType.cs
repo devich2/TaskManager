@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using TaskManager.Models.Attributes;
+﻿using TaskManager.Models.Attributes;
 
-namespace TaskManager.Models.Response
+namespace TaskManager.Models.Result
 {
     public enum ResponseMessageType
     {
@@ -30,5 +26,9 @@ namespace TaskManager.Models.Response
         ParentIdIsMissing,
         [HttpStatus(500)]
         MailServiceError,
+        [HttpStatus(400)]
+        OperationNotAllowedForUnitType,
+        [HttpStatus(400)]
+        TermInfoMissing
     }
 }

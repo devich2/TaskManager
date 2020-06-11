@@ -8,7 +8,7 @@ namespace TaskManager.Models.Project
 {
     public class ProjectDetailsModel: ProjectPreviewModel
     {
+        public int MileStoneCount {get; set;}
         public Dictionary<Status, int> TaskStatusList { get; set; }
-        public List<TaskDetailsModel> Tasks { get; set; }
     }
 }

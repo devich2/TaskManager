@@ -77,7 +77,7 @@ namespace TaskManager.Seed
                     Name = "TaskManager",
                     Description = "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.",
                     UnitType = UnitType.Project,
-                    CreatorId = 3,
+                    CreatorId = 1,
                     Key = new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca")
                 },
 
@@ -139,6 +139,21 @@ namespace TaskManager.Seed
                     CreatorId = 1,
                     Key = new Guid("2e5bc155-4842-4bf3-94de-36199204d917")
                 },
+                #endregion
+
+                #region MileStones
+
+                new Unit()
+                {
+                    UnitId = 50,
+                    UnitParentId = 20,
+                    Name = "MileStone1",
+                    Description = null,
+                    UnitType = UnitType.Milestone,
+                    CreatorId = 1,
+                    Key = new Guid("2e5bc155-4842-4bf3-94de-36194204d917")
+                },
+
                 #endregion
             };
         }
@@ -229,12 +244,14 @@ namespace TaskManager.Seed
                 {
                     Id = 4,
                     AssignedId = 2,
+                    MileStoneId = 1,
                     UnitId = 4
                 },
                 new Task()
                 {
                     Id = 5,
                     AssignedId = 2,
+                    MileStoneId = 1,
                     UnitId = 5
                 }
             };
@@ -326,6 +343,13 @@ namespace TaskManager.Seed
                     DueTs = null,
                     Status = Status.None
                 },
+                new TermInfo()
+                {
+                    UnitId = 50,
+                    StartTs = DateTimeOffset.Now,
+                    DueTs = null,
+                    Status = Status.InProgress
+                },
             };
         }
         public List<TagOnTask> GeTagOnTasks()
@@ -408,7 +432,6 @@ namespace TaskManager.Seed
             {
                 new Project()
                 {
-                    ProjectManagerId = 1,
                     UnitId = 20,
                     Members = 1
                 }
@@ -416,5 +439,20 @@ namespace TaskManager.Seed
         }
         #endregion
 
+        #region MileStones
+
+        public List<MileStone> GetMileStones()
+        {
+            return new List<MileStone>()
+            {
+                new MileStone()
+                {
+                    Id = 1,
+                    UnitId = 50
+                }
+            };
+        }
+
+        #endregion
     }
 }
