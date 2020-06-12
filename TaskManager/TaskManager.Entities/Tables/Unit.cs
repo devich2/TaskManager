@@ -23,6 +23,7 @@ namespace TaskManager.Entities.Tables
         public Project Project { get; set; }
         
         public MileStone MileStone {get; set;}
+        [AllowNull]
         public int? UnitParentId {get; set;}
         public Unit UnitParent {get;set;}
         public ICollection<Unit> Children { get; set; }

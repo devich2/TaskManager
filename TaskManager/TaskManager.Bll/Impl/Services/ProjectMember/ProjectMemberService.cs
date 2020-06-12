@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using TaskManager.Bll.Abstract.ProjectMember;
+using TaskManager.Common.Utils;
 using TaskManager.Dal.Abstract;
 using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models.Result;
@@ -34,7 +35,6 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
         {
             Entities.Tables.Identity.User user =
                 await _userManager.FindByIdAsync(userId.ToString());
-            
             if (user == null)
             {
                 return new DataResult<UserModel>()
@@ -48,9 +48,9 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             
             var claims = await _userManager.GetClaimsAsync(user);
             string[] userRoles = (from c in claims
-                                    let arr = c.Value.Split("_", StringSplitOptions.RemoveEmptyEntries)
-                                    where int.Parse(arr[1]) == projectId
-                                    select arr[0]).ToArray();
+                                    let pr = c.UnpackRole()
+                                    where pr.Item1 == projectId
+                                    select pr.Item2).ToArray();
                 
             List<Role> rawRoles = _roleManager.Roles.Where(x=>userRoles.Contains(x.Name)).ToList();
             model.Role = rawRoles.OrderByDescending(i => i.Rank).FirstOrDefault()?.Name;
@@ -59,6 +59,16 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                 ResponseStatusType = ResponseStatusType.Succeed,
                 Data = model
             };
+        }
+        
+        public async Task<bool> IsProjectMember(int projectId, int userId)
+        {
+            Entities.Tables.Identity.User user =
+                await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                return false;
+            var claims = await _userManager.GetClaimsAsync(user);
+            return claims.Any(c=>c.UnpackRole().Item1 == projectId);
         }
     }
 }

@@ -29,6 +29,8 @@ namespace TaskManager.Models.Result
         [HttpStatus(400)]
         OperationNotAllowedForUnitType,
         [HttpStatus(400)]
-        TermInfoMissing
+        TermInfoMissing,
+        [HttpStatus(400)]
+        UnitAccessDenied
     }
 }

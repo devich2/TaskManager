@@ -8,7 +8,7 @@ namespace TaskManager.Bll.Impl.Mappers
     {
         public UserProfile()
         {
-            CreateMap<User, UserModel>()
+            CreateMap<User, UserBaseModel>()
                 .ForMember(x => x.Id, opt =>
                     opt.MapFrom(src => src.Id))
                 .ForMember(x => x.Name, opt =>
@@ -17,6 +17,9 @@ namespace TaskManager.Bll.Impl.Mappers
                     opt.MapFrom(src => src.Email))
                 .ForMember(x => x.UserName, opt =>
                     opt.MapFrom(src => src.UserName))
+                .ForAllOtherMembers(opt => opt.AllowNull());
+
+            CreateMap<User, UserModel>().IncludeBase<User, UserBaseModel>()
                 .ForAllOtherMembers(opt => opt.AllowNull());
         }
     }

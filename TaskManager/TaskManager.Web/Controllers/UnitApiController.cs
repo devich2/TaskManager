@@ -15,7 +15,7 @@ using TaskManager.Web.Infrastructure.Extension;
 
 namespace TaskManager.Web.Controllers
 {
-    [Route("api/Unit")]
+    [Route("api/{projectId}/unit/")]
     [ApiController]
     public class UnitApiController : ControllerBase
     {
@@ -33,7 +33,6 @@ namespace TaskManager.Web.Controllers
         }
         
         [HttpGet]
-        [Route("{projectId}")]
         public async Task<DataResult<List<UnitSelectionModel>>> Get
             (int projectId, UnitType unitType, int? startIndex, int? count, string sortingQuery, string filterQuery)
         {
@@ -106,7 +105,7 @@ namespace TaskManager.Web.Controllers
         }
         
         [HttpPost]
-        public async Task<DataResult<UnitAddResponse>> Post([FromBody] UnitModel model)
+        public async Task<DataResult<UnitAddResponse>> Post(int projectId, [FromBody] UnitModel model)
         {
             int userId = User.GetUserId();
             
@@ -127,10 +126,10 @@ namespace TaskManager.Web.Controllers
         
         [HttpPut]
         [Route("{id}")]
-        public async Task<DataResult<UnitUpdateResponse>> Put([FromRoute] int id,
+        public async Task<DataResult<UnitUpdateResponse>> Put(int projectId, int id,
             [FromBody] UnitModel model)
         {
-            int userId = 1;
+            int userId = User.GetUserId();
             UnitBlModel blModel = _mapper.Map<UnitBlModel>(model);
             blModel.UnitId = id;
             blModel.UserId = userId;
@@ -140,7 +139,7 @@ namespace TaskManager.Web.Controllers
         
         [HttpPut]
         [Route("{id}/state/{newStatus}")]
-        public async Task<DataResult<UnitUpdateResponse>> Put([FromRoute] int id, [FromRoute] Status newStatus)
+        public async Task<DataResult<UnitUpdateResponse>> Put(int projectId, int id, [FromRoute] Status newStatus)
         {
             int userId = User.GetUserId();
 
@@ -156,7 +155,7 @@ namespace TaskManager.Web.Controllers
         
         [HttpDelete]
         [Route("{id}")]
-        public async Task<Result> Delete([FromRoute] int id)
+        public async Task<Result> Delete(int projectId, int id)
         {
             return await _editService.ProcessUnitDelete(id);
         }

@@ -98,7 +98,6 @@ namespace TaskManager.Bll.Impl.Services.Unit
             {
                 UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
                 model.Data = await GetRelatedPreviewData(item);
-                model.Creator = (await _projectMemberService.GetUserInfo(item.CreatorId, item.UnitParentId.Value)).Data;
                 result.Add(model);
             }
 
@@ -165,11 +164,11 @@ namespace TaskManager.Bll.Impl.Services.Unit
             switch (item.UnitType)
             {
                 case UnitType.Milestone: 
-                    MileStoneSelectionModel model = await _mileStoneService.GetPreviewModel(item.UnitId);
+                    MileStoneSelectionModel model = await _mileStoneService.GetPreviewModel(item);
                     current = JObject.FromObject(model, jsonSerializer);
                     break;
                 case UnitType.Task:
-                    TaskPreviewModel taskModel = await _taskService.GetPreviewModel(item.UnitId);
+                    TaskPreviewModel taskModel = await _taskService.GetPreviewModel(item);
                     current = JObject.FromObject(taskModel, jsonSerializer);
                     break;
             }

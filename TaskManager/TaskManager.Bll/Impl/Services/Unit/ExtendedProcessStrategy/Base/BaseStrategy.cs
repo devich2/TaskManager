@@ -66,7 +66,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base
         }
         public virtual async Task<bool> IsExisting(int unitId)
         {
-            TEntity  res = await _currentRepository.GetByUnitIdAsync(unitId);
+            TEntity  res = await _currentRepository.FirstOrDefaultAsync(x=>x.UnitId == unitId);
             return res != null;
         }
         

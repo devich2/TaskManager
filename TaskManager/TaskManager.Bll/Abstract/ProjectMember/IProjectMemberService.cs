@@ -7,5 +7,6 @@ namespace TaskManager.Bll.Abstract.ProjectMember
     public interface IProjectMemberService
     {
         Task<DataResult<UserModel>> GetUserInfo(int userId, int projectId);
+        Task<bool> IsProjectMember(int projectId, int userId);
     }
 }

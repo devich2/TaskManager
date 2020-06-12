@@ -20,7 +20,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
 
         public async Task AddToTags(int taskId, List<string> tags)
         {    
-            if(tags != null)
+            if(tags != null && tags.Any())
             {
                 foreach (var tag in tags)
                 {
@@ -37,7 +37,25 @@ namespace TaskManager.Dal.Impl.ImplRepository
                 }
             }
         }
-
+        public async Task RemoveTags(int taskId, List<string> tags)
+        {    
+            if(tags != null && tags.Any())
+            {
+                foreach (var tag in tags)
+                {
+                    Tag entity = await Context.Tags
+                        .FirstOrDefaultAsync(x => x.TextValue == tag);
+                    if (entity != null)
+                    {
+                        Context.TagOnTasks.Remove(new TagOnTask()
+                        {
+                            TaskId = taskId,
+                            TagId = entity.Id
+                        });
+                    }
+                }
+            }
+        }
         public async Task<List<string>> GetTagsByTaskId(int taskId)
         {
             return await Context.TagOnTasks

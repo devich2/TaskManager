@@ -18,6 +18,7 @@ namespace TaskManager.Bll.Impl.Mappers
                 .ForMember(x=>x.MileStoneId, opt=>
                     opt.MapFrom(src=>src.MileStoneId));
           
+            CreateMap<TaskPreviewModel, TaskDetailsModel>();
         }
     }
 }

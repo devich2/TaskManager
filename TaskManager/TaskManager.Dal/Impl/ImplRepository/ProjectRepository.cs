@@ -17,10 +17,11 @@ namespace TaskManager.Dal.Impl.ImplRepository
         public ProjectRepository(TaskManagerDbContext context) : base(context)
         {
         }
+
         public override async Task<Project> GetByUnitIdAsync(int id)
         {
             var query = Context.Set<Project>().AsNoTracking().Where(x => x.UnitId == id)
-                .Include(x => x.Unit).ThenInclude(x=>x.TermInfo).FirstAsync();
+                .Include(x => x.Unit).ThenInclude(x => x.TermInfo).FirstOrDefaultAsync();
             return await query;
         }
     }

@@ -11,6 +11,6 @@ namespace TaskManager.Models.Unit
     {
         public int UnitId {get;set;}
         public TermInfoSelectionModel TermInfo { get; set; }
-        public UserModel Creator { get; set; }
+        public UserBaseModel Creator { get; set; }
     }
 }

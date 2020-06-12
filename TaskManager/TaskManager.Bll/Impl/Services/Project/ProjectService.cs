@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TaskManager.Bll.Abstract.Project;
 using TaskManager.Bll.Abstract.ProjectMember;
@@ -24,21 +27,26 @@ namespace TaskManager.Bll.Impl.Services.Project
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProjectMemberService _projectMemberService;
+        private readonly JsonSerializerSettings _serializerSettings;
 
         public ProjectService(IMapper mapper,
             IUnitOfWork unitOfWork,
-            IProjectMemberService projectMemberService)
+            IProjectMemberService projectMemberService,
+            IOptions<MvcNewtonsoftJsonOptions> jsonOptions)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _projectMemberService = projectMemberService;
+            _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
 
         public async Task<DataResult<UnitSelectionModel>> GetProjectDetails(int unitId,
             int userId)
         {
-            Entities.Tables.Project entityProject = await _unitOfWork.Projects.GetByUnitIdAsync(unitId);
-            if (entityProject == null)
+            Entities.Tables.Unit unit =
+                await _unitOfWork.Units.SelectExpandedByUnitIdAndType(UnitType.Project, unitId);
+            
+            if (unit == null)
             {
                 return new DataResult<UnitSelectionModel>()
                 {
@@ -48,40 +56,35 @@ namespace TaskManager.Bll.Impl.Services.Project
                 };
             }
 
-            UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(entityProject.Unit);
-            model.Creator = _mapper.Map<UserModel>(
-                (await _projectMemberService.GetUserInfo(entityProject.Unit.CreatorId, unitId)).Data);
+            UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(unit);
 
-            ProjectPreviewModel previewModel = await GetPreviewModel(unitId, userId);
+            ProjectPreviewModel previewModel = await GetPreviewModel(unit, userId);
             ProjectDetailsModel projectModel = _mapper.Map<ProjectDetailsModel>(previewModel);
-            projectModel.TaskStatusList =
-                await _unitOfWork.Units.GetUnitStatusCountByTypeAndParent(UnitType.Task, unitId);
-            projectModel.MileStoneCount =
-                await _unitOfWork.Units.GetCountAsync(x =>
-                    x.UnitType == UnitType.Milestone && x.UnitParentId == unitId);
 
-            model.Data = JObject.FromObject(projectModel);
+            projectModel.TaskStatusList = unit.Children
+                .GroupBy(x => x.TermInfo.Status, x => x)
+                    .ToDictionary(x => x.Key, x => x.Count());
+                    
+            projectModel.MileStoneCount = unit.Children.Count(x => x.UnitType == UnitType.Milestone);
+
+            model.Data = JObject.FromObject(projectModel, JsonSerializer.Create(_serializerSettings));
             return new DataResult<UnitSelectionModel>()
             {
                 Data = model,
                 ResponseStatusType = ResponseStatusType.Succeed
             };
         }
-        
-        public async Task<ProjectPreviewModel> GetPreviewModel(int unitId, int userId)
+
+        public async Task<ProjectPreviewModel> GetPreviewModel(Entities.Tables.Unit unit, int userId)
         {
-            int tasksCount =
-                await _unitOfWork.Units.GetCountAsync(x => x.UnitParentId == unitId && x.UnitType == UnitType.Task);
-
-            UserModel userModel = (await _projectMemberService.GetUserInfo(userId, unitId)).Data;
-
-            Entities.Tables.Project project = await _unitOfWork.Projects.GetByUnitIdAsync(unitId);
+            UserModel userModel = (await _projectMemberService.GetUserInfo(userId, unit.UnitId)).Data;
+            int tasksCount = unit.Children.Count;
 
             return new ProjectPreviewModel()
             {
                 Role = userModel.Role,
                 TasksCount = tasksCount,
-                Members = project.Members
+                Members = unit.Project.Members
             };
         }
     }

@@ -12,5 +12,6 @@ namespace TaskManager.Dal.Abstract.IRepository
     {
         public Task AddToTags(int taskId, List<String> tags);
         public Task<List<string>> GetTagsByTaskId(int taskId);
+       public Task RemoveTags(int taskId, List<string> tags);
     }
 }

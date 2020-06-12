@@ -1,68 +1,89 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using TaskManager.Bll.Abstract.Tag;
 using TaskManager.Dal.Abstract;
 using TaskManager.Entities.Tables;
 using TaskManager.Models.Result;
+using TaskManager.Models.Tag;
 
 namespace TaskManager.Bll.Impl.Services.Tag
 {
     public class TagService : ITagService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TagService(IUnitOfWork unitOfWork)
+        public TagService(IUnitOfWork unitOfWork,
+        IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async System.Threading.Tasks.Task<Result> AddTag(int taskId, int tagId)
+        public async Task<Result> UpdateTags(TagUpdateModel model)
         {
             Result result = new Result();
-            if (!await _unitOfWork.Tasks.IsExisting(taskId))
+            if (!await _unitOfWork.Tasks.IsExisting(model.TaskId))
             {
                 result.ResponseStatusType = ResponseStatusType.Error;
                 result.Message = ResponseMessageType.InvalidId;
-                result.MessageDetails = $"Task with id-{taskId} not found";
-            }
-            else if (!await _unitOfWork.Tags.IsExisting(tagId))
-            {
-                result.ResponseStatusType = ResponseStatusType.Error;
-                result.Message = ResponseMessageType.InvalidId;
-                result.MessageDetails = $"Tag with id-{tagId} not found";
+                result.MessageDetails = $"Task with id-{model.TaskId} not found";
             }
             else
             {
-                await _unitOfWork.TagOnTasks.AddAsync(new TagOnTask()
-                {
-                    TagId = tagId,
-                    TaskId = taskId
-                });
+                List<string> tags = await _unitOfWork.TagOnTasks.GetTagsByTaskId(model.TaskId);
+                List<string> tagsToRemove = tags.Except(model.Tags).ToList();
+                List<string> tagsToAdd = model.Tags.Except(tags).ToList();
+                
+                if(tagsToRemove.Any())
+                    await _unitOfWork.TagOnTasks.RemoveTags(model.TaskId, tagsToRemove);
+                if(tagsToAdd.Any())
+                    await _unitOfWork.TagOnTasks.AddToTags(model.TaskId, tagsToAdd);
+                
                 await _unitOfWork.SaveAsync();
-
                 result.ResponseStatusType = ResponseStatusType.Succeed;
                 result.Message = ResponseMessageType.None;
             }
             return result;
         }
 
-        public async System.Threading.Tasks.Task<Result> RemoveTag(int taskId, int tagId)
+        public async Task<DataResult<List<TagModel>>> GetTags()
         {
-            Result result = new Result();
-            TagOnTask tagOnTask =
-                await _unitOfWork.TagOnTasks.FirstOrDefaultAsync(x => x.TagId == tagId && x.TaskId == taskId);
-            if(tagOnTask == null)
+            DataResult<List<TagModel>> dataResult = new DataResult<List<TagModel>>();
+            List<Entities.Tables.Tag> tags = await _unitOfWork.Tags.GetAllAsync();
+            if(tags.Any())
             {
-                result.ResponseStatusType = ResponseStatusType.Error;
-                result.Message = ResponseMessageType.InvalidId;
-                result.MessageDetails = $"Task id-{taskId} has no attached tag id-{tagId}";
+                dataResult.ResponseStatusType = ResponseStatusType.Succeed;
+                dataResult.Message = ResponseMessageType.None;
+                dataResult.Data = tags.Select(_mapper.Map<TagModel>).ToList();
+                
             }
             else
             {
-                await _unitOfWork.TagOnTasks.DeleteAsync(tagOnTask);
-                result.ResponseStatusType = ResponseStatusType.Succeed;
-                result.Message = ResponseMessageType.None;
+                dataResult.ResponseStatusType = ResponseStatusType.Warning;
+                dataResult.Message = ResponseMessageType.EmptyResult;
             }
-            return result;
+            return dataResult;
+        }
+        
+        public async Task<DataResult<List<string>>> GetTagsByTaskId(int taskId)
+        {
+            DataResult<List<string>> dataResult = new DataResult<List<string>>();
+            
+            if(!await _unitOfWork.Tasks.IsExisting(taskId))
+            {
+                dataResult.ResponseStatusType = ResponseStatusType.Error;
+                dataResult.Message = ResponseMessageType.InvalidId;
+            }
+            else
+            {
+                dataResult.ResponseStatusType = ResponseStatusType.Succeed;
+                dataResult.Data = await _unitOfWork.TagOnTasks.GetTagsByTaskId(taskId);
+            }
+            return dataResult;
         }
     }
 }

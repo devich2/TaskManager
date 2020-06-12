@@ -15,6 +15,8 @@ namespace TaskManager.Bll.Impl.Mappers
                 .ForMember(x => x.Members, opt =>
                     opt.MapFrom(x => x.Members))
                 .ForAllOtherMembers(x=>x.AllowNull());
+                
+            CreateMap<ProjectPreviewModel, ProjectDetailsModel>();
         }
     }
 }

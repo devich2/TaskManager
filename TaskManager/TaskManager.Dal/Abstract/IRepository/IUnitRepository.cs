@@ -20,5 +20,6 @@ namespace TaskManager.Dal.Abstract.IRepository
         Task<int> SelectByTypeCount(UnitType type, IQueryable<int> unitFilterQuery);
         Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByTypeAndParent(UnitType unitType,int? unitParentId);
         Task<Dictionary<Status, int>> GetUnitStatusCountByTypeAndParent(UnitType unitType, int? unitParentId);
+        Task<Unit> SelectExpandedByUnitIdAndType(UnitType type, int unitId);
     }
 }

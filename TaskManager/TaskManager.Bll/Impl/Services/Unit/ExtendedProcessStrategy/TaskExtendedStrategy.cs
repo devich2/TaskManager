@@ -27,8 +27,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
         protected override async System.Threading.Tasks.Task CreateAsync(Entities.Tables.Task entity, TaskCreateOrUpdateModel model)
         {
             await base.CreateAsync(entity, model);
-            Entities.Tables.Task task = await _currentRepository.GetByUnitIdAsync(entity.UnitId);
-            await _unitOfWork.TagOnTasks.AddToTags(task.Id, model.Tags);
+            await _unitOfWork.TagOnTasks.AddToTags(entity.Id, model.Tags);
             await _unitOfWork.SaveAsync();
         }
     }

@@ -8,7 +8,7 @@ namespace TaskManager.Models.Task
     public class TaskPreviewModel
     {
         public int Id { get; set; }
-        public UserModel Assignee {get; set;}
+        public UserBaseModel Assignee {get; set;}
         public int? MileStoneId {get; set;}
         public string MileStone {get; set;}
         public List<string> Tags { get; set; }

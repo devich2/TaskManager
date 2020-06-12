@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Permission\" />
     <Folder Include="Tag\" />
   </ItemGroup>
 
