@@ -4,6 +4,8 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TaskManager.Bll.Abstract.Permission;
 using TaskManager.Bll.Abstract.Unit;
 using TaskManager.Common.Utils;
 using TaskManager.Entities.Enum;
@@ -12,6 +14,7 @@ using TaskManager.Models.Response;
 using TaskManager.Models.Result;
 using TaskManager.Models.Unit;
 using TaskManager.Web.Infrastructure.Extension;
+using TaskManager.Web.Infrastructure.Handler;
 
 namespace TaskManager.Web.Controllers
 {
@@ -22,19 +25,23 @@ namespace TaskManager.Web.Controllers
         private readonly IUnitEditService _editService;
         private readonly IUnitSelectionService _unitSelectionService;
         private readonly IMapper _mapper;
+        private readonly IPermissionService _permissionService;
 
         public UnitApiController(IUnitEditService editService,
             IUnitSelectionService unitSelectionService,
-            IMapper mapper)
+            IMapper mapper,
+            IPermissionService permissionService)
         {
             _editService = editService;
             _unitSelectionService = unitSelectionService;
             _mapper = mapper;
+            _permissionService = permissionService;
         }
-        
+
         [HttpGet]
+        [HasPermission(PermissionType.Read)]
         public async Task<DataResult<List<UnitSelectionModel>>> Get
-            (int projectId, UnitType unitType, int? startIndex, int? count, string sortingQuery, string filterQuery)
+            (UnitType unitType, int? startIndex, int? count, string sortingQuery, string filterQuery)
         {
             if (unitType != UnitType.Task && unitType != UnitType.Milestone)
             {
@@ -44,7 +51,8 @@ namespace TaskManager.Web.Controllers
                     Message = ResponseMessageType.OperationNotAllowedForUnitType
                 };
             }
-            SelectionOptions so = 
+
+            SelectionOptions so =
                 new SelectionOptions()
                 {
                     ExtendedType = unitType
@@ -101,14 +109,24 @@ namespace TaskManager.Web.Controllers
                     MessageDetails = sortingOptionsDataResult.MessageDetails
                 };
             }
+
             return await _unitSelectionService.GetUnitPreview(so);
         }
-        
+
         [HttpPost]
         public async Task<DataResult<UnitAddResponse>> Post(int projectId, [FromBody] UnitModel model)
         {
+            if (User == null ||
+                !_permissionService.HasAccessByTypeAndProcessToState(
+                    User.Claims, projectId, model.ExtendedType, Models.Unit.ModelState.Add))
+                return new DataResult<UnitAddResponse>()
+                {
+                    ResponseStatusType = ResponseStatusType.Error,
+                    Message = ResponseMessageType.UserNotAuthorized,
+                    MessageDetails = $"No access to create {model.ExtendedType}"
+                };
+
             int userId = User.GetUserId();
-            
             if (model.ExtendedType == UnitType.Project)
             {
                 return new DataResult<UnitAddResponse>()
@@ -117,18 +135,29 @@ namespace TaskManager.Web.Controllers
                     Message = ResponseMessageType.OperationNotAllowedForUnitType
                 };
             }
+
             UnitBlModel blModel = _mapper.Map<UnitBlModel>(model);
-            
+
             blModel.UserId = userId;
 
             return await _editService.ProcessUnitCreate(blModel);
         }
-        
+
         [HttpPut]
         [Route("{id}")]
         public async Task<DataResult<UnitUpdateResponse>> Put(int projectId, int id,
             [FromBody] UnitModel model)
         {
+            if (User == null ||
+                !_permissionService.HasAccessByTypeAndProcessToState(
+                    User.Claims, projectId, model.ExtendedType, Models.Unit.ModelState.Modify))
+                return new DataResult<UnitUpdateResponse>()
+                {
+                    ResponseStatusType = ResponseStatusType.Error,
+                    Message = ResponseMessageType.UserNotAuthorized,
+                    MessageDetails = $"No access to update {model.ExtendedType}"
+                };
+            
             int userId = User.GetUserId();
             UnitBlModel blModel = _mapper.Map<UnitBlModel>(model);
             blModel.UnitId = id;
@@ -136,10 +165,11 @@ namespace TaskManager.Web.Controllers
 
             return await _editService.ProcessUnitUpdate(blModel);
         }
-        
+
         [HttpPut]
         [Route("{id}/state/{newStatus}")]
-        public async Task<DataResult<UnitUpdateResponse>> Put(int projectId, int id, [FromRoute] Status newStatus)
+        [HasPermission(PermissionType.StatusChange)]
+        public async Task<DataResult<UnitUpdateResponse>> Put(int id, [FromRoute] Status newStatus)
         {
             int userId = User.GetUserId();
 
@@ -152,12 +182,23 @@ namespace TaskManager.Web.Controllers
 
             return await _editService.ProcessContentChangeStatus(um);
         }
-        
+
         [HttpDelete]
         [Route("{id}")]
-        public async Task<Result> Delete(int projectId, int id)
+        public async Task<Result> Delete(int projectId, int id, [FromBody] UnitDeleteModel model)
         {
-            return await _editService.ProcessUnitDelete(id);
+            if (User == null ||
+                !_permissionService.HasAccessByTypeAndProcessToState(
+                    User.Claims, projectId, model.UnitType, Models.Unit.ModelState.Delete))
+                return new DataResult<UnitUpdateResponse>()
+                {
+                    ResponseStatusType = ResponseStatusType.Error,
+                    Message = ResponseMessageType.UserNotAuthorized,
+                    MessageDetails = $"No access to delete {model.UnitType}"
+                };
+            
+            model.UnitId = id;
+            return await _editService.ProcessUnitDelete(model);
         }
     }
 }

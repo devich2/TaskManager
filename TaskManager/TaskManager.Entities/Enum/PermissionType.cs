@@ -22,6 +22,7 @@
         UserKick,
         TagAdd,
         TagDelete,
+        TagUpdate,
         Read
     }
 }

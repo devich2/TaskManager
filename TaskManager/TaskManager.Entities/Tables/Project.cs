@@ -11,5 +11,7 @@ namespace TaskManager.Entities.Tables
         public int UnitId { get; set; }
         public Unit Unit { get; set; }
         public int Members { get; set; }
+        
+        public ICollection<ProjectMember> ProjectMembers {get;set;}
     }
 }

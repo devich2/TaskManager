@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TaskManager.Models.MileStone;
 using TaskManager.Models.Response;
 using TaskManager.Models.Result;
@@ -8,7 +9,8 @@ namespace TaskManager.Bll.Abstract.MileStone
 {
     public interface IMileStoneService
     {
-        System.Threading.Tasks.Task<MileStoneSelectionModel> GetPreviewModel(Entities.Tables.Unit unit);
+        Task<MileStonePreviewModel> GetPreviewModel(Entities.Tables.Unit unit);
+        Task<DataResult<List<MileStoneBaseModel>>> GetActiveListByProjectId(int projectId);
         Task<DataResult<ChangeMileStoneResponse>> MoveToMileStone(TaskMileStonePatchModel model);
     }
 }

@@ -114,7 +114,11 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Entities\\TaskManager.Entities.csproj": {
+                "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Entities\\TaskManager.Entities.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

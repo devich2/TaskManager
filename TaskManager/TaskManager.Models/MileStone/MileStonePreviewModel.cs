@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TaskManager.Models.MileStone
 {
-    public class MileStoneSelectionModel
+    public class MileStonePreviewModel
     {
         public int Total { get; set; }
         public decimal CompletedPercentage { get; set; }

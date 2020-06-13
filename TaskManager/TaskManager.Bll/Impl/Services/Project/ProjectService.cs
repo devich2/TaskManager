@@ -77,12 +77,12 @@ namespace TaskManager.Bll.Impl.Services.Project
 
         public async Task<ProjectPreviewModel> GetPreviewModel(Entities.Tables.Unit unit, int userId)
         {
-            UserModel userModel = (await _projectMemberService.GetUserInfo(userId, unit.UnitId)).Data;
+            string role = await _projectMemberService.GetRole(userId, unit.UnitId);
             int tasksCount = unit.Children.Count;
 
             return new ProjectPreviewModel()
             {
-                Role = userModel.Role,
+                Role = role,
                 TasksCount = tasksCount,
                 Members = unit.Project.Members
             };

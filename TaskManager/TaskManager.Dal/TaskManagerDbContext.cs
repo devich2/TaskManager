@@ -51,6 +51,7 @@ namespace TaskManager.Dal
             builder.Entity<TermInfo>().HasKey(c => c.UnitId);
             builder.Entity<Permission>().HasKey(c=>c.Id);
             builder.Entity<MileStone>().HasKey(c=>c.Id);
+            builder.Entity<ProjectMember>().HasKey(c=>new{c.UserId, c.ProjectId});
             #endregion
 
             #region ValueGenerations
@@ -113,11 +114,23 @@ namespace TaskManager.Dal
                 .HasOne(p=>p.MileStone)
                 .WithMany(p=>p.Tasks)
                 .HasForeignKey(p=>p.MileStoneId);
+                
+            builder.Entity<ProjectMember>()
+                .HasOne(p=> p.Project)
+                .WithMany(p=>p.ProjectMembers)
+                .HasForeignKey(p=>p.ProjectId);
+                
+            builder.Entity<ProjectMember>()
+                .HasOne(p=> p.User)
+                .WithMany(p=>p.UserProjects)
+                .HasForeignKey(p=>p.UserId);
             #endregion
             DatabaseInitializer.SeedDatabase(builder);
         }
         
         public DbSet<Project> Projects { get; set; }
+        
+        public DbSet<ProjectMember> ProjectMembers{ get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TagOnTask> TagOnTasks { get; set; }
         public DbSet<Task> Tasks { get; set; }

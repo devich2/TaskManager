@@ -13,6 +13,6 @@ namespace TaskManager.Bll.Abstract.Unit
         Task<DataResult<UnitAddResponse>> ProcessUnitCreate(UnitBlModel model);
         Task<DataResult<UnitUpdateResponse>> ProcessUnitUpdate(UnitBlModel model);
         Task<DataResult<UnitUpdateResponse>> ProcessContentChangeStatus(UnitStatusPatchModel model);
-        Task<Result> ProcessUnitDelete(int unitId);
+        Task<Result> ProcessUnitDelete(UnitDeleteModel model);
     }
 }

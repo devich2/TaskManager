@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Win32.SafeHandles;
 using TaskManager.Bll.Abstract.Auth;
 using TaskManager.Dal.Abstract;
+using TaskManager.Dal.Abstract.Transactions;
 using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models.Auth;
 using TaskManager.Models.Result;
@@ -16,17 +17,19 @@ namespace TaskManager.Bll.Impl.Services.Auth
     {
         private readonly UserManager<Entities.Tables.Identity.User> _userManager;
         private readonly IMapper _mapper;
+        private readonly ITransactionManager _transactionManager;
         private readonly SignInManager<Entities.Tables.Identity.User> _signInManager;
 
         public AuthService(
             UserManager<Entities.Tables.Identity.User> userManager,
             SignInManager<Entities.Tables.Identity.User> signInManager,
-            RoleManager<Role> roleManager,
-            IMapper mapper
+            IMapper mapper,
+            ITransactionManager transactionManager
         )
         {
             _userManager = userManager;
             _mapper = mapper;
+            _transactionManager = transactionManager;
             _signInManager = signInManager;
         }
 
@@ -48,6 +51,41 @@ namespace TaskManager.Bll.Impl.Services.Auth
                 result.Data = userModel;
             }
             return result;
+        }
+        
+        public async System.Threading.Tasks.Task<Result> Register(RegisterModel model)
+        {
+            Entities.Tables.Identity.User user = _mapper.Map<Entities.Tables.Identity.User>(model);
+            
+            return await _transactionManager.ExecuteInImplicitTransactionAsync(async () => {
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                if(!result.Succeeded)
+                {
+                    return new Result()
+                    {
+                        ResponseStatusType = ResponseStatusType.Error,
+                        Message = ResponseMessageType.InternalError
+                    };
+                }
+                /*
+                var confirmToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                var emailConfirmUrl = urlsOptions.CurrentValue.Api
+                    .AppendPathSegments("Auth", "ConfirmRegister")
+                    .SetQueryParams(new {uid = user.Id, token = confirmToken});
+
+               
+                    await emailSenderService.SendEmailByTemplateAsync(
+                        model.Email,
+                        "register.html",
+                        new Dictionary<string, string> {{"[link]", emailConfirmUrl}}
+                    );
+            */
+                return new Result()
+                {
+                    ResponseStatusType = ResponseStatusType.Succeed
+                };
+            });
         }
     }
 }

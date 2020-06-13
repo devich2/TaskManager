@@ -50,14 +50,14 @@ namespace TaskManager.Bll.Impl.Services.Unit
             return await ProcessUnitUpdateTransaction(model);
         }
 
-        public async Task<Result> ProcessUnitDelete(int unitId)
+        public async Task<Result> ProcessUnitDelete(UnitDeleteModel model)
         {
-            return await ProcessUnitDeleteTransaction(unitId);
+            return await ProcessUnitDeleteTransaction(model);
         }
 
-        private async Task<Result> ProcessUnitDeleteTransaction(int unitId)
+        private async Task<Result> ProcessUnitDeleteTransaction(UnitDeleteModel model)
         {
-            if (unitId < 0)
+            if (model.UnitId < 0)
             {
                 return new Result
                 {
@@ -69,7 +69,9 @@ namespace TaskManager.Bll.Impl.Services.Unit
 
             return await _transactionManager.ExecuteInImplicitTransactionAsync(async () =>
             {
-                var itemToDelete = await _unitOfWork.Units.GetByUnitIdAsync(unitId);
+                var itemToDelete = await _unitOfWork.Units
+                    .FirstOrDefaultAsync(x=>x.UnitId == model.UnitId && x.UnitType == model.UnitType);
+                    
                 if (itemToDelete != null)
                 {
                     await _unitOfWork.Units.DeleteAsync(itemToDelete);

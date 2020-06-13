@@ -164,7 +164,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             switch (item.UnitType)
             {
                 case UnitType.Milestone: 
-                    MileStoneSelectionModel model = await _mileStoneService.GetPreviewModel(item);
+                    MileStonePreviewModel model = await _mileStoneService.GetPreviewModel(item);
                     current = JObject.FromObject(model, jsonSerializer);
                     break;
                 case UnitType.Task:

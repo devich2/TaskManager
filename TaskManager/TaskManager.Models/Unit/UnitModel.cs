@@ -8,6 +8,5 @@ namespace TaskManager.Models.Unit
     {
         public TermInfoCreateModel TermInfo { get; set; }
         public int? ParentId { get; set; }
-        public ModelState ProcessToState { get; set; }
     }
 }

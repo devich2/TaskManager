@@ -7,12 +7,14 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,8 @@ using TaskManager.Models.Task;
 using TaskManager.Models.TermInfo;
 using TaskManager.Models.Unit;
 using TaskManager.Web.Infrastructure.Extension;
+using TaskManager.Web.Infrastructure.Filter;
+using TaskManager.Web.Infrastructure.Handler;
 using TaskManager.Web.Infrastructure.Middleware;
 using Task = System.Threading.Tasks.Task;
 
@@ -61,6 +65,7 @@ namespace TaskManager.Web
             services.AddControllers(options =>
             {
                 options.Conventions.Add(new StatusCodeConvention());
+                options.Filters.Add((new ModelStateValidationFilter())); 
             }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
@@ -83,7 +88,6 @@ namespace TaskManager.Web
             //Configure cookies
             services.ConfigureApplicationCookie(options =>
             {
-                
                 options.Events.OnSigningIn = context =>
                 {
                     context.Properties.IsPersistent = true;
@@ -99,7 +103,12 @@ namespace TaskManager.Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
             });
-
+            
+          
+                    
+            //Register the Permission policy handlers
+            services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             //Configure Swagger
             /*services.AddSwaggerGen(c =>
             {

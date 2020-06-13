@@ -7,10 +7,12 @@ using Microsoft.VisualStudio.Web.CodeGeneration.DotNet;
 using TaskManager.Bll.Abstract.MileStone;
 using TaskManager.Bll.Abstract.Task;
 using TaskManager.Dal.Abstract.IRepository;
+using TaskManager.Entities.Enum;
 using TaskManager.Models.Response;
 using TaskManager.Models.Result;
 using TaskManager.Models.Task;
 using TaskManager.Models.Unit;
+using TaskManager.Web.Infrastructure.Handler;
 
 namespace TaskManager.Web.Controllers
 {
@@ -30,6 +32,7 @@ namespace TaskManager.Web.Controllers
 
         [HttpGet]
         [Route("{unitId}")]
+        [HasPermission(PermissionType.Read)]
         public async Task<DataResult<UnitSelectionModel>> Get(int unitId)
         {
             return await _taskService.GetTaskDetails(unitId);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace TaskManager.Entities.Tables.Identity
@@ -6,7 +7,8 @@ namespace TaskManager.Entities.Tables.Identity
     public class User: IdentityUser<int>, IEquatable<User>
     {
         public string Name { get; set; }
-
+        public ICollection<ProjectMember> UserProjects {get;set;}
+        
         public bool Equals(User other)
         {
             if (ReferenceEquals(null, other)) return false;

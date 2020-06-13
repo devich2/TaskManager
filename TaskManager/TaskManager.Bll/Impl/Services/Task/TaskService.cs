@@ -32,7 +32,7 @@ namespace TaskManager.Bll.Impl.Services.Task
             IUnitOfWork unitOfWork,
             IProjectMemberService projectMemberService,
             IOptions<MvcNewtonsoftJsonOptions> jsonOptions
-            )
+        )
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -42,10 +42,9 @@ namespace TaskManager.Bll.Impl.Services.Task
 
         public async System.Threading.Tasks.Task<DataResult<UnitSelectionModel>> GetTaskDetails(int unitId)
         {
-            
-            Entities.Tables.Unit unit = 
+            Entities.Tables.Unit unit =
                 await _unitOfWork.Units.SelectExpandedByUnitIdAndType(UnitType.Task, unitId);
-                
+
             if (unit == null)
             {
                 return new DataResult<UnitSelectionModel>()
@@ -55,31 +54,32 @@ namespace TaskManager.Bll.Impl.Services.Task
                     MessageDetails = "Task not found"
                 };
             }
-        
+
             UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(unit);
-            
+
             TaskPreviewModel previewModel = await GetPreviewModel(unit);
             TaskDetailsModel taskModel = _mapper.Map<TaskDetailsModel>(previewModel);
-            
+
             List<Entities.Tables.Unit> subUnits =
                 await _unitOfWork.Units.GetByAsync(x => x.UnitParentId == unitId);
 
             List<SubUnitModel> subModels = new List<SubUnitModel>();
-            
+
             foreach (var item in subUnits)
             {
                 SubUnitModel subUnit = _mapper.Map<SubUnitModel>(item);
-                
-                if(item.UnitType == UnitType.Comment)
+
+                if (item.UnitType == UnitType.Comment)
                     if (unit.UnitParentId != null)
-                        subUnit.Creator = (await _projectMemberService
-                            .GetUserInfo(item.CreatorId, unit.UnitParentId.Value)).Data;
+                        subUnit.Creator.Role =
+                            await _projectMemberService.GetRole(item.CreatorId, unit.UnitParentId.Value);
 
                 subModels.Add(subUnit);
             }
+
             taskModel.SubUnits = subModels;
             model.Data = JObject.FromObject(taskModel, JsonSerializer.Create(_serializerSettings));
-            
+
             return new DataResult<UnitSelectionModel>()
             {
                 Data = model,
@@ -98,12 +98,12 @@ namespace TaskManager.Bll.Impl.Services.Task
                 SubTasksCompleted = children.Count(x => x.TermInfo.Status == Status.Closed),
                 Comments = children.Count(x => x.UnitType == UnitType.Comment),
             };
-            
+
             if (unit.Task.AssignedId.HasValue)
             {
                 taskModel.Assignee = _mapper.Map<UserBaseModel>(unit.Task.Assigned);
             }
-            
+
             int? mileId = unit.Task.MileStoneId;
             if (mileId.HasValue)
                 taskModel.MileStone =
@@ -124,9 +124,10 @@ namespace TaskManager.Bll.Impl.Services.Task
                 dataResult.ResponseStatusType = ResponseStatusType.Error;
                 dataResult.MessageDetails = $"Task id-{patchModel.TaskId} not found";
             }
-            else if (patchModel.AssigneeId != null && 
-                    (task.Unit.UnitParentId != null && 
-                    !await _projectMemberService.IsProjectMember(task.Unit.UnitParentId.Value, patchModel.AssigneeId.Value)))
+            else if (patchModel.AssigneeId != null &&
+                     (task.Unit.UnitParentId != null &&
+                      !await _projectMemberService.IsProjectMember(task.Unit.UnitParentId.Value,
+                          patchModel.AssigneeId.Value)))
             {
                 dataResult.Message = ResponseMessageType.UnitAccessDenied;
                 dataResult.ResponseStatusType = ResponseStatusType.Error;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using TaskManager.Bll.Abstract.Cache;
 using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Common.Utils;
 using TaskManager.Dal.Abstract;
@@ -31,21 +32,10 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<DataResult<UserModel>> GetUserInfo(int userId, int projectId)
+        public async Task<string> GetRole(int userId, int projectId)
         {
-            Entities.Tables.Identity.User user =
-                await _userManager.FindByIdAsync(userId.ToString());
-            if (user == null)
-            {
-                return new DataResult<UserModel>()
-                {
-                    ResponseStatusType = ResponseStatusType.Error,
-                    Message = ResponseMessageType.NotFound,
-                    MessageDetails = $"user with id-{userId} is missing..."
-                };
-            }
-            UserModel model = _mapper.Map<UserModel>(user);
-            
+            Entities.Tables.Identity.User user = new Entities.Tables.Identity.User {Id = userId};
+
             var claims = await _userManager.GetClaimsAsync(user);
             string[] userRoles = (from c in claims
                                     let pr = c.UnpackRole()
@@ -53,12 +43,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                                     select pr.Item2).ToArray();
                 
             List<Role> rawRoles = _roleManager.Roles.Where(x=>userRoles.Contains(x.Name)).ToList();
-            model.Role = rawRoles.OrderByDescending(i => i.Rank).FirstOrDefault()?.Name;
-            return new DataResult<UserModel>()
-            {
-                ResponseStatusType = ResponseStatusType.Succeed,
-                Data = model
-            };
+            return rawRoles.OrderByDescending(i => i.Rank).FirstOrDefault()?.Name;
         }
         
         public async Task<bool> IsProjectMember(int projectId, int userId)
@@ -70,5 +55,6 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             var claims = await _userManager.GetClaimsAsync(user);
             return claims.Any(c=>c.UnpackRole().Item1 == projectId);
         }
+        
     }
 }
