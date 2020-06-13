@@ -54,7 +54,7 @@ namespace TaskManager.Seed
             new Permission()
             {
                 RoleId = 2,
-                PermissionType = PermissionType.StatusChange
+                PermissionType = PermissionType.TagUpdate
             },
 
             #endregion
@@ -139,9 +139,23 @@ namespace TaskManager.Seed
             new Permission()
             {
                 RoleId = 3,
+                PermissionType = PermissionType.TagUpdate
+            },
+            new Permission()
+            {
+                RoleId = 3,
                 PermissionType = PermissionType.StatusChange
             },
-
+            new Permission()
+            {
+                RoleId = 3,
+                PermissionType = PermissionType.TaskMileStoneChange
+            },
+            new Permission()
+            {
+                RoleId = 3,
+                PermissionType = PermissionType.TaskAssigneeChange
+            },
             #endregion
 
             #region Owner
@@ -249,9 +263,24 @@ namespace TaskManager.Seed
             new Permission()
             {
                 RoleId = 4,
+                PermissionType = PermissionType.TagUpdate
+            },
+            new Permission()
+            {
+                RoleId = 4,
                 PermissionType = PermissionType.StatusChange
             },
-
+            new Permission()
+            {
+                RoleId = 4,
+                PermissionType = PermissionType.TaskMileStoneChange
+            },
+            new Permission()
+            {
+                RoleId = 4,
+                PermissionType = PermissionType.TaskAssigneeChange
+            },
+            
             #endregion
         };
         

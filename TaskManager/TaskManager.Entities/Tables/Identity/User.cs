@@ -9,6 +9,9 @@ namespace TaskManager.Entities.Tables.Identity
         public string Name { get; set; }
         public ICollection<ProjectMember> UserProjects {get;set;}
         
+        public DateTimeOffset LastLoginDate { get; set; }
+        
+        public DateTime? RegistrationDate { get; set; }
         public bool Equals(User other)
         {
             if (ReferenceEquals(null, other)) return false;

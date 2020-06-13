@@ -13,6 +13,8 @@ namespace TaskManager.Seed
             {
                 Id = 1,
                 Name = "David",
+                LastLoginDate = DateTimeOffset.Now,
+                RegistrationDate = DateTime.Now,
                 UserName="@devich",
                 Email ="devidshylyuk85@gmail.com",
                 NormalizedUserName ="David".ToUpper(),
@@ -25,6 +27,8 @@ namespace TaskManager.Seed
             {
                 Id = 2,
                 Name = "Ola",
+                LastLoginDate = DateTimeOffset.Now,
+                RegistrationDate = DateTime.Now,
                 UserName ="@olga",
                 Email ="olarevun23@gmail.com",
                 NormalizedUserName = "Ola".ToUpper(),
@@ -37,6 +41,8 @@ namespace TaskManager.Seed
             {
                 Id = 3,
                 Name = "Oleg",
+                LastLoginDate = DateTimeOffset.Now,
+                RegistrationDate = DateTime.Now,
                 UserName ="@olegka",
                 Email ="olegrevun23@gmail.com",
                 NormalizedUserName = "Oleg".ToUpper(),

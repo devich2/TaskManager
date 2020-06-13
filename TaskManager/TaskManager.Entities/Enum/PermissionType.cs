@@ -23,6 +23,8 @@
         TagAdd,
         TagDelete,
         TagUpdate,
-        Read
+        Read,
+        TaskMileStoneChange,
+        TaskAssigneeChange
     }
 }

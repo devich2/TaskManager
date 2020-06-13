@@ -2,6 +2,5 @@
 {
     public static class CacheKeys
     {
-        public static string Permission { get { return "perm_"; } }
     }
 }

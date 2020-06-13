@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using TaskManager.Common.Utils;
 using TaskManager.Entities.Tables.Identity;
 
 namespace TaskManager.Seed
@@ -15,21 +16,21 @@ namespace TaskManager.Seed
             {
                 Id = 1,
                 UserId = 1,
-                ClaimType = "role",
+                ClaimType = PermissionExtensions.PackedPermissionClaimType,
                 ClaimValue = "Maintainer_20"
             },
             new IdentityUserClaim<int>()
             {
                 Id = 2,
                 UserId = 2,
-                ClaimType = "role",
+                ClaimType = PermissionExtensions.PackedPermissionClaimType,
                 ClaimValue = "Owner_20"
             },
             new IdentityUserClaim<int>()
             {
                 Id = 3,
                 UserId = 3,
-                ClaimType = "role",
+                ClaimType = PermissionExtensions.PackedPermissionClaimType,
                 ClaimValue = "Developer_20"
             }
             

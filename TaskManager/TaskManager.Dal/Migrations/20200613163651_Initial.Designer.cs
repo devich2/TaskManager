@@ -11,14 +11,14 @@ using TaskManager.Entities.Enum;
 namespace TaskManager.Dal.Migrations
 {
     [DbContext(typeof(TaskManagerDbContext))]
-    [Migration("20200611084505_ClaimsIdChange")]
-    partial class ClaimsIdChange
+    [Migration("20200613163651_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:Enum:PermissionType", "ProjectModify,ProjectDelete,MilestoneAdd,MilestoneModify,MilestoneDelete,SubTaskAdd,SubTaskModify,SubTaskDelete,TaskAdd,TaskModify,TaskDelete,CommentAdd,CommentModify,CommentDelete,RoleChange,StatusChange,UserInvite,UserKick,TagAdd,TagDelete,Read")
+                .HasAnnotation("Npgsql:Enum:PermissionType", "ProjectModify,ProjectDelete,MilestoneAdd,MilestoneModify,MilestoneDelete,SubTaskAdd,SubTaskModify,SubTaskDelete,TaskAdd,TaskModify,TaskDelete,CommentAdd,CommentModify,CommentDelete,RoleChange,StatusChange,UserInvite,UserKick,TagAdd,TagDelete,TagUpdate,Read,TaskMileStoneChange,TaskAssigneeChange")
                 .HasAnnotation("Npgsql:Enum:Status", "None,Open,InProgress,Closed")
                 .HasAnnotation("Npgsql:Enum:UnitType", "Comment,Milestone,Project,Task,SubTask")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
@@ -235,6 +235,9 @@ namespace TaskManager.Dal.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTimeOffset>("LastLoginDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -260,6 +263,9 @@ namespace TaskManager.Dal.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("RegistrationDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -290,12 +296,14 @@ namespace TaskManager.Dal.Migrations
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
                             Email = "devidshylyuk85@gmail.com",
                             EmailConfirmed = false,
+                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 937, DateTimeKind.Unspecified).AddTicks(2711), new TimeSpan(0, 3, 0, 0, 0)),
                             LockoutEnabled = false,
                             Name = "David",
                             NormalizedEmail = "DEVIDSHYLYUK85@GMAIL.COM",
                             NormalizedUserName = "DAVID",
                             PasswordHash = "AQAAAAEAACcQAAAAEJMqefM3jQQE7sOvJCM73AKmMaFQqF0t01IbCdmU+x7KcgHlBoETO6+XXtvJ+wB9UA==",
                             PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(2020, 6, 13, 19, 36, 50, 937, DateTimeKind.Local).AddTicks(3141),
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@devich"
@@ -307,12 +315,14 @@ namespace TaskManager.Dal.Migrations
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
                             Email = "olarevun23@gmail.com",
                             EmailConfirmed = false,
+                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 937, DateTimeKind.Unspecified).AddTicks(5327), new TimeSpan(0, 3, 0, 0, 0)),
                             LockoutEnabled = false,
                             Name = "Ola",
                             NormalizedEmail = "OLAREVUN23@GMAIL.COM",
                             NormalizedUserName = "OLA",
                             PasswordHash = "AQAAAAEAACcQAAAAELhW7WoGTkP1aZcDoN5qwgHILFMMak47gnjEKYQ0YBgcEitvLKiKmpoXYliqdFfMVA==",
                             PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(2020, 6, 13, 19, 36, 50, 937, DateTimeKind.Local).AddTicks(5363),
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@olga"
@@ -324,12 +334,14 @@ namespace TaskManager.Dal.Migrations
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
                             Email = "olegrevun23@gmail.com",
                             EmailConfirmed = false,
+                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 937, DateTimeKind.Unspecified).AddTicks(5389), new TimeSpan(0, 3, 0, 0, 0)),
                             LockoutEnabled = false,
                             Name = "Oleg",
                             NormalizedEmail = "OLEGREVUN23@GMAIL.COM",
                             NormalizedUserName = "OLEG",
                             PasswordHash = "AQAAAAEAACcQAAAAELhW7WoGTkP1aZcDoN5qwgHILFMMak47gnjEKYQ0YBgcEitvLKiKmpoXYliqdFfMVA==",
                             PhoneNumberConfirmed = false,
+                            RegistrationDate = new DateTime(2020, 6, 13, 19, 36, 50, 937, DateTimeKind.Local).AddTicks(5396),
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@olegka"
@@ -426,7 +438,7 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 8,
-                            PermissionType = PermissionType.StatusChange,
+                            PermissionType = PermissionType.TagUpdate,
                             RoleId = 2
                         },
                         new
@@ -522,133 +534,169 @@ namespace TaskManager.Dal.Migrations
                         new
                         {
                             Id = 24,
-                            PermissionType = PermissionType.StatusChange,
+                            PermissionType = PermissionType.TagUpdate,
                             RoleId = 3
                         },
                         new
                         {
                             Id = 25,
+                            PermissionType = PermissionType.StatusChange,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 26,
+                            PermissionType = PermissionType.TaskMileStoneChange,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 27,
+                            PermissionType = PermissionType.TaskAssigneeChange,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 28,
                             PermissionType = PermissionType.Read,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 26,
+                            Id = 29,
                             PermissionType = PermissionType.CommentAdd,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 27,
+                            Id = 30,
                             PermissionType = PermissionType.CommentDelete,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 28,
+                            Id = 31,
                             PermissionType = PermissionType.CommentModify,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 29,
+                            Id = 32,
                             PermissionType = PermissionType.MilestoneAdd,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 30,
+                            Id = 33,
                             PermissionType = PermissionType.MilestoneDelete,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 31,
+                            Id = 34,
                             PermissionType = PermissionType.MilestoneModify,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 32,
+                            Id = 35,
                             PermissionType = PermissionType.TaskAdd,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 33,
+                            Id = 36,
                             PermissionType = PermissionType.TaskDelete,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 34,
+                            Id = 37,
                             PermissionType = PermissionType.TaskModify,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 35,
+                            Id = 38,
                             PermissionType = PermissionType.SubTaskAdd,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 36,
+                            Id = 39,
                             PermissionType = PermissionType.SubTaskDelete,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 37,
+                            Id = 40,
                             PermissionType = PermissionType.SubTaskModify,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 38,
+                            Id = 41,
                             PermissionType = PermissionType.ProjectDelete,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 39,
+                            Id = 42,
                             PermissionType = PermissionType.ProjectModify,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 40,
+                            Id = 43,
                             PermissionType = PermissionType.RoleChange,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 41,
+                            Id = 44,
                             PermissionType = PermissionType.UserInvite,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 42,
+                            Id = 45,
                             PermissionType = PermissionType.UserKick,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 43,
+                            Id = 46,
                             PermissionType = PermissionType.TagAdd,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 44,
+                            Id = 47,
                             PermissionType = PermissionType.TagDelete,
                             RoleId = 4
                         },
                         new
                         {
-                            Id = 45,
+                            Id = 48,
+                            PermissionType = PermissionType.TagUpdate,
+                            RoleId = 4
+                        },
+                        new
+                        {
+                            Id = 49,
                             PermissionType = PermissionType.StatusChange,
+                            RoleId = 4
+                        },
+                        new
+                        {
+                            Id = 50,
+                            PermissionType = PermissionType.TaskMileStoneChange,
+                            RoleId = 4
+                        },
+                        new
+                        {
+                            Id = 51,
+                            PermissionType = PermissionType.TaskAssigneeChange,
                             RoleId = 4
                         });
                 });
@@ -671,6 +719,24 @@ namespace TaskManager.Dal.Migrations
                             UnitId = 20,
                             Members = 1
                         });
+                });
+
+            modelBuilder.Entity("TaskManager.Entities.Tables.ProjectMember", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("GivenAccess")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectMembers");
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Tag", b =>
@@ -896,78 +962,78 @@ namespace TaskManager.Dal.Migrations
                         {
                             UnitId = 1,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 187, DateTimeKind.Unspecified).AddTicks(4439), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 930, DateTimeKind.Unspecified).AddTicks(8898), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Open
                         },
                         new
                         {
                             UnitId = 2,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(765), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5777), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 3,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(848), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5862), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 4,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(860), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5874), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 5,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(868), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5881), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Closed
                         },
                         new
                         {
                             UnitId = 20,
                             DueTs = new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(880), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5892), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 25,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(887), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5900), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 26,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(893), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5907), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Closed
                         },
                         new
                         {
                             UnitId = 40,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(900), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5917), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 41,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(907), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5926), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 42,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(913), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5932), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 50,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 11, 11, 45, 5, 190, DateTimeKind.Unspecified).AddTicks(920), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 36, 50, 933, DateTimeKind.Unspecified).AddTicks(5939), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         });
                 });
@@ -993,9 +1059,6 @@ namespace TaskManager.Dal.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int?>("ProjectUnitId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("UnitParentId")
                         .HasColumnType("integer");
 
@@ -1005,8 +1068,6 @@ namespace TaskManager.Dal.Migrations
                     b.HasKey("UnitId");
 
                     b.HasIndex("CreatorId");
-
-                    b.HasIndex("ProjectUnitId");
 
                     b.HasIndex("UnitParentId");
 
@@ -1200,8 +1261,23 @@ namespace TaskManager.Dal.Migrations
             modelBuilder.Entity("TaskManager.Entities.Tables.Project", b =>
                 {
                     b.HasOne("TaskManager.Entities.Tables.Unit", "Unit")
-                        .WithOne()
+                        .WithOne("Project")
                         .HasForeignKey("TaskManager.Entities.Tables.Project", "UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TaskManager.Entities.Tables.ProjectMember", b =>
+                {
+                    b.HasOne("TaskManager.Entities.Tables.Project", "Project")
+                        .WithMany("ProjectMembers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskManager.Entities.Tables.Identity.User", "User")
+                        .WithMany("UserProjects")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1255,13 +1331,10 @@ namespace TaskManager.Dal.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TaskManager.Entities.Tables.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectUnitId");
-
                     b.HasOne("TaskManager.Entities.Tables.Unit", "UnitParent")
                         .WithMany("Children")
-                        .HasForeignKey("UnitParentId");
+                        .HasForeignKey("UnitParentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
