@@ -10,6 +10,6 @@ namespace TaskManager.Dal.Abstract.IRepository.FiltersAndSorting
 {
     public interface IFiltersQueryFactory
     {
-        IQueryable<int> GetFilterQuery(UnitType ut, KeyValuePair<UnitFilterType, dynamic> item);
+        IQueryable<int> GetUnitFilterQuery(UnitType ut, KeyValuePair<UnitFilterType, dynamic> item);
     }
 }

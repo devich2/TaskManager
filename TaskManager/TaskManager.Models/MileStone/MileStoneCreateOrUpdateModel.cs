@@ -4,6 +4,6 @@ namespace TaskManager.Models.MileStone
 {
     public class MileStoneCreateOrUpdateModel
     {
-        public int Id{get;set;}
+        public int Id {get;set;}
     }
 }

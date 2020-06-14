@@ -74,7 +74,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 options.FilterOptions.Filters.Any())
             {
                 compoundQueryableFilter = options.FilterOptions.Filters.Select(filter =>
-                        _filtersQueryFactory.GetFilterQuery(options.ExtendedType, filter))
+                        _filtersQueryFactory.GetUnitFilterQuery(options.ExtendedType, filter))
                     .Aggregate((prev, cur) => prev.Intersect(cur));
             }
 
@@ -83,7 +83,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             {
                 sortingExpression = options.SortingOptions.Sortings
                     .Select(sortItem => _orderQueryFactory
-                        .GetOrderQuery(options.ExtendedType, sortItem)).ToList();
+                        .GetUnitOrderQuery(options.ExtendedType, sortItem)).ToList();
             }
     
             return await _unitOfWork.Units

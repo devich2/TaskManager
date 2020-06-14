@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base;
 using TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base;
 using TaskManager.Dal.Abstract;
@@ -18,19 +19,20 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
     public class UnitExtendedStrategyFactory: IUnitExtendedStrategyFactory
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<Entities.Tables.Identity.User> _userManager;
         private readonly IMapper _mapper;
         private readonly IOptions<MvcNewtonsoftJsonOptions> _jsonOptions;
+        private readonly IProjectMemberService _projectMemberService;
 
         public UnitExtendedStrategyFactory(IUnitOfWork unitOfWork,
             UserManager<Entities.Tables.Identity.User> userManager,
             IMapper mapper,
-            IOptions<MvcNewtonsoftJsonOptions> jsonOptions)
+            IOptions<MvcNewtonsoftJsonOptions> jsonOptions,
+            IProjectMemberService projectMemberService)
         {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
             _mapper = mapper;
             _jsonOptions = jsonOptions;
+            _projectMemberService = projectMemberService;
         }
 
         public IUnitExtendedStrategy GetInstance(UnitType type)
@@ -43,7 +45,7 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
                     break;
 
                 case UnitType.Project:
-                    current = new ProjectExtendedStrategy(_unitOfWork, _userManager, _mapper, _jsonOptions);
+                    current = new ProjectExtendedStrategy(_unitOfWork, _projectMemberService, _mapper, _jsonOptions);
                     break;
                 case UnitType.Milestone:
                     current = new MileStoneExtendedStrategy(_unitOfWork.MileStones, _mapper, _jsonOptions);

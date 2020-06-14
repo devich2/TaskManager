@@ -8,8 +8,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using TaskManager.Bll.Abstract.Project;
+using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Bll.Abstract.Unit.ExtendedProcessStrategy.Base;
 using TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy.Base;
+using TaskManager.Common.Security;
+using TaskManager.Common.Utils;
 using TaskManager.Dal.Abstract;
 using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Entities.Tables;
@@ -22,21 +26,20 @@ namespace TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy
 {
     public class ProjectExtendedStrategy : BaseStrategy<Entities.Tables.Project, ProjectCreateOrUpdateModel>, IUnitExtendedStrategy
     {
-        private readonly UserManager<Entities.Tables.Identity.User> _userManager;
+        private readonly IProjectMemberService _projectMemberService;
 
         public ProjectExtendedStrategy(IUnitOfWork unitOfWork, 
-            UserManager<Entities.Tables.Identity.User> userManager,
+            IProjectMemberService projectMemberService,
             IMapper mapper,
             IOptions<MvcNewtonsoftJsonOptions> jsonOptions) : base(unitOfWork.Projects, mapper, jsonOptions)
         {
-            _userManager = userManager;
+            _projectMemberService = projectMemberService;
         }
 
         protected override async System.Threading.Tasks.Task CreateAsync(Entities.Tables.Project entity, ProjectCreateOrUpdateModel model)
         {
             await base.CreateAsync(entity, model);
-            var user = await _userManager.FindByIdAsync(model.ProjectManagerId.ToString());
-            await _userManager.AddClaimAsync(user, new Claim("role", $"Owner_{entity.UnitId}"));
+            await _projectMemberService.AddUserRole(entity.UnitId, model.ProjectManagerId, RoleNames.Owner);
         }
     }
 }

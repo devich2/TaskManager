@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using TaskManager.Common.Security;
 using TaskManager.Common.Utils;
 using TaskManager.Entities.Tables.Identity;
 

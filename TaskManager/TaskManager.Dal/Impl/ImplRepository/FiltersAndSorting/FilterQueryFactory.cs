@@ -19,9 +19,9 @@ namespace TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting
             _dbContext = context;
         }
 
-        public IQueryable<int> GetFilterQuery(UnitType ut, KeyValuePair<UnitFilterType, dynamic> item)
+        public IQueryable<int> GetUnitFilterQuery(UnitType ut, KeyValuePair<UnitFilterType, dynamic> item)
         {
-            IQueryable<int> result;
+            IQueryable<int> result = null;
             switch (item.Key)
             {
                 case UnitFilterType.Status:
@@ -58,8 +58,6 @@ namespace TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting
                     int projectId = (int)item.Value;
                     result = _dbContext.Units.Where(x=>x.UnitParentId == projectId).Select(x=>x.UnitId);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             return result;

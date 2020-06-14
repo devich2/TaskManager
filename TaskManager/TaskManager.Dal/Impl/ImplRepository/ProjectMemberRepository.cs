@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Common.Security;
 using TaskManager.Common.Utils;
 using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Dal.Impl.ImplRepository.Base;
@@ -19,13 +20,15 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
         }
 
-        public async Task<List<ProjectMemberBaseModel>> GetMembersByProjectId(int projectId)
+        public async Task<List<ProjectMemberBaseModel>> GetMembersByProjectId(int projectId, string searchString)
         {
             var list = await (from p in Context.ProjectMembers
                     join u in Context.Users on p.UserId equals u.Id
                     join c in Context.UserClaims
                         on u.Id equals c.UserId
-                    where p.ProjectId == projectId && c.ClaimType == PermissionExtensions.PackedPermissionClaimType
+                    where p.ProjectId == projectId &&
+                          c.ClaimType == PermissionExtensions.PackedPermissionClaimType &&
+                          (searchString == null || u.Name.Contains(searchString))
                     select new {p.UserId, p.GivenAccess, u.Name, u.Email, u.UserName, u.LastLoginDate, RoleClaim = c})
                 .ToListAsync();
 

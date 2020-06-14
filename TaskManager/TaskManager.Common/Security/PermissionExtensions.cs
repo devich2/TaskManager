@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using TaskManager.Entities.Enum;
 
-namespace TaskManager.Common.Utils
+namespace TaskManager.Common.Security
 {
     public static class PermissionExtensions
     {

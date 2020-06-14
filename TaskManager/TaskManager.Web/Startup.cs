@@ -93,7 +93,11 @@ namespace TaskManager.Web
                     context.Properties.IsPersistent = true;
                     return Task.CompletedTask;
                 };
-                
+                options.Events.OnRedirectToAccessDenied = ctx =>
+                {
+                    var handler = ctx.HttpContext.RequestServices.GetService<UnauthorizedApiHandler>();
+                    return handler.Handle(ctx);
+                };
                 options.Events.OnRedirectToLogin = ctx =>
                 {
                     var handler = ctx.HttpContext.RequestServices.GetService<UnauthorizedApiHandler>();

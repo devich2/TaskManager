@@ -33,6 +33,8 @@ namespace TaskManager.Models.Result
         [HttpStatus(400)]
         SelfEditForbidden,
         [HttpStatus(400)]
-        ProjectMemberNotExisting
+        ProjectMemberNotExisting,
+        [HttpStatus(400)]
+        AlreadyInProject
     }
 }

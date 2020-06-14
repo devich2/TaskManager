@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Models.Response
 {
-    public class UserResponse : UnitBaseResponse
+    public class UserResponse
     {
         public int Id { get; set; }
     }

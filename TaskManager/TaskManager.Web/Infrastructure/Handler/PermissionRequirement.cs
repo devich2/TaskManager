@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
+using TaskManager.Common.Security;
 using TaskManager.Common.Utils;
 using TaskManager.Entities.Enum;
 

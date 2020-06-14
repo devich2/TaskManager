@@ -31,7 +31,7 @@ namespace TaskManager.Web.Infrastructure.Handler
             {
                 context.Succeed(requirement);
             }
-            return Task.CompletedTask;
+            return Task.CompletedTask;;
         }
     }
 }

@@ -4,7 +4,7 @@ using TaskManager.Models.TermInfo;
 
 namespace TaskManager.Models.Unit
 {
-    public class UnitModel: UnitBaseModel, IUnitAuth
+    public class UnitModel: UnitBaseModel
     {
         public TermInfoCreateModel TermInfo { get; set; }
         public int? ParentId { get; set; }

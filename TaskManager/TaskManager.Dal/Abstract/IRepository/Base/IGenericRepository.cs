@@ -10,7 +10,7 @@ namespace TaskManager.Dal.Abstract.IRepository.Base
     {
         Task<TEntity> AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
-        Task<TEntity> DeleteAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
         Task<List<TEntity>> GetAllAsync();
         Task<TEntity> GetByIdAsync(TKey id);
         Task<List<TEntity>> GetByAsync(Expression<Func<TEntity, bool>> predicate);
