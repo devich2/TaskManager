@@ -28,7 +28,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
             var query = from m in Context.MileStones
                 join u in Context.Units on m.UnitId equals u.UnitId
                 join t in Context.TermInfos on m.UnitId equals t.UnitId
-                where (t.Status == Status.Closed || t.Status == Status.Open) &&
+                where (t.Status == Status.InProgress || t.Status == Status.Open) &&
                       u.UnitParentId == projectId
                 select new MileStoneBaseModel()
                 {

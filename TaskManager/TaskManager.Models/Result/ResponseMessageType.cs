@@ -22,8 +22,6 @@ namespace TaskManager.Models.Result
         InvalidId,
         [HttpStatus(404)]
         NotFound,
-        [HttpStatus(400)]
-        ParentIdIsMissing,
         [HttpStatus(500)]
         MailServiceError,
         [HttpStatus(400)]
@@ -31,6 +29,10 @@ namespace TaskManager.Models.Result
         [HttpStatus(400)]
         TermInfoMissing,
         [HttpStatus(400)]
-        UnitAccessDenied
+        UnitAccessDenied,
+        [HttpStatus(400)]
+        SelfEditForbidden,
+        [HttpStatus(400)]
+        ProjectMemberNotExisting
     }
 }

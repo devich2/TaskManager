@@ -62,6 +62,7 @@ namespace TaskManager.Bll.Impl.Services
             //Other dependencies
             services.AddSingleton<IConverterService<int, ResponseMessageType>, HttpStatusConverterService>();
             services.AddSingleton<IPermissionCache, PermissionCache>();
+            services.AddSingleton<IRoleCache, RoleCache>();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace TaskManager.Dal.Abstract
     {
         public IPermissionRepository Permissions { get; }
         public IProjectRepository Projects { get; }
+        public IProjectMemberRepository ProjectMembers {get;}
         public ITagOnTaskRepository TagOnTasks { get; }
         public ITagRepository Tags { get; }
         public ITaskRepository Tasks { get; }

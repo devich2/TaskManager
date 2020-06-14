@@ -11,21 +11,18 @@ namespace TaskManager.Bll.Impl.Services.Cache
 {
     public class PermissionCache: IPermissionCache
     {
-        private readonly IMemoryCache _memoryCache;
         private readonly Dictionary<PermissionType, List<string>> _permsToRoles;
         public PermissionCache(IServiceProvider sp)
         {
-           
             using (var scope = sp.CreateScope())
             {
-                _memoryCache = scope.ServiceProvider.GetService<IMemoryCache>();
                 var permissionRepository = scope.ServiceProvider.GetService<IPermissionRepository>();
                 _permsToRoles = permissionRepository.GetRolesGroupedByPermissions();
             }
         }
         public List<string> GetFromCache(PermissionType permissionType)
         {
-            return _permsToRoles[permissionType];
+            return _permsToRoles.TryGetValue(permissionType, out List<string> roles) ? roles : default;
         }
     }
 }

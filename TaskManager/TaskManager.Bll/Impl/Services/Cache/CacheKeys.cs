@@ -2,5 +2,6 @@
 {
     public static class CacheKeys
     {
+        // ToDo memory cache
     }
 }

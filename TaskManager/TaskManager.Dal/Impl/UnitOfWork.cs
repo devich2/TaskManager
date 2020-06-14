@@ -30,10 +30,19 @@ namespace TaskManager.Dal.Impl
         private ITermInfoRepository _termInfoRepository;
         private IUnitRepository _unitRepository;
         private IMileStoneRepository _mileStoneRepository;
+        private IProjectMemberRepository _projectMemberRepository;
         #endregion
 
         #region Properties
-
+        
+        public IProjectMemberRepository ProjectMembers
+        {
+            get
+            {
+                return _projectMemberRepository ??= new ProjectMemberRepository(_taskManagerDbContext);
+            }
+        }
+        
         public IPermissionRepository Permissions
         {
             get

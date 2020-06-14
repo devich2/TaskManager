@@ -40,6 +40,7 @@ namespace TaskManager.Web.Controllers
 
         [HttpPut]
         [Route("{taskId}/assignee")]
+        [HasPermission(PermissionType.TaskAssigneeChange)]
         public async Task<DataResult<ChangeAssigneeResponse>> Put(int taskId,
             [FromBody] TaskAssigneePatchModel model)
         {
@@ -49,6 +50,7 @@ namespace TaskManager.Web.Controllers
 
         [HttpPut]
         [Route("{taskId}/milestone")]
+        [HasPermission(PermissionType.TaskMileStoneChange)]
         public async Task<DataResult<ChangeMileStoneResponse>> Put(int taskId, 
             [FromBody] TaskMileStonePatchModel model)
         {

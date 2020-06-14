@@ -21,6 +21,7 @@ namespace TaskManager.Web.Controllers
             _tagService = tagService;
         }
         [HttpGet]
+        [HasPermission(PermissionType.Read)]
         public async Task<DataResult<List<TagModel>>> Get()
         {
             return await _tagService.GetTags();

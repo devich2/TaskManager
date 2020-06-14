@@ -42,6 +42,7 @@ namespace TaskManager.Dal
             services.AddTransient<ITermInfoRepository, TermInfoRepository>();
             services.AddTransient<IUnitRepository, UnitRepository>();
             services.AddTransient<IMileStoneRepository, MileStoneRepository>();
+            services.AddTransient<IProjectMemberRepository, ProjectMemberRepository>();
             
             //Other dependencies
             services.AddScoped<IUnitOfWork, UnitOfWork>();

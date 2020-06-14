@@ -294,14 +294,14 @@ namespace TaskManager.Dal.Migrations
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
                             Email = "devidshylyuk85@gmail.com",
                             EmailConfirmed = false,
-                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 319, DateTimeKind.Unspecified).AddTicks(7308), new TimeSpan(0, 3, 0, 0, 0)),
+                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 764, DateTimeKind.Unspecified).AddTicks(8754), new TimeSpan(0, 3, 0, 0, 0)),
                             LockoutEnabled = false,
                             Name = "David",
                             NormalizedEmail = "DEVIDSHYLYUK85@GMAIL.COM",
                             NormalizedUserName = "DAVID",
                             PasswordHash = "AQAAAAEAACcQAAAAEJMqefM3jQQE7sOvJCM73AKmMaFQqF0t01IbCdmU+x7KcgHlBoETO6+XXtvJ+wB9UA==",
                             PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2020, 6, 13, 19, 44, 21, 319, DateTimeKind.Local).AddTicks(8166),
+                            RegistrationDate = new DateTime(2020, 6, 13, 20, 44, 48, 764, DateTimeKind.Local).AddTicks(9573),
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@devich"
@@ -313,14 +313,14 @@ namespace TaskManager.Dal.Migrations
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
                             Email = "olarevun23@gmail.com",
                             EmailConfirmed = false,
-                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 320, DateTimeKind.Unspecified).AddTicks(1959), new TimeSpan(0, 3, 0, 0, 0)),
+                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 765, DateTimeKind.Unspecified).AddTicks(1596), new TimeSpan(0, 3, 0, 0, 0)),
                             LockoutEnabled = false,
                             Name = "Ola",
                             NormalizedEmail = "OLAREVUN23@GMAIL.COM",
                             NormalizedUserName = "OLA",
                             PasswordHash = "AQAAAAEAACcQAAAAELhW7WoGTkP1aZcDoN5qwgHILFMMak47gnjEKYQ0YBgcEitvLKiKmpoXYliqdFfMVA==",
                             PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2020, 6, 13, 19, 44, 21, 320, DateTimeKind.Local).AddTicks(2011),
+                            RegistrationDate = new DateTime(2020, 6, 13, 20, 44, 48, 765, DateTimeKind.Local).AddTicks(1654),
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@olga"
@@ -332,14 +332,14 @@ namespace TaskManager.Dal.Migrations
                             ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
                             Email = "olegrevun23@gmail.com",
                             EmailConfirmed = false,
-                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 320, DateTimeKind.Unspecified).AddTicks(2039), new TimeSpan(0, 3, 0, 0, 0)),
+                            LastLoginDate = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 765, DateTimeKind.Unspecified).AddTicks(1692), new TimeSpan(0, 3, 0, 0, 0)),
                             LockoutEnabled = false,
                             Name = "Oleg",
                             NormalizedEmail = "OLEGREVUN23@GMAIL.COM",
                             NormalizedUserName = "OLEG",
                             PasswordHash = "AQAAAAEAACcQAAAAELhW7WoGTkP1aZcDoN5qwgHILFMMak47gnjEKYQ0YBgcEitvLKiKmpoXYliqdFfMVA==",
                             PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2020, 6, 13, 19, 44, 21, 320, DateTimeKind.Local).AddTicks(2046),
+                            RegistrationDate = new DateTime(2020, 6, 13, 20, 44, 48, 765, DateTimeKind.Local).AddTicks(1699),
                             SecurityStamp = "9819F4B5-F389-4603-BF0B-1E3C88379627",
                             TwoFactorEnabled = false,
                             UserName = "@olegka"
@@ -735,6 +735,26 @@ namespace TaskManager.Dal.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("ProjectMembers");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            ProjectId = 20,
+                            GivenAccess = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 763, DateTimeKind.Unspecified).AddTicks(3587), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            ProjectId = 20,
+                            GivenAccess = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 763, DateTimeKind.Unspecified).AddTicks(4072), new TimeSpan(0, 3, 0, 0, 0))
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            ProjectId = 20,
+                            GivenAccess = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 763, DateTimeKind.Unspecified).AddTicks(4106), new TimeSpan(0, 3, 0, 0, 0))
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Entities.Tables.Tag", b =>
@@ -960,78 +980,78 @@ namespace TaskManager.Dal.Migrations
                         {
                             UnitId = 1,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 25, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 312, DateTimeKind.Unspecified).AddTicks(1779), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 758, DateTimeKind.Unspecified).AddTicks(399), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Open
                         },
                         new
                         {
                             UnitId = 2,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 30, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5588), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(638), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 3,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 27, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5690), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(728), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 4,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 26, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5701), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(741), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 5,
                             DueTs = new DateTimeOffset(new DateTime(2020, 5, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5711), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(749), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Closed
                         },
                         new
                         {
                             UnitId = 20,
                             DueTs = new DateTimeOffset(new DateTime(2020, 6, 23, 12, 40, 40, 0, DateTimeKind.Unspecified), new TimeSpan(0, -2, 0, 0, 0)),
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5722), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(761), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 25,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5730), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(768), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         },
                         new
                         {
                             UnitId = 26,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5736), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(775), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.Closed
                         },
                         new
                         {
                             UnitId = 40,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5742), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(781), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 41,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5750), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(789), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 42,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5756), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(795), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.None
                         },
                         new
                         {
                             UnitId = 50,
-                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 19, 44, 21, 315, DateTimeKind.Unspecified).AddTicks(5762), new TimeSpan(0, 3, 0, 0, 0)),
+                            StartTs = new DateTimeOffset(new DateTime(2020, 6, 13, 20, 44, 48, 761, DateTimeKind.Unspecified).AddTicks(801), new TimeSpan(0, 3, 0, 0, 0)),
                             Status = Status.InProgress
                         });
                 });

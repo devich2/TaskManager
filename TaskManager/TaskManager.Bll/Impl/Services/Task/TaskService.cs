@@ -72,7 +72,7 @@ namespace TaskManager.Bll.Impl.Services.Task
                 if (item.UnitType == UnitType.Comment)
                     if (unit.UnitParentId != null)
                         subUnit.Creator.Role =
-                            await _projectMemberService.GetRole(item.CreatorId, unit.UnitParentId.Value);
+                            await _projectMemberService.GetUserProjectRole(item.CreatorId, unit.UnitParentId.Value);
 
                 subModels.Add(subUnit);
             }

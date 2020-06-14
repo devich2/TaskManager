@@ -20,7 +20,9 @@ namespace TaskManager.Seed
             AddEntities(builder, unitEntitiesHolder.GetMileStones());
             AddEntities(builder, unitEntitiesHolder.GeTasks());
             AddEntities(builder, unitEntitiesHolder.GeTagOnTasks());
-
+            
+            var projectMemberHolder = new ProjectMemberEntitiesHolder();
+            AddEntities(builder, projectMemberHolder.GetProjectMembers());
             // Seed roles, users and permissions
             var rolesEntitiesHolder = new RolesEntitiesHolder();
             AddEntities(builder, rolesEntitiesHolder.GetRoles());
