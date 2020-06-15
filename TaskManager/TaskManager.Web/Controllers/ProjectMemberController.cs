@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Common.Utils;
+using TaskManager.Configuration;
 using TaskManager.Entities.Enum;
 using TaskManager.Models;
+using TaskManager.Models.Pagination;
 using TaskManager.Models.ProjectMember;
 using TaskManager.Models.Response;
 using TaskManager.Models.Result;
@@ -20,28 +24,41 @@ namespace TaskManager.Web.Controllers
     public class ProjectMemberController : ControllerBase
     {
         private readonly IProjectMemberService _projectMemberService;
+        private readonly PaginationConfiguration _paginationConfiguration;
 
-        public ProjectMemberController(IProjectMemberService projectMemberService)
+        public ProjectMemberController(IProjectMemberService projectMemberService, 
+            IOptions<PaginationConfiguration> options)
         {
             _projectMemberService = projectMemberService;
+            _paginationConfiguration = options.Value;
         }
 
         [HttpGet]
         [Route("project_members")]
         [HasPermission(PermissionType.Read)]
-        public async Task<DataResult<List<ProjectMemberDisplayModel>>> DisplayMembers(int projectId,
-            string sortingQuery, string searchString)
+        public async Task<DataResult<GenericPaginatedModel<ProjectMemberDisplayModel>>> DisplayMembers(int projectId,
+            string sortingQuery, string searchString, int? page)
         {
             DataResult<SortingOptions> sortingOptionsDataResult =
                 UnitOrderExtractor.ExtractSortingOptionsDataResult(sortingQuery);
-
+            int pageSize = _paginationConfiguration.PageSize;
             if (sortingOptionsDataResult.ResponseStatusType ==
                 ResponseStatusType.Succeed)
             {
-                return await _projectMemberService.GetProjectMembers(projectId, sortingOptionsDataResult.Data, searchString);
+                List<ProjectMemberDisplayModel> displayModels = await _projectMemberService.GetProjectMembers(projectId, sortingOptionsDataResult.Data, searchString);
+                return new DataResult<GenericPaginatedModel<ProjectMemberDisplayModel>>()
+                {
+                    ResponseStatusType = displayModels.Any() ? ResponseStatusType.Succeed : ResponseStatusType.Warning,
+                    Data = new GenericPaginatedModel<ProjectMemberDisplayModel>()
+                    {
+                        Models = displayModels.Skip(((page ?? 1)-1)*pageSize).Take(pageSize),
+                        PaginationModel = new PaginationModel(displayModels.Count, page ?? 1, pageSize)
+                    }
+                };
+                
             }
             
-            return new DataResult<List<ProjectMemberDisplayModel>>()
+            return new DataResult<GenericPaginatedModel<ProjectMemberDisplayModel>>()
             {
                 Message = sortingOptionsDataResult.Message,
                 ResponseStatusType = sortingOptionsDataResult.ResponseStatusType,

@@ -339,16 +339,16 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             return dataResult;
         }
 
-        public async Task<DataResult<List<ProjectMemberDisplayModel>>> GetProjectMembers(int projectId,
+        public async Task<List<ProjectMemberDisplayModel>> GetProjectMembers(int projectId,
             SortingOptions sortingOptions, string searchString)
         {
             List<Tuple<Func<ProjectMemberDisplayModel, object>, SortingType>> sortingExpression = null;
             DataResult<List<ProjectMemberDisplayModel>> dataResult = new DataResult<List<ProjectMemberDisplayModel>>();
 
             var baseModels = await _unitOfWork.ProjectMembers.GetMembersByProjectId(projectId, searchString);
+            List<ProjectMemberDisplayModel> displayModels = new List<ProjectMemberDisplayModel>();
             if (baseModels.Any())
             {
-                List<ProjectMemberDisplayModel> displayModels = new List<ProjectMemberDisplayModel>();
                 foreach (var pm in baseModels)
                 {
                     ProjectMemberDisplayModel memberDisplayModel = _mapper.Map<ProjectMemberDisplayModel>(pm);
@@ -391,13 +391,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                 dataResult.Data = displayModels;
                 dataResult.ResponseStatusType = ResponseStatusType.Succeed;
             }
-            else
-            {
-                dataResult.ResponseStatusType = ResponseStatusType.Warning;
-                dataResult.Message = ResponseMessageType.EmptyResult;
-            }
-
-            return dataResult;
+            return displayModels;
         }
     }
 }

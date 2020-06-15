@@ -17,7 +17,7 @@ namespace TaskManager.Dal.Abstract.IRepository
             PagingOptions po,
             IQueryable<int> unitFilterQuery,
             List<Tuple<Expression<Func<Unit, object>>, SortingType>> orderByQuery);
-        Task<int> SelectByTypeCount(UnitType type, IQueryable<int> unitFilterQuery);
+        Task<int> SelectByTypeCount(UnitType type, IEnumerable<int> unitIds);
         Task<Dictionary<Status, List<Unit>>> GetUnitStatusListByTypeAndParent(UnitType unitType,int? unitParentId);
         Task<Dictionary<Status, int>> GetUnitStatusCountByTypeAndParent(UnitType unitType, int? unitParentId);
         Task<Unit> SelectExpandedByUnitIdAndType(UnitType type, int unitId);

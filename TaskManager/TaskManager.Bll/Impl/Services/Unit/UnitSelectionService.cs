@@ -90,7 +90,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 .SelectByType(options.ExtendedType, options.PagingOptions, compoundQueryableFilter, sortingExpression);
         }
 
-        public async Task<DataResult<List<UnitSelectionModel>>> GetUnitPreview(SelectionOptions options)
+        public async Task<List<UnitSelectionModel>> GetUnitPreview(SelectionOptions options)
         {
             var selectionResult = await GetFilteredUnits(options);
             List<UnitSelectionModel> result = new List<UnitSelectionModel>();
@@ -100,25 +100,12 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 model.Data = await GetRelatedPreviewData(item);
                 result.Add(model);
             }
-
-            DataResult<List<UnitSelectionModel>> methodResult =
-                new DataResult<List<UnitSelectionModel>>();
-
-            if (result.Any())
-            {
-                methodResult.ResponseStatusType = ResponseStatusType.Succeed;
-                methodResult.Data = result;
-            }
-            else
-            {
-                methodResult.ResponseStatusType = ResponseStatusType.Warning;
-                methodResult.Data = result;
-                methodResult.Message = ResponseMessageType.EmptyResult;
-            }
-
-            return methodResult;
+            return result;
         }
-        
+        public async Task<int> SelectByTypeCount(UnitType unitType, IEnumerable<int> unitIds)
+        {
+            return await _unitOfWork.Units.SelectByTypeCount(unitType, unitIds);
+        }
         public async Task<DataResult<UnitSelectionModel>> GetUnitById(int unitId)
         {
             Entities.Tables.Unit unitEntity = await _unitOfWork.Units.GetByUnitIdAsync(unitId);

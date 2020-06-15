@@ -94,14 +94,14 @@ namespace TaskManager.Dal.Impl.ImplRepository
             return entityQuery;
         }
 
-        public async Task<int> SelectByTypeCount(UnitType type, IQueryable<int> unitFilterQuery)
+        public async Task<int> SelectByTypeCount(UnitType type, IEnumerable<int> unitIds)
         {
             IQueryable<Unit> entityQuery = Context.Units.Where(x => x.UnitType == type);
 
-            if (unitFilterQuery != null)
+            if (unitIds != null)
             {
                 entityQuery = entityQuery
-                    .Where(x => unitFilterQuery.Contains(x.UnitId));
+                    .Where(x => unitIds.ToArray().Contains(x.UnitId));
             }
 
             return await entityQuery.CountAsync();

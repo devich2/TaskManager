@@ -15,7 +15,8 @@ namespace TaskManager.Bll.Abstract.ProjectMember
         Task<DataResult<ProjectMemberResponse>> AddToProject(ProjectMemberRoleModel model);
         Task<Result> RemoveFromProject(int projectId, int userId);
         Task<DataResult<UserResponse>> AddUserRole(int projectId, int userId, string roleName);
-        Task<DataResult<List<ProjectMemberDisplayModel>>> GetProjectMembers(int projectId, SortingOptions sortingOptions, string searchString);
+        Task<List<ProjectMemberDisplayModel>> GetProjectMembers(int projectId,
+            SortingOptions sortingOptions, string searchString);
         Task<DataResult<ProjectMemberSelectionModel>> GetMembersList(int projectId);
         Task<DataResult<RoleChangeResponse>> ChangeRole(int currentUserId, ProjectMemberRoleModel model);
     }

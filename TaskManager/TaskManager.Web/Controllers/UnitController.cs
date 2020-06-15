@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TaskManager.Bll.Abstract.Permission;
 using TaskManager.Bll.Abstract.Unit;
 using TaskManager.Common.Utils;
+using TaskManager.Configuration;
 using TaskManager.Entities.Enum;
 using TaskManager.Models;
+using TaskManager.Models.Pagination;
 using TaskManager.Models.Response;
 using TaskManager.Models.Result;
 using TaskManager.Models.Unit;
@@ -26,45 +30,46 @@ namespace TaskManager.Web.Controllers
         private readonly IUnitSelectionService _unitSelectionService;
         private readonly IMapper _mapper;
         private readonly IPermissionService _permissionService;
+        private readonly PaginationConfiguration _paginationConfiguration;
 
         public UnitApiController(IUnitEditService editService,
             IUnitSelectionService unitSelectionService,
             IMapper mapper,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            IOptions<PaginationConfiguration> options)
         {
             _editService = editService;
             _unitSelectionService = unitSelectionService;
             _mapper = mapper;
             _permissionService = permissionService;
+            _paginationConfiguration = options.Value;
         }
 
         [HttpGet]
         [HasPermission(PermissionType.Read)]
-        public async Task<DataResult<List<UnitSelectionModel>>> Get
-            (UnitType unitType, int? startIndex, int? count, string sortingQuery, string filterQuery)
+        public async Task<DataResult<GenericPaginatedModel<UnitSelectionModel>>> Get
+            (UnitType unitType, string sortingQuery, string filterQuery, int? page)
         {
             if (unitType != UnitType.Task && unitType != UnitType.Milestone)
             {
-                return new DataResult<List<UnitSelectionModel>>()
+                return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
                 {
                     ResponseStatusType = ResponseStatusType.Error,
                     Message = ResponseMessageType.OperationNotAllowedForUnitType
                 };
             }
 
+            int pageSize = _paginationConfiguration.PageSize;
             SelectionOptions so =
                 new SelectionOptions()
                 {
-                    ExtendedType = unitType
+                    ExtendedType = unitType,
+                    PagingOptions = new PagingOptions()
+                    {
+                        StartIndex = ((page ?? 1) - 1) * pageSize,
+                        Count = pageSize
+                    }
                 };
-            if (count.HasValue && startIndex.HasValue)
-            {
-                so.PagingOptions = new PagingOptions()
-                {
-                    Count = count.Value,
-                    StartIndex = startIndex.Value,
-                };
-            }
 
             DataResult<FilterOptions> filterOptionsDataResult =
                 UnitFilterExtractor.ExtractFilterOptionsDataResult(filterQuery);
@@ -80,7 +85,7 @@ namespace TaskManager.Web.Controllers
             if (filterOptionsDataResult.ResponseStatusType ==
                 ResponseStatusType.Error)
             {
-                return new DataResult<List<UnitSelectionModel>>()
+                return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
                 {
                     Message = filterOptionsDataResult.Message,
                     ResponseStatusType = filterOptionsDataResult.ResponseStatusType,
@@ -102,7 +107,7 @@ namespace TaskManager.Web.Controllers
             if (sortingOptionsDataResult.ResponseStatusType ==
                 ResponseStatusType.Error)
             {
-                return new DataResult<List<UnitSelectionModel>>()
+                return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
                 {
                     Message = sortingOptionsDataResult.Message,
                     ResponseStatusType = sortingOptionsDataResult.ResponseStatusType,
@@ -110,8 +115,21 @@ namespace TaskManager.Web.Controllers
                 };
             }
 
-            return await _unitSelectionService.GetUnitPreview(so);
+            List<UnitSelectionModel> unitModels = await _unitSelectionService.GetUnitPreview(so);
+            int count = await _unitSelectionService.SelectByTypeCount(
+                unitType, unitModels.Select(x => x.UnitId));
+
+            return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
+            {
+                ResponseStatusType = unitModels.Any() ? ResponseStatusType.Succeed : ResponseStatusType.Warning,
+                Data = new GenericPaginatedModel<UnitSelectionModel>()
+                {
+                    Models = unitModels,
+                    PaginationModel = new PaginationModel(count, page ?? 1, pageSize)
+                }
+            };
         }
+
 
         [HttpPost]
         public async Task<DataResult<UnitAddResponse>> Post(int projectId, [FromBody] UnitModel model)
@@ -137,9 +155,7 @@ namespace TaskManager.Web.Controllers
             }
 
             UnitBlModel blModel = _mapper.Map<UnitBlModel>(model);
-
             blModel.UserId = userId;
-
             return await _editService.ProcessUnitCreate(blModel);
         }
 
@@ -157,12 +173,10 @@ namespace TaskManager.Web.Controllers
                     Message = ResponseMessageType.UserNotAuthorized,
                     MessageDetails = $"No access to update {model.ExtendedType}"
                 };
-            
             int userId = User.GetUserId();
             UnitBlModel blModel = _mapper.Map<UnitBlModel>(model);
             blModel.UnitId = id;
             blModel.UserId = userId;
-
             return await _editService.ProcessUnitUpdate(blModel);
         }
 
@@ -179,7 +193,6 @@ namespace TaskManager.Web.Controllers
                 UserId = userId,
                 UnitId = id
             };
-
             return await _editService.ProcessContentChangeStatus(um);
         }
 
@@ -196,7 +209,6 @@ namespace TaskManager.Web.Controllers
                     Message = ResponseMessageType.UserNotAuthorized,
                     MessageDetails = $"No access to delete {model.UnitType}"
                 };
-            
             model.UnitId = id;
             return await _editService.ProcessUnitDelete(model);
         }
