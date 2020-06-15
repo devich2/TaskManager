@@ -55,8 +55,13 @@ namespace TaskManager.Dal.Impl.ImplRepository.FiltersAndSorting
                             x => x.TagId, y => y.Id, (x, y) => x.UnitId);
                     break;
                 case UnitFilterType.Project:
-                    int projectId = (int)item.Value;
-                    result = _dbContext.Units.Where(x=>x.UnitParentId == projectId).Select(x=>x.UnitId);
+                    int projectId = (int) item.Value;
+                    result = _dbContext.Units.Where(x => x.UnitParentId == projectId).Select(x => x.UnitId);
+                    break;
+                case UnitFilterType.UserAccess:
+                    int userId = (int) item.Value;
+                    result = _dbContext.ProjectMembers.Where(x => x.UserId == userId)
+                        .Select(x => x.ProjectId);
                     break;
             }
 

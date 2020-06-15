@@ -1,16 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using TaskManager.Bll.Abstract.MileStone;
 using TaskManager.Bll.Abstract.Project;
 using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Bll.Abstract.Unit;
 using TaskManager.Common.Utils;
+using TaskManager.Configuration;
 using TaskManager.Entities.Enum;
+using TaskManager.Models;
 using TaskManager.Models.MileStone;
+using TaskManager.Models.Pagination;
 using TaskManager.Models.Project;
 using TaskManager.Models.ProjectMember;
 using TaskManager.Models.Response;
@@ -18,6 +23,7 @@ using TaskManager.Models.Result;
 using TaskManager.Models.TermInfo;
 using TaskManager.Models.Unit;
 using TaskManager.Models.User;
+using TaskManager.Web.Infrastructure.Extension;
 using TaskManager.Web.Infrastructure.Handler;
 
 namespace TaskManager.Web.Controllers
@@ -28,13 +34,18 @@ namespace TaskManager.Web.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly IUnitEditService _unitEditService;
-
+        private readonly IUnitSelectionService _unitSelectionService;
+        private readonly PaginationConfiguration _paginationConfiguration;
 
         public ProjectController(IProjectService projectService, 
-        IUnitEditService unitEditService)
+        IUnitEditService unitEditService,
+        IUnitSelectionService unitSelectionService,
+        IOptions<PaginationConfiguration> options)
         {
             _projectService = projectService;
             _unitEditService = unitEditService;
+            _unitSelectionService = unitSelectionService;
+            _paginationConfiguration = options.Value;
         }
         
         [HttpGet]
@@ -43,6 +54,59 @@ namespace TaskManager.Web.Controllers
         public async Task<DataResult<UnitSelectionModel>> Get(int projectId)
         {
             return await _projectService.GetProjectDetails(projectId, User.GetUserId());
+        }
+        
+        [HttpGet]
+        [Route("my")]   
+        [Authorize]
+        public async Task<DataResult<GenericPaginatedModel<UnitSelectionModel>>> Get(string sortingQuery, int? page)
+        {
+            int pageSize = _paginationConfiguration.PageSize;
+            SelectionOptions so =
+                new SelectionOptions()
+                {
+                    ExtendedType = UnitType.Project,
+                    PagingOptions = new PagingOptions()
+                    {
+                        StartIndex = ((page ?? 1) - 1) * pageSize,
+                        Count = pageSize
+                    }
+                };
+            DataResult<SortingOptions> sortingOptionsDataResult =
+                UnitOrderExtractor.ExtractSortingOptionsDataResult(sortingQuery);
+
+            if (sortingOptionsDataResult.ResponseStatusType ==
+                ResponseStatusType.Succeed &&
+                sortingOptionsDataResult.Message ==
+                ResponseMessageType.None)
+            {
+                so.SortingOptions = sortingOptionsDataResult.Data;
+            }
+
+            if (sortingOptionsDataResult.ResponseStatusType ==
+                ResponseStatusType.Error)
+            {
+                return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
+                {
+                    Message = sortingOptionsDataResult.Message,
+                    ResponseStatusType = sortingOptionsDataResult.ResponseStatusType,
+                    MessageDetails = sortingOptionsDataResult.MessageDetails
+                };
+            }
+            so.FilterOptions.Filters.Add(UnitFilterType.UserAccess, User.GetUserId());
+            List<UnitSelectionModel> unitModels = await _unitSelectionService.GetUnitPreview(User.GetUserId(), so);
+            int count = await _unitSelectionService.SelectByTypeCount(
+                UnitType.Project, unitModels.Select(x => x.UnitId));
+
+            return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
+            {
+                ResponseStatusType = unitModels.Any() ? ResponseStatusType.Succeed : ResponseStatusType.Warning,
+                Data = new GenericPaginatedModel<UnitSelectionModel>()
+                {
+                    Models = unitModels,
+                    PaginationModel = new PaginationModel(count, page ?? 1, pageSize)
+                }
+            };
         }
         
         [HttpPost]

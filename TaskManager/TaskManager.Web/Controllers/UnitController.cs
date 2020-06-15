@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -48,7 +49,7 @@ namespace TaskManager.Web.Controllers
         [HttpGet]
         [HasPermission(PermissionType.Read)]
         public async Task<DataResult<GenericPaginatedModel<UnitSelectionModel>>> Get
-            (UnitType unitType, string sortingQuery, string filterQuery, int? page)
+            (int projectId, UnitType unitType, string sortingQuery, string filterQuery, int? page)
         {
             if (unitType != UnitType.Task && unitType != UnitType.Milestone)
             {
@@ -80,6 +81,7 @@ namespace TaskManager.Web.Controllers
                 ResponseMessageType.None)
             {
                 so.FilterOptions = filterOptionsDataResult.Data;
+                so.FilterOptions.Filters.Add(UnitFilterType.Project, projectId);
             }
 
             if (filterOptionsDataResult.ResponseStatusType ==
@@ -115,7 +117,7 @@ namespace TaskManager.Web.Controllers
                 };
             }
 
-            List<UnitSelectionModel> unitModels = await _unitSelectionService.GetUnitPreview(so);
+            List<UnitSelectionModel> unitModels = await _unitSelectionService.GetUnitPreview(User.GetUserId(), so);
             int count = await _unitSelectionService.SelectByTypeCount(
                 unitType, unitModels.Select(x => x.UnitId));
 

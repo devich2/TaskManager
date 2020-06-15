@@ -39,7 +39,7 @@ namespace TaskManager.Bll.Impl.Services.Project
             _projectMemberService = projectMemberService;
             _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
-
+       
         public async Task<DataResult<UnitSelectionModel>> GetProjectDetails(int unitId,
             int userId)
         {

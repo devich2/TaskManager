@@ -85,27 +85,29 @@ namespace TaskManager.Bll.Impl.Services.Unit
                     .Select(sortItem => _orderQueryFactory
                         .GetUnitOrderQuery(options.ExtendedType, sortItem)).ToList();
             }
-    
+
             return await _unitOfWork.Units
                 .SelectByType(options.ExtendedType, options.PagingOptions, compoundQueryableFilter, sortingExpression);
         }
 
-        public async Task<List<UnitSelectionModel>> GetUnitPreview(SelectionOptions options)
+        public async Task<List<UnitSelectionModel>> GetUnitPreview(int userId, SelectionOptions options)
         {
             var selectionResult = await GetFilteredUnits(options);
             List<UnitSelectionModel> result = new List<UnitSelectionModel>();
             foreach (var item in selectionResult)
             {
-                UnitSelectionModel model = _mapper.Map<UnitSelectionModel>(item);
-                model.Data = await GetRelatedPreviewData(item);
-                result.Add(model);
+                UnitSelectionModel unitModel = _mapper.Map<UnitSelectionModel>(item);
+                unitModel.Data = await GetRelatedPreviewData(item, userId);
+                result.Add(unitModel);
             }
             return result;
         }
+        
         public async Task<int> SelectByTypeCount(UnitType unitType, IEnumerable<int> unitIds)
         {
             return await _unitOfWork.Units.SelectByTypeCount(unitType, unitIds);
         }
+
         public async Task<DataResult<UnitSelectionModel>> GetUnitById(int unitId)
         {
             Entities.Tables.Unit unitEntity = await _unitOfWork.Units.GetByUnitIdAsync(unitId);
@@ -144,19 +146,23 @@ namespace TaskManager.Bll.Impl.Services.Unit
             };
         }
 
-        private async Task<JObject> GetRelatedPreviewData(Entities.Tables.Unit item)
+        private async Task<JObject> GetRelatedPreviewData(Entities.Tables.Unit item, int userId)
         {
             JObject current = null;
             JsonSerializer jsonSerializer = JsonSerializer.Create(_serializerSettings);
             switch (item.UnitType)
             {
-                case UnitType.Milestone: 
+                case UnitType.Milestone:
                     MileStonePreviewModel model = await _mileStoneService.GetPreviewModel(item);
                     current = JObject.FromObject(model, jsonSerializer);
                     break;
                 case UnitType.Task:
                     TaskPreviewModel taskModel = await _taskService.GetPreviewModel(item);
                     current = JObject.FromObject(taskModel, jsonSerializer);
+                    break;
+                case UnitType.Project:
+                    ProjectPreviewModel projectModel = await _projectService.GetPreviewModel(item, userId);
+                    current = JObject.FromObject(projectModel, jsonSerializer);
                     break;
             }
 
