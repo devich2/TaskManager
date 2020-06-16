@@ -117,17 +117,15 @@ namespace TaskManager.Web.Controllers
                 };
             }
 
-            List<UnitSelectionModel> unitModels = await _unitSelectionService.GetUnitPreview(User.GetUserId(), so);
-            int count = await _unitSelectionService.SelectByTypeCount(
-                unitType, unitModels.Select(x => x.UnitId));
+            SelectionModel<UnitSelectionModel> selection = await _unitSelectionService.GetUnitPreview(User.GetUserId(), so);
 
             return new DataResult<GenericPaginatedModel<UnitSelectionModel>>()
             {
-                ResponseStatusType = unitModels.Any() ? ResponseStatusType.Succeed : ResponseStatusType.Warning,
+                ResponseStatusType = selection.Result.Any() ? ResponseStatusType.Succeed : ResponseStatusType.Warning,
                 Data = new GenericPaginatedModel<UnitSelectionModel>()
                 {
-                    Models = unitModels,
-                    PaginationModel = new PaginationModel(count, page ?? 1, pageSize)
+                    Models = selection.Result,
+                    PaginationModel = new PaginationModel(selection.TotalCount, page ?? 1, pageSize)
                 }
             };
         }

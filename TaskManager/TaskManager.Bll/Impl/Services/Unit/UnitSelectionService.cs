@@ -20,6 +20,7 @@ using TaskManager.Dal.Abstract.IRepository.FiltersAndSorting;
 using TaskManager.Entities.Enum;
 using TaskManager.Models;
 using TaskManager.Models.MileStone;
+using TaskManager.Models.Pagination;
 using TaskManager.Models.Project;
 using TaskManager.Models.Result;
 using TaskManager.Models.Task;
@@ -65,7 +66,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
 
-        public async Task<List<Entities.Tables.Unit>> GetFilteredUnits(SelectionOptions options)
+        public async Task<SelectionModel<UnitSelectionModel>> GetUnitPreview(int userId, SelectionOptions options)
         {
             IQueryable<int> compoundQueryableFilter = null;
             List<Tuple<Expression<Func<Entities.Tables.Unit, object>>, SortingType>> sortingExpression = null;
@@ -86,13 +87,10 @@ namespace TaskManager.Bll.Impl.Services.Unit
                         .GetUnitOrderQuery(options.ExtendedType, sortItem)).ToList();
             }
 
-            return await _unitOfWork.Units
+            var selectionResult = await _unitOfWork.Units
                 .SelectByType(options.ExtendedType, options.PagingOptions, compoundQueryableFilter, sortingExpression);
-        }
+            int count = await _unitOfWork.Units.SelectByTypeCount(options.ExtendedType, compoundQueryableFilter);
 
-        public async Task<List<UnitSelectionModel>> GetUnitPreview(int userId, SelectionOptions options)
-        {
-            var selectionResult = await GetFilteredUnits(options);
             List<UnitSelectionModel> result = new List<UnitSelectionModel>();
             foreach (var item in selectionResult)
             {
@@ -100,12 +98,12 @@ namespace TaskManager.Bll.Impl.Services.Unit
                 unitModel.Data = await GetRelatedPreviewData(item, userId);
                 result.Add(unitModel);
             }
-            return result;
-        }
-        
-        public async Task<int> SelectByTypeCount(UnitType unitType, IEnumerable<int> unitIds)
-        {
-            return await _unitOfWork.Units.SelectByTypeCount(unitType, unitIds);
+
+            return new SelectionModel<UnitSelectionModel>()
+            {
+                Result = result,
+                TotalCount = count
+            };
         }
 
         public async Task<DataResult<UnitSelectionModel>> GetUnitById(int unitId)
