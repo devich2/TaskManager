@@ -13,6 +13,8 @@ namespace TaskManager.Configuration
         {
            services.Configure<PaginationConfiguration>(
                configuration.GetSection("PaginationConfiguration"));
+            services.Configure<SmtpSendConfiguration>(
+                configuration.GetSection("SmtpSendConfiguration"));
         }
     }
 }

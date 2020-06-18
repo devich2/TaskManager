@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="MailKit" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.4" />
   </ItemGroup>
 
@@ -14,6 +15,7 @@
     <ProjectReference Include="..\TaskManager.Common\TaskManager.Common.csproj" />
     <ProjectReference Include="..\TaskManager.Configuration\TaskManager.Configuration.csproj" />
     <ProjectReference Include="..\TaskManager.Dal\TaskManager.Dal.csproj" />
+    <ProjectReference Include="..\TaskManager.Email.Template.Engine\TaskManager.Email.Template.Engine.csproj" />
     <ProjectReference Include="..\TaskManager.Models\TaskManager.Models.csproj" />
   </ItemGroup>
 

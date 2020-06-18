@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Bll.Abstract.Auth;
 using TaskManager.Bll.Abstract.Cache;
 using TaskManager.Bll.Abstract.Converter;
+using TaskManager.Bll.Abstract.Email;
 using TaskManager.Bll.Abstract.MileStone;
 using TaskManager.Bll.Abstract.Permission;
 using TaskManager.Bll.Abstract.Project;
@@ -18,6 +15,7 @@ using TaskManager.Bll.Abstract.User;
 using TaskManager.Bll.Impl.Services.Auth;
 using TaskManager.Bll.Impl.Services.Cache;
 using TaskManager.Bll.Impl.Services.Converter;
+using TaskManager.Bll.Impl.Services.Email;
 using TaskManager.Bll.Impl.Services.MileStone;
 using TaskManager.Bll.Impl.Services.Permission;
 using TaskManager.Bll.Impl.Services.Project;
@@ -27,9 +25,6 @@ using TaskManager.Bll.Impl.Services.Task;
 using TaskManager.Bll.Impl.Services.Unit;
 using TaskManager.Bll.Impl.Services.Unit.ExtendedProcessStrategy;
 using TaskManager.Bll.Impl.Services.User;
-using TaskManager.Dal;
-using TaskManager.Dal.Abstract;
-using TaskManager.Models.Response;
 using TaskManager.Models.Result;
 
 namespace TaskManager.Bll.Impl.Services
@@ -57,6 +52,9 @@ namespace TaskManager.Bll.Impl.Services
             services.AddTransient<IUnitSelectionService, UnitSelectionService>();
             services.AddTransient<IUnitExtendedStrategyFactory, UnitExtendedStrategyFactory>();
             
+            //Email
+            services.AddTransient<IEmailSendService, EmailSendService>();
+            services.AddTransient<IEmailTemplateService, EmailTemplateService>();
             //Auth
             services.AddTransient<IAuthService, AuthService>();
             //Other dependencies

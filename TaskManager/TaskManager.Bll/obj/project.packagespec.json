@@ -28,6 +28,9 @@
           "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Dal\\TaskManager.Dal.csproj": {
             "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Dal\\TaskManager.Dal.csproj"
           },
+          "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Email.Template.Engine\\TaskManager.Email.Template.Engine.csproj": {
+            "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Email.Template.Engine\\TaskManager.Email.Template.Engine.csproj"
+          },
           "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Models\\TaskManager.Models.csproj": {
             "projectPath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Models\\TaskManager.Models.csproj"
           }
@@ -50,6 +53,10 @@
         "AutoMapper.Extensions.Microsoft.DependencyInjection": {
           "target": "Package",
           "version": "[7.0.0, )"
+        },
+        "MailKit": {
+          "target": "Package",
+          "version": "[2.7.0, )"
         },
         "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
           "target": "Package",

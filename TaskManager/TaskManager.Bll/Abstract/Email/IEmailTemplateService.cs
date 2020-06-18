@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using TaskManager.Email.Template.Engine.Views.Email;
 
 namespace TaskManager.Bll.Abstract.Email
 {
     public interface IEmailTemplateService
     {
-        System.Threading.Tasks.Task TemplateEmailMessage(string email, ParentViewModel model);
-        System.Threading.Tasks.Task TemplateEmailStringAttachment(string email, ParentViewModel model,List<string> files);
+        System.Threading.Tasks.Task TemplateEmailMessage(List<EmailTemplateModel> models);
     }
 }

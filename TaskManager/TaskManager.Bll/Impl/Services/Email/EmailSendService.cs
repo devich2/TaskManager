@@ -1,70 +1,59 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TaskManager.Bll.Abstract.Email;
 using TaskManager.Common.Utils;
+using TaskManager.Configuration;
 using TaskManager.Models.Email;
 using TaskManager.Models.Result;
 
 namespace TaskManager.Bll.Impl.Services.Email
 {
-     public class EmailSendService : IEmailSendService
+    public class EmailSendService : IEmailSendService
     {
         private readonly ILogger<EmailSendService> _logger;
+        private readonly SmtpSendConfiguration _smtpSendConfiguration;
 
-        public EmailSendService(
+        public EmailSendService(IOptions<SmtpSendConfiguration> options,
             ILogger<EmailSendService> logger)
         {
             _logger = logger;
+            _smtpSendConfiguration = options.Value;
         }
 
-        public async Task<Result> SendEmailAsync(EmailMessage message)
+        public async Task<Result> SendEmailAsync(List<EmailMessage> messages)
         {
-            MailMessage mailObj =
-                BuildMessage(message);
-
-            return await this.SendMessageAsync(mailObj);
+            List<MailMessage> mailObjs = messages.Select(BuildMessage).ToList();
+            return await SendEmailAsync(mailObjs);
         }
 
-        public async  Task<Result>SendEmailAsync(EmailStringAttachment message)
-        {
-            MailMessage mailObj = (MailMessage)
-                BuildMessage(message);
-
-
-            if (message.AttachmentsFilePath != null &&
-                message.AttachmentsFilePath.Count > 0)
-            {
-                foreach (string pathToFile in message.AttachmentsFilePath)
-                {
-                    mailObj.Attachments.Add(new Attachment(pathToFile, MediaTypeNames.Application.Octet));
-                }
-            }
-
-            return await this.SendMessageAsync(mailObj);
-        }
-
-        private async Task<Result> SendMessageAsync(MailMessage message)
+        private async Task<Result> SendEmailAsync(List<MailMessage> messages)
         {
             try
             {
                 using (SmtpClient smtpClient = new SmtpClient
                 {
-                    Host = (string) _settingCacheService.GetParsedObject("smtp.host"),
-                    Port = (int) _settingCacheService.GetParsedObject("port.smtp"),
-                    EnableSsl = (bool) _settingCacheService.GetParsedObject("ssl.enable"),
+                    Host = _smtpSendConfiguration.Host,
+                    Port = _smtpSendConfiguration.Port,
+                    EnableSsl = _smtpSendConfiguration.EnableSsl,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential
-                    ((string) _settingCacheService.GetParsedObject("email.default"),
-                        (string) _settingCacheService.GetParsedObject("email.password"))
+                    (_smtpSendConfiguration.DefaultEmailFrom,
+                        _smtpSendConfiguration.Password)
                 })
                 {
-                    await smtpClient.SendMailAsync(message);
+                    foreach (var ms in messages)
+                    {
+                        await smtpClient.SendMailAsync(ms);
+                    }
 
                     return new Result()
                     {
@@ -77,7 +66,7 @@ namespace TaskManager.Bll.Impl.Services.Email
                 _logger.LogW(ex, "SendEmail Failed  {JO}", args:
                     new object[]
                     {
-                        new AsJsonFormatter(message)
+                        new AsJsonFormatter(messages)
                     });
 
                 return new Result()
@@ -90,18 +79,16 @@ namespace TaskManager.Bll.Impl.Services.Email
             ;
         }
 
-
         private MailMessage BuildMessage(EmailMessage message)
         {
-            string email = (string) _settingCacheService.GetParsedObject("email.default");
+            string email = _smtpSendConfiguration.DefaultEmailFrom;
             MailAddress from = new MailAddress(email,
-                (string) _settingCacheService.GetParsedObject("email.name"));
+                _smtpSendConfiguration.DefaultNameFrom);
             MailMessage mailObj =
                 new MailMessage(email,
                     message.EmailTo,
                     message.Subject,
                     message.Message);
-
             mailObj.Sender = from;
             mailObj.IsBodyHtml = true;
             mailObj.BodyEncoding = Encoding.UTF8;

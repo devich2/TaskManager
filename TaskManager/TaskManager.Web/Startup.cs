@@ -1,44 +1,29 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using TaskManager.Bll;
-using TaskManager.Bll.Abstract.Unit;
-using TaskManager.Common.Utils;
 using TaskManager.Configuration;
 using TaskManager.Dal;
-using TaskManager.Dal.Abstract.IRepository;
-using TaskManager.Entities.Enum;
-using TaskManager.Entities.Tables;
+using TaskManager.Email.Template.Engine;
 using TaskManager.Entities.Tables.Identity;
-using TaskManager.Models.Project;
-using TaskManager.Models.Task;
-using TaskManager.Models.TermInfo;
-using TaskManager.Models.Unit;
 using TaskManager.Web.Infrastructure.Extension;
 using TaskManager.Web.Infrastructure.Filter;
 using TaskManager.Web.Infrastructure.Handler;
 using TaskManager.Web.Infrastructure.Middleware;
+using TaskManager.Web.Infrastructure.SwaggerConfig;
 using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Web
@@ -74,9 +59,9 @@ namespace TaskManager.Web
             BllDependencyInstaller.Install(services);
             DalDependencyInstaller.Install(services, Configuration);
             ConfigurationDependencyInstaller.Install(services, Configuration);
-
+            EmailEngineDependencyInstaller.Install(services);
             services.AddSingleton<UnauthorizedApiHandler>();
-
+            
             services.AddIdentity<User, Role>(
                     options => { options.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<TaskManagerDbContext>()
@@ -107,14 +92,15 @@ namespace TaskManager.Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
             });
-            
-          
+            services
+                .AddSingleton<IActionContextAccessor, ActionContextAccessor>();
                     
             //Register the Permission policy handlers
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+            
             //Configure Swagger
-            /*services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "InclusiveHub API", Version = "v1" });
                 c.DocumentFilter<HideDocsFilter>();
@@ -125,7 +111,6 @@ namespace TaskManager.Web
                 c.IncludeXmlComments(xmlPath);
             });
             services.AddSwaggerGenNewtonsoftSupport();
-            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -144,13 +129,11 @@ namespace TaskManager.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            /*app.UseSwagger();
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
-            */
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
