@@ -8,7 +8,7 @@ namespace TaskManager.Bll.Impl.Mappers
     {
         public ProjectMemberProfile()
         {
-            CreateMap<User, ProjectMemberSelectionItemModel>()
+            CreateMap<User, UserInfoModel>()
                 .ForMember(x=>x.Id, opt=>
                     opt.MapFrom(src=>src.Id))
                 .ForMember(x=>x.Name, opt=>

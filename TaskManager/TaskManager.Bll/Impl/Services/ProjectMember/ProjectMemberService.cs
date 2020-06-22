@@ -317,17 +317,17 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             return userRoles.OrderByDescending(r => r.Item2).FirstOrDefault();
         }
 
-        public async Task<DataResult<ProjectMemberSelectionModel>> GetMembersList(int projectId)
+        public async Task<DataResult<ProjectMemberSelectionModel>> GetMembersList(int projectId, string searchString)
         {
             DataResult<ProjectMemberSelectionModel> dataResult = new DataResult<ProjectMemberSelectionModel>();
 
-            var memberList = await _unitOfWork.ProjectMembers.GetMembersListByProjectId(projectId);
+            var memberList = await _unitOfWork.ProjectMembers.GetMembersListByProjectId(projectId, searchString);
             if (memberList.Any())
             {
                 dataResult.ResponseStatusType = ResponseStatusType.Succeed;
                 dataResult.Data = new ProjectMemberSelectionModel()
                 {
-                    MemberList = memberList.Select(_mapper.Map<ProjectMemberSelectionItemModel>).ToList()
+                    MemberList = memberList.Select(_mapper.Map<UserInfoModel>).ToList()
                 };
             }
             else

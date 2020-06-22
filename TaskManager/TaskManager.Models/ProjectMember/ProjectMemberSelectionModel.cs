@@ -4,10 +4,10 @@ namespace TaskManager.Models.ProjectMember
 {
     public class ProjectMemberSelectionModel
     {
-        public List<ProjectMemberSelectionItemModel> MemberList { get; set; }
+        public List<UserInfoModel> MemberList { get; set; }
     }
 
-    public class ProjectMemberSelectionItemModel
+    public class UserInfoModel
     {
         public int Id { get; set; }
         public string UserName { get; set; }

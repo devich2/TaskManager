@@ -71,7 +71,7 @@ namespace TaskManager.Web.Controllers
         [HasPermission(PermissionType.Read)]
         public async Task<DataResult<ProjectMemberSelectionModel>> GetMembersList(int projectId)
         {
-            return await _projectMemberService.GetMembersList(projectId);
+            return await _projectMemberService.GetMembersList(projectId, null);
         }
 
         [HttpPost]

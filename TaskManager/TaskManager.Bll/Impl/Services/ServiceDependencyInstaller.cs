@@ -4,9 +4,11 @@ using TaskManager.Bll.Abstract.Cache;
 using TaskManager.Bll.Abstract.Converter;
 using TaskManager.Bll.Abstract.Email;
 using TaskManager.Bll.Abstract.MileStone;
+using TaskManager.Bll.Abstract.NewsLetter;
 using TaskManager.Bll.Abstract.Permission;
 using TaskManager.Bll.Abstract.Project;
 using TaskManager.Bll.Abstract.ProjectMember;
+using TaskManager.Bll.Abstract.Search;
 using TaskManager.Bll.Abstract.Tag;
 using TaskManager.Bll.Abstract.Task;
 using TaskManager.Bll.Abstract.Unit;
@@ -17,9 +19,11 @@ using TaskManager.Bll.Impl.Services.Cache;
 using TaskManager.Bll.Impl.Services.Converter;
 using TaskManager.Bll.Impl.Services.Email;
 using TaskManager.Bll.Impl.Services.MileStone;
+using TaskManager.Bll.Impl.Services.NewsLetter;
 using TaskManager.Bll.Impl.Services.Permission;
 using TaskManager.Bll.Impl.Services.Project;
 using TaskManager.Bll.Impl.Services.ProjectMember;
+using TaskManager.Bll.Impl.Services.Search;
 using TaskManager.Bll.Impl.Services.Tag;
 using TaskManager.Bll.Impl.Services.Task;
 using TaskManager.Bll.Impl.Services.Unit;
@@ -55,8 +59,11 @@ namespace TaskManager.Bll.Impl.Services
             //Email
             services.AddTransient<IEmailSendService, EmailSendService>();
             services.AddTransient<IEmailTemplateService, EmailTemplateService>();
+            services.AddTransient<INewsLetterService, NewsLetterService>();
             //Auth
             services.AddTransient<IAuthService, AuthService>();
+            //Search
+            services.AddTransient<ISearchService, SearchService>();
             //Other dependencies
             services.AddSingleton<IConverterService<int, ResponseMessageType>, HttpStatusConverterService>();
             services.AddSingleton<IPermissionCache, PermissionCache>();

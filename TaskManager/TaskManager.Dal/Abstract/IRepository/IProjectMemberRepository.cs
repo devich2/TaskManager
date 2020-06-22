@@ -11,6 +11,6 @@ namespace TaskManager.Dal.Abstract.IRepository
     public interface IProjectMemberRepository: IGenericKeyRepository<int, ProjectMember>
     {
         Task<List<ProjectMemberBaseModel>> GetMembersByProjectId(int projectId, string searchString);
-        Task<List<User>> GetMembersListByProjectId(int projectId);
+        Task<List<User>> GetMembersListByProjectId(int? projectId, string searchString);
     }
 }

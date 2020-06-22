@@ -1,0 +1,24 @@
+﻿@model TaskManager.Email.Template.Engine.Views.Email.TaskExpiration.TaskExpirationEmailModel
+
+@functions {
+
+    string DateFormat(DateTimeOffset dateTimeOffset)
+    {
+        return dateTimeOffset.ToString("dddd, d MMMM yyyyр., HH:mm");
+    }
+
+}
+<strong>Assignee: @Model.Assignee</strong>
+
+@foreach (var em in @Model.ProjectTasks)
+{
+    <p>Project: @em.ProjectName</p>
+    foreach (var item in em.Tasks)
+    {
+        <p>----------------</p>
+        <strong>@item.Creator's issue @(item.Expired ? "has expired." : "is due soon.")</strong>
+        <p>@item.TaskName</p>
+        <p>This issue is due on: @DateFormat(item.DueTs)</p>
+    }
+    <p>**********</p>
+}

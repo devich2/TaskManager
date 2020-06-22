@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +25,8 @@ using TaskManager.Web.Infrastructure.Extension;
 using TaskManager.Web.Infrastructure.Filter;
 using TaskManager.Web.Infrastructure.Handler;
 using TaskManager.Web.Infrastructure.Middleware;
+using TaskManager.Web.Infrastructure.Scheduler;
+using TaskManager.Web.Infrastructure.Scheduler.Job.Email;
 using TaskManager.Web.Infrastructure.SwaggerConfig;
 using Task = System.Threading.Tasks.Task;
 
@@ -98,7 +102,17 @@ namespace TaskManager.Web
             //Register the Permission policy handlers
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
+            services.AddHangfire(config =>
+            {
+                var options = new PostgreSqlStorageOptions()
+                {
+                    QueuePollInterval = TimeSpan.FromMinutes(5)
+                };
+                config.UsePostgreSqlStorage(Configuration.GetConnectionString("Hangfire"), options);
+            });
             
+            services.AddScoped<INotificationJob, NotificationJob>();
             //Configure Swagger
             services.AddSwaggerGen(c =>
             {
@@ -128,7 +142,17 @@ namespace TaskManager.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+            {
+                Authorization = new[] {new HangfireDashboardAuthorizationFilter()}
+            });
+            app.UseHangfireServer(new BackgroundJobServerOptions()
+            {
+                WorkerCount = 2
+            });
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute(){Attempts = 0});
+            HangfireJobScheduler.ScheduleRecurringJobs();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

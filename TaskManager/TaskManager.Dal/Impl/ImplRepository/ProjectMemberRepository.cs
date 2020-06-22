@@ -49,11 +49,12 @@ namespace TaskManager.Dal.Impl.ImplRepository
                 }).ToList();
         }
 
-        public async Task<List<User>> GetMembersListByProjectId(int projectId)
+        public async Task<List<User>> GetMembersListByProjectId(int? projectId, string searchString)
         {
             return await (from pm in Context.ProjectMembers
                 join u in Context.Users on pm.UserId equals u.Id
-                where pm.ProjectId == projectId
+                where (projectId == null || pm.ProjectId == projectId) &&
+                    (searchString == null || u.UserName.Contains(searchString) || u.Name.Contains(searchString))
                 select u).ToListAsync();
         }
     }

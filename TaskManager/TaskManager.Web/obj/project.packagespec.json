@@ -49,6 +49,18 @@
   "frameworks": {
     "netcoreapp3.1": {
       "dependencies": {
+        "Hangfire": {
+          "target": "Package",
+          "version": "[1.7.11, )"
+        },
+        "Hangfire.AspNetCore": {
+          "target": "Package",
+          "version": "[1.7.11, )"
+        },
+        "Hangfire.PostgreSql": {
+          "target": "Package",
+          "version": "[1.7.0, )"
+        },
         "Microsoft.AspNetCore.Identity": {
           "target": "Package",
           "version": "[2.2.0, )"
