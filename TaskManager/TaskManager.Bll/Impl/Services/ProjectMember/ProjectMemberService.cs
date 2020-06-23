@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TaskManager.Bll.Abstract.Cache;
+using TaskManager.Bll.Abstract.Email;
 using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Common.Security;
 using TaskManager.Common.Utils;
@@ -37,6 +41,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
         private readonly ITransactionManager _transactionManager;
         private readonly IOrderQueryFactory _orderQueryFactory;
         private readonly ILogger<ProjectMemberService> _logger;
+        private readonly IEmailNotificationService _emailNotificationService;
 
         public ProjectMemberService(IMapper mapper,
             UserManager<Entities.Tables.Identity.User> userManager,
@@ -45,7 +50,8 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             RoleManager<Role> roleManager,
             ITransactionManager transactionManager,
             IOrderQueryFactory orderQueryFactory,
-            ILogger<ProjectMemberService> logger)
+            ILogger<ProjectMemberService> logger,
+            IEmailNotificationService emailNotificationService)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -55,6 +61,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             _transactionManager = transactionManager;
             _orderQueryFactory = orderQueryFactory;
             _logger = logger;
+            _emailNotificationService = emailNotificationService;
         }
 
         public async Task<string> GetUserProjectRole(int userId, int projectId)
@@ -95,10 +102,13 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                     });
                     await _unitOfWork.SaveAsync();
 
+                    await RecalculateMembers(model.ProjectId);
                     DataResult<UserResponse> result = await AddUserRole(model.ProjectId, model.UserId, role.Name);
                     if (result.ResponseStatusType == ResponseStatusType.Succeed)
                     {
                         await transaction.CommitAsync();
+                        BackgroundJob.Enqueue(() =>
+                            _emailNotificationService.SendInvitation(model.ProjectId, model.UserId));
                         return new DataResult<ProjectMemberResponse>()
                         {
                             ResponseStatusType = ResponseStatusType.Succeed,
@@ -156,7 +166,11 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             {
                 await _unitOfWork.ProjectMembers.DeleteAsync(projectMember);
                 await _unitOfWork.SaveAsync();
-
+                
+                await RecalculateMembers(projectId);
+                await _unitOfWork.Tasks.ResetTaskAssignee(userId, projectId);
+                await _unitOfWork.SaveAsync();
+                
                 Entities.Tables.Identity.User user = await _userManager.FindByIdAsync(userId.ToString());
                 IEnumerable<Claim> userClaims =
                     (await _userManager.GetClaimsAsync(user)).Where(x => x.UnpackRole().Item1 == projectId);
@@ -168,6 +182,16 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                     MessageDetails = $"User id-{userId} left project id-{projectId}"
                 };
             });
+        }
+
+        private async System.Threading.Tasks.Task RecalculateMembers(int projectId)
+        {
+            Entities.Tables.Project project = await _unitOfWork.Projects.GetByIdAsync(projectId);
+            if (project != null)
+            {
+                project.Members = await _unitOfWork.ProjectMembers.GetCountAsync(x => x.ProjectId == projectId);
+                await _unitOfWork.Projects.UpdateAsync(project);
+            }
         }
 
         public async Task<DataResult<UserResponse>> AddUserRole(int projectId, int userId, string roleName)
@@ -368,9 +392,10 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                     sortingOptions.Sortings.Any())
                 {
                     sortingExpression = sortingOptions.Sortings
-                        .Select(sortItem => 
+                        .Select(sortItem =>
                             _orderQueryFactory.GetProjectMemberOrderQuery(sortItem)).ToList();
                 }
+
                 if (sortingExpression != null &&
                     sortingExpression.Any())
                 {
@@ -391,6 +416,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
                 dataResult.Data = displayModels;
                 dataResult.ResponseStatusType = ResponseStatusType.Succeed;
             }
+
             return displayModels;
         }
     }

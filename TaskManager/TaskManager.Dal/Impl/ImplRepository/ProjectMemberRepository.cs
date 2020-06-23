@@ -11,6 +11,7 @@ using TaskManager.Entities.Tables;
 using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models.ProjectMember;
 using TaskManager.Models.User;
+using Task = System.Threading.Tasks.Task;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
@@ -19,7 +20,7 @@ namespace TaskManager.Dal.Impl.ImplRepository
         public ProjectMemberRepository(TaskManagerDbContext context) : base(context)
         {
         }
-
+        
         public async Task<List<ProjectMemberBaseModel>> GetMembersByProjectId(int projectId, string searchString)
         {
             var list = await (from p in Context.ProjectMembers
