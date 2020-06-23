@@ -39,13 +39,13 @@ namespace TaskManager.Bll.Impl.Services.Project
             _projectMemberService = projectMemberService;
             _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
-       
+
         public async Task<DataResult<UnitSelectionModel>> GetProjectDetails(int unitId,
             int userId)
         {
             Entities.Tables.Unit unit =
                 await _unitOfWork.Units.SelectExpandedByUnitIdAndType(UnitType.Project, unitId);
-            
+
             if (unit == null)
             {
                 return new DataResult<UnitSelectionModel>()
@@ -63,8 +63,8 @@ namespace TaskManager.Bll.Impl.Services.Project
 
             projectModel.TaskStatusList = unit.Children
                 .GroupBy(x => x.TermInfo.Status, x => x)
-                    .ToDictionary(x => x.Key, x => x.Count());
-                    
+                .ToDictionary(x => x.Key, x => x.Count());
+
             projectModel.MileStoneCount = unit.Children.Count(x => x.UnitType == UnitType.Milestone);
 
             model.Data = JObject.FromObject(projectModel, JsonSerializer.Create(_serializerSettings));
@@ -78,7 +78,7 @@ namespace TaskManager.Bll.Impl.Services.Project
         public async Task<ProjectPreviewModel> GetPreviewModel(Entities.Tables.Unit unit, int userId)
         {
             string role = await _projectMemberService.GetUserProjectRole(userId, unit.UnitId);
-            int tasksCount = unit.Children.Count(x=>x.UnitType == UnitType.Task);
+            int tasksCount = unit.Children.Count(x => x.UnitType == UnitType.Task);
 
             return new ProjectPreviewModel()
             {
