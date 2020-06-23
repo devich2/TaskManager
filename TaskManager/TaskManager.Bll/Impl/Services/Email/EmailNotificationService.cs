@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using TaskManager.Bll.Abstract.Email;
-using TaskManager.Bll.Abstract.NewsLetter;
 using TaskManager.Dal.Abstract;
 using TaskManager.Email.Template.Engine.Views.Email;
+using TaskManager.Email.Template.Engine.Views.Email.ProjectInvitation;
 using TaskManager.Email.Template.Engine.Views.Email.TaskExpiration;
 using TaskManager.Models.Task;
 
-namespace TaskManager.Bll.Impl.Services.NewsLetter
+namespace TaskManager.Bll.Impl.Services.Email
 {
-    public class NewsLetterService : INewsLetterService
+    public class EmailNotificationService : IEmailNotificationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailTemplateService _emailTemplateService;
+        private readonly UserManager<Entities.Tables.Identity.User> _userManager;
         private readonly IMapper _mapper;
 
-        public NewsLetterService(IUnitOfWork unitOfWork,
+        public EmailNotificationService(IUnitOfWork unitOfWork,
             IEmailTemplateService emailTemplateService,
+            UserManager<Entities.Tables.Identity.User> userManager,
             IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _emailTemplateService = emailTemplateService;
+            _userManager = userManager;
             _mapper = mapper;
         }
 
@@ -42,6 +46,29 @@ namespace TaskManager.Bll.Impl.Services.NewsLetter
             }).ToList();
 
             await _emailTemplateService.TemplateEmailMessage(emailTemplateModels);
+        }
+        
+        public async System.Threading.Tasks.Task SendInvitation(int projectId, int userId)
+        {
+            Entities.Tables.Unit project = await _unitOfWork.Units.GetByIdAsync(projectId);
+            Entities.Tables.Identity.User user = await _userManager.FindByIdAsync(userId.ToString());
+            if(project != null && user != null)
+            {
+                List<EmailTemplateModel> emailTemplateModels = new List<EmailTemplateModel>()
+                {
+                    new EmailTemplateModel()
+                    {
+                        Email = user.Email,
+                        Model = new ProjectInvitationModel()
+                        {
+                            ProjectId = projectId,
+                            ProjectName = project.Name,
+                            ProjectDesc = project.Description
+                        }
+                    }
+                };
+                await _emailTemplateService.TemplateEmailMessage(emailTemplateModels);
+            }
         }
     }
 }

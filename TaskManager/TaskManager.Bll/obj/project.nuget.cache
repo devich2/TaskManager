@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "uS6r+GB1xJK4tPB+rGKC1N67NVNRdXPAHSRv5FFhrs1a0FZSjuBF+hqZhSmNPNBTateujtn3ZAfGO2OSEa+f8A==",
+  "dgSpecHash": "CkpHBhA3Tpu0dzhNDitXv/jY9ptG4Rgv41IgTDQTq9CZLBPpcpeJvvZ90KrSt8f8tRgtOBBRIRLP0Y/jgFsZcw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Bll\\TaskManager.Bll.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Devid\\.nuget\\packages\\automapper\\9.0.0\\automapper.9.0.0.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\hangfire.core\\1.7.11\\hangfire.core.1.7.11.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\mailkit\\2.7.0\\mailkit.2.7.0.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.3\\microsoft.aspnetcore.cryptography.internal.3.1.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.3\\microsoft.aspnetcore.cryptography.keyderivation.3.1.3.nupkg.sha512",

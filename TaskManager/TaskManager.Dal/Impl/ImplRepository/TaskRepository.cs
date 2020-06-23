@@ -10,14 +10,38 @@ using TaskManager.Dal.Impl.ImplRepository.Base;
 using TaskManager.Entities.Enum;
 using TaskManager.Entities.Tables;
 using TaskManager.Models.Task;
+using Task = System.Threading.Tasks.Task;
 using TaskAlias = TaskManager.Entities.Tables.Task;
 
 namespace TaskManager.Dal.Impl.ImplRepository
 {
     public class TaskRepository : UnitFkRepository<TaskAlias>, ITaskRepository
     {
+        private readonly string _assignedId = $"\"{nameof(TaskAlias.AssignedId)}\"";
+        private readonly string _unitId = $"\"{nameof(Unit.UnitId)}\"";
+        private readonly string _unitParentId = $"\"{nameof(Unit.UnitParentId)}\"";
         public TaskRepository(TaskManagerDbContext context) : base(context)
         {
+        }
+
+        private string GetTableName(Type type)
+        {
+            var tableName = Context.Model.GetEntityTypes()
+                .First(et => et.ClrType == type)
+                .GetTableName();
+            return $"\"{tableName}\"";
+        }
+
+        public async Task ResetTaskAssignee(int userId, int projectId)
+        {
+            string taskTable = GetTableName(typeof(TaskAlias));
+            string unitTable = GetTableName(typeof(Unit));
+            await Context.Database.ExecuteSqlRawAsync(
+                $"UPDATE {taskTable}" +
+                $"SET {_assignedId} = NULL " +
+                $"WHERE {_unitId} in (SELECT u.{_unitId} from {unitTable} u where u.{_unitParentId} = {projectId}) AND "+
+                $"{_assignedId} = {userId}"
+            );
         }
 
         public async Task<List<TaskExpirationModel>> GetActiveTasksInDuePeriod(DateTimeOffset toD)
@@ -30,8 +54,8 @@ namespace TaskManager.Dal.Impl.ImplRepository
                 join p in Context.Units on u.UnitParentId equals p.UnitId
                 where t.AssignedId != null && tm.DueTs != null && tm.Status != Status.Closed && tm.DueTs < toD
                 select new {Task = t, Unit = u, TermInfo = tm, Assigned = a, CreatedBy = c, Project = p}).ToListAsync();
-            
-            return list.GroupBy(x => x.Assigned.Id).Select(x=>
+
+            return list.GroupBy(x => x.Assigned.Id).Select(x =>
             {
                 var first = x.First();
                 return new TaskExpirationModel()
@@ -39,21 +63,20 @@ namespace TaskManager.Dal.Impl.ImplRepository
                     AssigneeId = first.Assigned.Id,
                     Assignee = first.Assigned.Name,
                     Email = first.Assigned.Email,
-                    ProjectTasks = x.GroupBy(p=>p.Project.UnitId).Select(r=>
+                    ProjectTasks = x.GroupBy(p => p.Project.UnitId).Select(r =>
                     {
                         var proj = r.First();
                         return new TaskExpirationItemModel()
                         {
                             ProjectId = r.Key,
                             ProjectName = proj.Project.Name,
-                            Tasks = r.Select(z=>new TaskModel()
+                            Tasks = r.Select(z => new TaskModel()
                             {
                                 Creator = z.CreatedBy.Name,
                                 TaskId = z.Task.UnitId,
                                 TaskName = z.Unit.Name,
                                 DueTs = z.TermInfo.DueTs.Value
                             }).ToList()
-                            
                         };
                     }).ToList()
                 };

@@ -12,5 +12,6 @@ namespace TaskManager.Dal.Abstract.IRepository
     public interface ITaskRepository: IUnitFkRepository<Task>
     {
         Task<List<TaskExpirationModel>> GetActiveTasksInDuePeriod(DateTimeOffset toD);
+        System.Threading.Tasks.Task ResetTaskAssignee(int userId, int projectId);
     }
 }

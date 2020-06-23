@@ -9,7 +9,7 @@ namespace TaskManager.Web.Infrastructure.Scheduler
         public static void ScheduleRecurringJobs()
         {
             RecurringJob.RemoveIfExists(nameof(NotificationJob));
-           // RecurringJob.AddOrUpdate<NotificationJob>(x => x.Run(JobCancellationToken.Null), Cron.Minutely, TimeZoneInfo.Local);
+            RecurringJob.AddOrUpdate<NotificationJob>(x => x.Run(JobCancellationToken.Null), Cron.Daily, TimeZoneInfo.Local);
         }
     }
 }

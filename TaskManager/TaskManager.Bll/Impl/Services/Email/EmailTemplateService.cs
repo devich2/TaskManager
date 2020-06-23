@@ -2,6 +2,7 @@
 using TaskManager.Bll.Abstract.Email;
 using TaskManager.Email.Template.Engine.Services;
 using TaskManager.Email.Template.Engine.Views.Email;
+using TaskManager.Email.Template.Engine.Views.Email.ProjectInvitation;
 using TaskManager.Email.Template.Engine.Views.Email.TaskExpiration;
 using TaskManager.Email.Template.Engine.Views.Email.Test;
 using TaskManager.Models.Email;
@@ -15,6 +16,7 @@ namespace TaskManager.Bll.Impl.Services.Email
         
         private const string TestPath = "/Views/Email/Test/Test";
         private const string DigestPath = "/Views/Email/TaskExpiration/TaskExpiration";
+        private const string InvitationPath = "/Views/Email/ProjectInvitation/Invitation";
         public EmailTemplateService(IRazorViewToStringRenderer razorViewToStringRenderer, IEmailSendService emailSendService)
         {
             _razorViewToStringRenderer = razorViewToStringRenderer;
@@ -30,13 +32,17 @@ namespace TaskManager.Bll.Impl.Services.Email
                 string path = string.Empty;
                 switch (item.Model)
                 {
-                    case TestModel t:
+                    case TestModel _:
                         path = TestPath;
                         emailMessage.Subject = "Hello";
                         break;
-                    case TaskExpirationEmailModel e:
+                    case TaskExpirationEmailModel _:
                         path = DigestPath;
                         emailMessage.Subject = "Daily Digest";
+                        break;
+                    case ProjectInvitationModel _:
+                        path = InvitationPath;
+                        emailMessage.Subject = "Project Invitation";
                         break;
                 }
                 string body = await _razorViewToStringRenderer
