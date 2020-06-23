@@ -13,6 +13,7 @@ namespace TaskManager.Seed
             {
                 Id = 1,
                 Name = "Guest",
+                Rank = 1,
                 NormalizedName = "GUEST",
                 ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
             },
@@ -20,6 +21,7 @@ namespace TaskManager.Seed
             {
                 Id = 2,
                 Name = "Developer",
+                Rank = 2,
                 NormalizedName = "DEVELOPER",
                 ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78006aefd74b",
             },
@@ -27,6 +29,7 @@ namespace TaskManager.Seed
             {
                 Id = 3,
                 Name = "Maintainer",
+                Rank = 3,
                 NormalizedName = "MAINTAINER",
                 ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78406aefd74b",
             },
@@ -34,6 +37,7 @@ namespace TaskManager.Seed
             {
                 Id = 4,
                 Name = "Owner",
+                Rank = 4,
                 NormalizedName = "OWNER",
                 ConcurrencyStamp = "cda9194a-63f5-4643-afdd-78406aefd74b",
             }

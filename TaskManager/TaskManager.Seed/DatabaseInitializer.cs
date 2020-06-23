@@ -17,11 +17,12 @@ namespace TaskManager.Seed
             AddEntities(builder, unitEntitiesHolder.GeTermInfos());
             AddEntities(builder, unitEntitiesHolder.GeTags());
             AddEntities(builder, unitEntitiesHolder.GetProjects());
-            AddEntities(builder, unitEntitiesHolder.GetProjectMembers());
+            AddEntities(builder, unitEntitiesHolder.GetMileStones());
             AddEntities(builder, unitEntitiesHolder.GeTasks());
-            AddEntities(builder, unitEntitiesHolder.GetRelationShips());
             AddEntities(builder, unitEntitiesHolder.GeTagOnTasks());
-
+            
+            var projectMemberHolder = new ProjectMemberEntitiesHolder();
+            AddEntities(builder, projectMemberHolder.GetProjectMembers());
             // Seed roles, users and permissions
             var rolesEntitiesHolder = new RolesEntitiesHolder();
             AddEntities(builder, rolesEntitiesHolder.GetRoles());
@@ -45,9 +46,9 @@ namespace TaskManager.Seed
 
             AddEntities(builder, users);
 
-            var userRolesEntitiesHolder = new UserRolesEntitiesHolder();
-            AddEntities(builder, userRolesEntitiesHolder.GetUserRoles());
-
+            var userClaimsHolder = new UserClaimsHolder();
+            AddEntities(builder, userClaimsHolder.GetUserClaims());
+            
             var permissionEntitiesHolder = new PermissionEntitiesHolder();
             AddEntities(builder, permissionEntitiesHolder.GetPermissions());
         }

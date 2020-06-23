@@ -1,0 +1,9 @@
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\bin\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.deps.json
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\bin\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\bin\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.pdb
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\obj\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.csprojAssemblyReference.cache
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\obj\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.csproj.CoreCompileInputs.cache
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\obj\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.AssemblyInfoInputs.cache
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\obj\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.AssemblyInfo.cs
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\obj\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Email.Template.Engine\obj\Debug\netcoreapp3.1\TaskManager.Email.Template.Engine.pdb

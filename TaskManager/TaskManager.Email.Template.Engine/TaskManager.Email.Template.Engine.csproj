@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RazorLight" Version="2.0.0-beta4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Views\Email\Test\Test.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Views\Email\Test\Test.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

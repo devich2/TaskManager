@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Web.Infrastructure.Middleware
 {

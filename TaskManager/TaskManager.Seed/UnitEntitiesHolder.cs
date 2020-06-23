@@ -18,7 +18,8 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 1,
+                    UnitId = 1,
+                    UnitParentId = 20,
                     Name = "CRUD API creating and deleting users",
                     Description = "Create user api, spam list and blocking users",
                     UnitType = UnitType.Task,
@@ -27,7 +28,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 2,
+                    UnitId = 2,
+                    UnitParentId = 20,
                     Name = "Api for email subscriptions",
                     Description = "Modify database, add email service for client sales",
                     UnitType = UnitType.Task,
@@ -36,7 +38,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 3,
+                    UnitId = 3,
+                    UnitParentId = 20,
                     Name = "Delete cascade",
                     Description = "Change behaviour from delete cascade to restrict and rework service deleting logic",
                     UnitType = UnitType.Task,
@@ -45,7 +48,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 4,
+                    UnitId = 4,
+                    UnitParentId = 20,
                     Name = "Api for donations",
                     Description = "Plug in PayPal",
                     UnitType = UnitType.Task,
@@ -54,7 +58,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 5,
+                    UnitId = 5,
+                    UnitParentId = 20,
                     Name = "Testing content",
                     Description = "Config docker compose with dotnet and postgres image and write integration tests for content with",
                     UnitType = UnitType.Task,
@@ -68,11 +73,11 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 20,
+                    UnitId = 20,
                     Name = "TaskManager",
                     Description = "Система отслеживания заданий. Выдача задания менеджером. Статус задания, согласно рабочему процессу. Процент выполнения. Почтовые уведомления клиентам системы. Управление пользователями и их ролями.",
                     UnitType = UnitType.Project,
-                    CreatorId = 3,
+                    CreatorId = 1,
                     Key = new Guid("bff26a36-6cb5-4cef-a7c4-939f6eaf76ca")
                 },
 
@@ -82,7 +87,8 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 25,
+                    UnitId = 25,
+                    UnitParentId = 5,
                     Name = "Create postgres image",
                     Description = null,
                     UnitType = UnitType.SubTask,
@@ -91,7 +97,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 26,
+                    UnitId = 26,
+                    UnitParentId = 5,
                     Name = "Create dotnet image",
                     Description = null,
                     UnitType = UnitType.SubTask,
@@ -104,7 +111,8 @@ namespace TaskManager.Seed
 
                 new Unit()
                 {
-                    Id = 40,
+                    UnitId = 40,
+                    UnitParentId = 4,
                     Name = "add doc document with api desc",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -113,7 +121,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 41,
+                    UnitId = 41,
+                    UnitParentId = 5,
                     Name = "we use postgres 11",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -122,7 +131,8 @@ namespace TaskManager.Seed
                 },
                 new Unit()
                 {
-                    Id = 42,
+                    UnitId = 42,
+                    UnitParentId = 5,
                     Name = "Ok",
                     Description = null,
                     UnitType = UnitType.Comment,
@@ -130,9 +140,24 @@ namespace TaskManager.Seed
                     Key = new Guid("2e5bc155-4842-4bf3-94de-36199204d917")
                 },
                 #endregion
+
+                #region MileStones
+
+                new Unit()
+                {
+                    UnitId = 50,
+                    UnitParentId = 20,
+                    Name = "MileStone1",
+                    Description = null,
+                    UnitType = UnitType.Milestone,
+                    CreatorId = 1,
+                    Key = new Guid("2e5bc155-4842-4bf3-94de-36194204d917")
+                },
+
+                #endregion
             };
         }
-
+        
         public List<Tag> GeTags()
         {
             return new List<Tag>()
@@ -201,35 +226,32 @@ namespace TaskManager.Seed
                 new Task()
                 {
                     Id = 1,
-                    ProjectId = 1,
                     UnitId = 1
                 },
                 new Task()
                 {
                     Id = 2,
-                    ProjectId = 1,
                     AssignedId = 1,
                     UnitId = 2
                 },
                 new Task()
                 {
                     Id = 3,
-                    ProjectId = 1,
                     AssignedId = 1,
                     UnitId = 3
                 },
                 new Task()
                 {
                     Id = 4,
-                    ProjectId = 1,
                     AssignedId = 2,
+                    MileStoneId = 1,
                     UnitId = 4
                 },
                 new Task()
                 {
                     Id = 5,
-                    ProjectId = 1,
                     AssignedId = 2,
+                    MileStoneId = 1,
                     UnitId = 5
                 }
             };
@@ -242,7 +264,6 @@ namespace TaskManager.Seed
                 // Tasks
                 new TermInfo()
                 {
-                    Id = 1,
                     UnitId = 1,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 25, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -250,7 +271,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 2,
                     UnitId = 2,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 30, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -258,7 +278,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 3,
                     UnitId = 3,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 27, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -266,7 +285,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 4,
                     UnitId = 4,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 26, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -274,7 +292,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 5,
                     UnitId = 5,
                     StartTs = DateTimeOffset.Now,
                     DueTs = new DateTimeOffset(2020, 05, 23, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -283,7 +300,6 @@ namespace TaskManager.Seed
                 // Projects
                 new TermInfo()
                 {
-                    Id = 20,
                     UnitId = 20,
                     StartTs = DateTimeOffset.Now,
                     DueTs =  new DateTimeOffset(2020, 06, 23, 12, 40, 40, new TimeSpan(-2, 0, 0)),
@@ -292,7 +308,6 @@ namespace TaskManager.Seed
                 // SubTasks
                 new TermInfo()
                 {
-                    Id = 25,
                     UnitId = 25,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -300,7 +315,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 26,
                     UnitId = 26,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -310,7 +324,6 @@ namespace TaskManager.Seed
                 // Comments
                 new TermInfo()
                 {
-                    Id = 40,
                     UnitId = 40,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -318,7 +331,6 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 41,
                     UnitId = 41,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
@@ -326,11 +338,17 @@ namespace TaskManager.Seed
                 },
                 new TermInfo()
                 {
-                    Id = 42,
                     UnitId = 42,
                     StartTs = DateTimeOffset.Now,
                     DueTs = null,
                     Status = Status.None
+                },
+                new TermInfo()
+                {
+                    UnitId = 50,
+                    StartTs = DateTimeOffset.Now,
+                    DueTs = null,
+                    Status = Status.InProgress
                 },
             };
         }
@@ -405,40 +423,6 @@ namespace TaskManager.Seed
             };
         }
 
-        public List<RelationShip> GetRelationShips()
-        {
-            return new List<RelationShip>()
-            {
-                //SubTasks
-                new RelationShip()
-                {
-                    UnitId = 25,
-                    ParentUnitId = 5
-                },
-                new RelationShip()
-                {
-                    UnitId = 26,
-                    ParentUnitId = 5
-                },
-                //Comments
-                new RelationShip()
-                {
-                    UnitId = 40,
-                    ParentUnitId = 4
-                },
-                new RelationShip()
-                {
-                    UnitId = 41,
-                    ParentUnitId = 5
-                },
-                new RelationShip()
-                {
-                    UnitId = 42,
-                    ParentUnitId = 5
-                },
-            };
-        }
-
         #endregion
 
         #region Projects
@@ -448,43 +432,27 @@ namespace TaskManager.Seed
             {
                 new Project()
                 {
-                    Id = 1,
-                    ProjectManagerId = 3,
                     UnitId = 20,
-                    Members = 3
+                    Members = 1
                 }
             };
         }
-        public List<ProjectMember> GetProjectMembers()
+        #endregion
+
+        #region MileStones
+
+        public List<MileStone> GetMileStones()
         {
-            return new List<ProjectMember>()
+            return new List<MileStone>()
             {
-                //Developer
-                new ProjectMember()
+                new MileStone()
                 {
                     Id = 1,
-                    UserId = 1,
-                    ProjectId = 1
-                },
-
-                //TeamLead
-                new ProjectMember()
-                {
-                    Id = 10,
-                    UserId = 2,
-                    ProjectId = 1
-                },
-                //ProjectManager
-                new ProjectMember()
-                {
-                    Id = 15,
-                    UserId = 3,
-                    ProjectId = 1
+                    UnitId = 50
                 }
             };
         }
 
         #endregion
-
     }
 }

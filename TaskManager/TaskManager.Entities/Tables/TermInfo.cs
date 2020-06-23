@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using TaskManager.Entities.Enum;
+using TaskManager.Entities.Tables.Abstract;
 
 namespace TaskManager.Entities.Tables
 {
-    public class TermInfo
+    public class TermInfo: IUnitExtensionTable
     {
-        public int Id { get; set; }
         public int UnitId { get; set; }
         public Unit Unit { get; set; }
         public DateTimeOffset StartTs { get; set; }

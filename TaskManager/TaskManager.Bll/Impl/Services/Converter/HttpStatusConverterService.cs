@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using TaskManager.Bll.Abstract.Converter;
 using TaskManager.Models.Attributes;
-using TaskManager.Models.Response;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Bll.Impl.Services.Converter
 {

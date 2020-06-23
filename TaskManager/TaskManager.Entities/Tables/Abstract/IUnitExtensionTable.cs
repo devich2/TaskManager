@@ -6,6 +6,6 @@ namespace TaskManager.Entities.Tables.Abstract
 {
     public interface IUnitExtensionTable
     {
-        public Guid Key { get; set; }
+        public int UnitId { get; set; }
     }
 }

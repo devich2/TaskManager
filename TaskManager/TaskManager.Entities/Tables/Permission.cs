@@ -1,12 +1,14 @@
-﻿using TaskManager.Entities.Tables.Identity;
+﻿using System.Security.Permissions;
+using TaskManager.Entities.Enum;
+using TaskManager.Entities.Tables.Identity;
 
 namespace TaskManager.Entities.Tables
 {
     public class Permission
     {
-        public int RoleId { get; set; }
-        public Role Role { get; set; }
-        public int ProjectMemberId { get; set; }
-        public ProjectMember ProjectMember { get; set; }
+        public int Id {get;set;}
+        public int RoleId {get;set;}
+        public Role Role {get; set;}
+        public PermissionType PermissionType {get; set;}
     }
 }

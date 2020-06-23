@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Bll.Abstract.Converter;
-using TaskManager.Models.Response;
+using TaskManager.Entities.Tables.Identity;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Web.Infrastructure.Extension
 {
@@ -18,7 +23,6 @@ namespace TaskManager.Web.Infrastructure.Extension
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-
             var objectResult = context.Result as ObjectResult;
             Result result = objectResult?.Value as Result;
 

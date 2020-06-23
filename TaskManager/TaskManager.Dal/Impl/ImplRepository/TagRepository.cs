@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TaskManager.Dal.Abstract.IRepository;
+﻿using TaskManager.Dal.Abstract.IRepository;
 using TaskManager.Dal.Impl.ImplRepository.Base;
 using TaskManager.Entities.Tables;
 

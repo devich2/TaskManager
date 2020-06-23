@@ -377,7 +377,8 @@
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "3.1.3",
-          "Newtonsoft.Json": "12.0.3"
+          "Newtonsoft.Json": "12.0.3",
+          "TaskManager.Entities": "1.0.0"
         },
         "compile": {
           "bin/placeholder/TaskManager.Common.dll": {}
@@ -402,6 +403,10 @@
       "TaskManager.Models/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "TaskManager.Entities": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/TaskManager.Models.dll": {}
         },
@@ -414,6 +419,7 @@
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "3.1.3",
+          "TaskManager.Common": "1.0.0",
           "TaskManager.Entities": "1.0.0"
         },
         "compile": {

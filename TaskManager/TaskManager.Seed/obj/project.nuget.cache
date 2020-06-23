@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bh6xy0PSPZyS9bid3H4ThePTL9NdNzmdFodLhOfBaRrEmse1Uj6BhzRBhW6Lk6I/GZHnEPI2hICO3WYYPYn/ww==",
+  "dgSpecHash": "OWwziLWIXpScdQ53a/0Fw29PiVBMfZ9dCXFMzsrHlyC4Tsip285w85dwwPiFMfQbAI6xzSLSKahsq4odlOdllw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Devid\\Desktop\\TaskManager\\TaskManager\\TaskManager\\TaskManager.Seed\\TaskManager.Seed.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.3\\microsoft.extensions.logging.abstractions.3.1.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.options\\3.1.3\\microsoft.extensions.options.3.1.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.3\\microsoft.extensions.primitives.3.1.3.nupkg.sha512",
+    "C:\\Users\\Devid\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\system.collections.immutable\\1.7.0\\system.collections.immutable.1.7.0.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "C:\\Users\\Devid\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.0\\system.diagnostics.diagnosticsource.4.7.0.nupkg.sha512"

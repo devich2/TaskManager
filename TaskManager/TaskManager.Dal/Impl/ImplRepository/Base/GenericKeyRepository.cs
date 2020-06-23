@@ -31,11 +31,10 @@ namespace TaskManager.Dal.Impl.ImplRepository.Base
             await Task.FromResult(0);
         }
 
-        public virtual async Task<TEntity> DeleteAsync(TEntity entity)
+        public virtual Task DeleteAsync(TEntity entity)
         {
-            TEntity result = Context.Set<TEntity>()
-                .Remove(entity).Entity;
-            return await Task.FromResult(result);
+             Context.Set<TEntity>().Remove(entity);
+             return Task.CompletedTask;
         }
 
         public virtual async Task<List<TEntity>> GetAllAsync()
@@ -65,6 +64,7 @@ namespace TaskManager.Dal.Impl.ImplRepository.Base
         {
             return Context.Set<TEntity>().CountAsync(predicate);
         }
+
         public virtual async Task<TEntity> FirstOrDefaultAsync
             (Expression<Func<TEntity, bool>> predicate)
         {
@@ -83,6 +83,12 @@ namespace TaskManager.Dal.Impl.ImplRepository.Base
         {
             return await Context.Set<TEntity>().Where(predicate)
                 .Skip(startIndex).Take(count).ToListAsync();
+        }
+
+        public virtual async Task<bool> IsExisting(TKey id)
+        {
+            TEntity res = await GetByIdAsync(id);
+            return res != null;
         }
     }
 }

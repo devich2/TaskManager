@@ -11,7 +11,10 @@ namespace TaskManager.Configuration
     {
         public static void Install(IServiceCollection services, IConfiguration configuration)
         {
-           // services.ConfigureOptions<IOptions<Result>>()
+           services.Configure<PaginationConfiguration>(
+               configuration.GetSection("PaginationConfiguration"));
+            services.Configure<SmtpSendConfiguration>(
+                configuration.GetSection("SmtpSendConfiguration"));
         }
     }
 }
