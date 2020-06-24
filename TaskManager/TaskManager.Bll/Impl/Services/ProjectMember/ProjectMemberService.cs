@@ -33,6 +33,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
         private readonly UserManager<Entities.Tables.Identity.User> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRoleCache _roleCache;
+        private readonly IPermissionCache _permissionCache;
         private readonly RoleManager<Role> _roleManager;
         private readonly ITransactionManager _transactionManager;
         private readonly IOrderQueryFactory _orderQueryFactory;
@@ -42,6 +43,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             UserManager<Entities.Tables.Identity.User> userManager,
             IUnitOfWork unitOfWork,
             IRoleCache roleCache,
+            IPermissionCache permissionCache,
             RoleManager<Role> roleManager,
             ITransactionManager transactionManager,
             IOrderQueryFactory orderQueryFactory,
@@ -51,6 +53,7 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _roleCache = roleCache;
+            _permissionCache = permissionCache;
             _roleManager = roleManager;
             _transactionManager = transactionManager;
             _orderQueryFactory = orderQueryFactory;
@@ -62,14 +65,43 @@ namespace TaskManager.Bll.Impl.Services.ProjectMember
             Entities.Tables.Identity.User user = new Entities.Tables.Identity.User {Id = userId};
             return RetrieveRoleFromClaims(await _userManager.GetClaimsAsync(user), projectId);
         }
-
+        
         public async Task<bool> IsProjectMember(int projectId, int userId)
         {
             var entity = await _unitOfWork.ProjectMembers
                 .FirstOrDefaultAsync(x => x.UserId == userId && x.ProjectId == projectId);
             return entity != null;
         }
+        
+        public async Task<DataResult<List<PermissionType>>> GetUserPermissions(int userId, int projectId)
+        {
+            string role = await GetUserProjectRole(userId, projectId);
+            if(role == null)
+            {
+                return new DataResult<List<PermissionType>>()
+                {
+                    ResponseStatusType = ResponseStatusType.Error,
+                    Message = ResponseMessageType.UnitAccessDenied,
+                    MessageDetails = $"User id-{userId} has no access to project id-{projectId}"
+                };
+            }
+            List<PermissionType> permissions = _permissionCache.GetFromCache(role);
+            if(permissions != null)
+            {
+                return new DataResult<List<PermissionType>>()
+                {
+                    ResponseStatusType = ResponseStatusType.Succeed,
+                    Data = permissions
+                };
+            }
+            return new DataResult<List<PermissionType>>()
+            {
+                ResponseStatusType = ResponseStatusType.Error,
+                Message = ResponseMessageType.NotFound,
+                MessageDetails = $"Role {role} not found"
+            };
 
+        }
         public async Task<DataResult<ProjectMemberResponse>> AddToProject(ProjectMemberRoleModel model)
         {
             Role role = await _roleManager.FindByIdAsync(model.RoleId.ToString());

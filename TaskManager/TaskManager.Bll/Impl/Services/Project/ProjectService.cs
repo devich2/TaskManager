@@ -65,7 +65,6 @@ namespace TaskManager.Bll.Impl.Services.Project
             ProjectPreviewModel previewModel = await GetPreviewModel(unit, userId);
             ProjectDetailsModel projectModel = _mapper.Map<ProjectDetailsModel>(previewModel);
             
-            projectModel.Permissions = _permissionCache.GetFromCache(previewModel.Role);
             projectModel.TaskStatusList = unit.Children
                 .GroupBy(x => x.TermInfo.Status, x => x)
                     .ToDictionary(x => x.Key, x => x.Count());

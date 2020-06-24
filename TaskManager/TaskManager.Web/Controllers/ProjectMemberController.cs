@@ -65,7 +65,15 @@ namespace TaskManager.Web.Controllers
                 MessageDetails = sortingOptionsDataResult.MessageDetails
             };
         }
-
+        
+        [HttpGet]
+        [Route("my_permissions")]
+        [Authorize]
+        public async Task<DataResult<List<PermissionType>>> GetUserPermissions(int projectId)
+        {
+            return await _projectMemberService.GetUserPermissions(User.GetUserId(), projectId);
+        }
+        
         [HttpGet]
         [Route("members_list")]
         [HasPermission(PermissionType.Read)]
