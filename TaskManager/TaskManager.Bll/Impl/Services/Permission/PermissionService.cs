@@ -24,22 +24,21 @@ namespace TaskManager.Bll.Impl.Services.Permission
             return int.TryParse(id, out int projectId) && IsAuthorized(claims, permissionType, projectId);
         }
 
-        public bool HasAccessByTypeAndProcessToState(IEnumerable<Claim> claims, int projectId, UnitType unitType, ModelState state)
+        public bool HasAccessByTypeAndProcessToState(IEnumerable<Claim> claims, int projectId, UnitType unitType,
+            ModelState state)
         {
             string operationKey = unitType.ToString() + state;
             PermissionType? permissionType = operationKey.FindPermissionViaName();
             return permissionType.HasValue && IsAuthorized(claims, permissionType.Value, projectId);
         }
-        
+
         private bool IsAuthorized(IEnumerable<Claim> claims, PermissionType permissionType, int projectId)
         {
             var roleClaims = claims.Where(x => x.Type == PermissionExtensions.PackedPermissionClaimType).ToList();
             if (!roleClaims.Any())
                 return false;
-
-            var allowedRoles = _permissionCache.GetFromCache(permissionType);
             return roleClaims.Select(x => x.UnpackRole())
-                .Any(x => x.Item1 == projectId && allowedRoles.Contains(x.Item2));
+                .Any(x => x.Item1 == projectId && _permissionCache.GetFromCache(x.Item2).Contains(permissionType));
         }
     }
 }

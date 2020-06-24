@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Caching.Memory;
+ using System.Linq;
+ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Bll.Abstract.Cache;
 using TaskManager.Bll.Abstract.Permission;
@@ -11,18 +12,18 @@ namespace TaskManager.Bll.Impl.Services.Cache
 {
     public class PermissionCache: IPermissionCache
     {
-        private readonly Dictionary<PermissionType, List<string>> _permsToRoles;
+        private readonly Dictionary<string, List<PermissionType>> _roleToPerms;
         public PermissionCache(IServiceProvider sp)
         {
             using (var scope = sp.CreateScope())
             {
                 var permissionRepository = scope.ServiceProvider.GetService<IPermissionRepository>();
-                _permsToRoles = permissionRepository.GetRolesGroupedByPermissions();
+                _roleToPerms = permissionRepository.GetPermissionsGroupedByRole();
             }
         }
-        public List<string> GetFromCache(PermissionType permissionType)
+        public List<PermissionType> GetFromCache(string role)
         {
-            return _permsToRoles.TryGetValue(permissionType, out List<string> roles) ? roles : default;
+            return _roleToPerms.TryGetValue(role, out List<PermissionType> permissions) ? permissions : default;
         }
     }
 }

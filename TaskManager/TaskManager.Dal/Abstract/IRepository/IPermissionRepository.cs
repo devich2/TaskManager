@@ -11,6 +11,6 @@ namespace TaskManager.Dal.Abstract.IRepository
 {
     public interface IPermissionRepository: IGenericKeyRepository<int, Permission>
     {
-       Dictionary<PermissionType, List<string>> GetRolesGroupedByPermissions();
+        Dictionary<string, List<PermissionType>> GetPermissionsGroupedByRole();
     }
 }
