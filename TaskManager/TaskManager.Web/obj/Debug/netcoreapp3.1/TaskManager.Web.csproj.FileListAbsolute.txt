@@ -206,9 +206,6 @@ C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\D
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\MailKit.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\MimeKit.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
-C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
-C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll
-C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\TaskManager.Web.Views.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\refs\Microsoft.AspNetCore.Antiforgery.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll
@@ -505,3 +502,14 @@ C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\D
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll
 C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\refs\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\refs\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\refs\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\JWT.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Devid\Desktop\TaskManager\TaskManager\TaskManager\TaskManager.Web\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

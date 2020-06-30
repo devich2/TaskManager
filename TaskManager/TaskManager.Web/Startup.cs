@@ -3,6 +3,8 @@ using System.IO;
 using System.Reflection;
 using Hangfire;
 using Hangfire.PostgreSql;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ namespace TaskManager.Web
             Configuration = configRoot;
             Env = hostingEnvironment;
         }
+
         public IWebHostEnvironment Env { get; }
         public IConfiguration Configuration { get; }
 
@@ -54,18 +57,15 @@ namespace TaskManager.Web
             services.AddControllers(options =>
             {
                 options.Conventions.Add(new StatusCodeConvention());
-                options.Filters.Add((new ModelStateValidationFilter())); 
-            }).AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
+                options.Filters.Add((new ModelStateValidationFilter()));
+            }).AddNewtonsoftJson(options => { options.SerializerSettings.Converters.Add(new StringEnumConverter()); });
 
             BllDependencyInstaller.Install(services);
             DalDependencyInstaller.Install(services, Configuration);
             ConfigurationDependencyInstaller.Install(services, Configuration);
             EmailEngineDependencyInstaller.Install(services);
             services.AddSingleton<UnauthorizedApiHandler>();
-            
+
             services.AddIdentity<User, Role>(
                     options => { options.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<TaskManagerDbContext>()
@@ -98,7 +98,7 @@ namespace TaskManager.Web
             });
             services
                 .AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-                    
+
             //Register the Permission policy handlers
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
@@ -111,12 +111,12 @@ namespace TaskManager.Web
                 };
                 config.UsePostgreSqlStorage(Configuration.GetConnectionString("Hangfire"), options);
             });
-            
+
             services.AddScoped<INotificationJob, NotificationJob>();
             //Configure Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "InclusiveHub API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "InclusiveHub API", Version = "v1"});
                 c.DocumentFilter<HideDocsFilter>();
                 c.OperationFilter<OptionalParameterOperationFilter>();
                 c.GeneratePolymorphicSchemas();
@@ -130,7 +130,6 @@ namespace TaskManager.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            
             if (Env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -142,7 +141,7 @@ namespace TaskManager.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseHangfireDashboard("/hangfire", new DashboardOptions()
             {
                 Authorization = new[] {new HangfireDashboardAuthorizationFilter()}
@@ -151,13 +150,10 @@ namespace TaskManager.Web
             {
                 WorkerCount = 2
             });
-            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute(){Attempts = 0});
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute() {Attempts = 0});
             HangfireJobScheduler.ScheduleRecurringJobs();
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1"); });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -241,9 +241,8 @@ namespace TaskManager.Bll.Impl.Services.Unit
                             ResponseStatusType = ResponseStatusType.Error
                         };
                     }
-                    
-                    TermInfo term = new TermInfo();
-                    term = _mapper.Map<TermInfo>(model.TermInfo);
+
+                    TermInfo term = _mapper.Map<TermInfo>(model.TermInfo);
                     term.UnitId = unitEntity.UnitId;
                     term.StartTs = DateTimeOffset.Now;
                     await _unitOfWork.TermInfos.AddAsync(term);
