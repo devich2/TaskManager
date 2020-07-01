@@ -1,0 +1,10 @@
+<div class="header-information-container">
+  <div class="header-buttons-container">
+    <span>{{userName | async}}</span>
+    <div class="buttons-container">
+      <a mat-button routerLink="/my_projects">Projects</a>
+      <a mat-button routerLink="/cabinet">Cabinet</a>
+      <button class="logout" mat-button (click)="logOut()">{{'log-out' | translate}}</button>
+    </div>
+  </div>
+  

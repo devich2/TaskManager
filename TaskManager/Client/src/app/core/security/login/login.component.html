@@ -3,11 +3,11 @@
         <h1>Login</h1>
         <mat-form-field>
             <input matInput formControlName="email" type="email" 
-                   placeholder="login..." (keydown.enter)="prevent($event)">
+                   placeholder="Email" (keydown.enter)="prevent($event)">
         </mat-form-field>
         <mat-form-field>
             <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" 
-                   placeholder="password..." (keydown.enter)="prevent($event)">
+                   placeholder="Password" (keydown.enter)="prevent($event)">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <fa-icon *ngIf="hide" [icon]="faEye" class="faEye-icon fa-1x"></fa-icon>
                 <fa-icon *ngIf="!hide" [icon]="faEyeSlash" class="faEyeSlash-icon fa-1x"></fa-icon>

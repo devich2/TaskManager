@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Bll.Abstract.Auth;
+using TaskManager.Entities.Tables.Identity;
 using TaskManager.Models.Auth;
 using TaskManager.Models.Result;
 using TaskManager.Models.User;
@@ -23,7 +25,12 @@ namespace TaskManager.Web.Controllers
         {
             return await _authService.Login(model);
         }
-        
+        [Route("sign_out")]
+        [HttpPost]
+        public async Task SignOut()
+        {
+            await _authService.SignOut();
+        }
         [Route("register")]
         [HttpPost]
         public async Task<Result> Login(RegisterModel model)

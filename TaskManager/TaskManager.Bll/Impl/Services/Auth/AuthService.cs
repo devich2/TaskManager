@@ -53,6 +53,10 @@ namespace TaskManager.Bll.Impl.Services.Auth
             return result;
         }
         
+        public async System.Threading.Tasks.Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
         public async System.Threading.Tasks.Task<Result> Register(RegisterModel model)
         {
             Entities.Tables.Identity.User user = _mapper.Map<Entities.Tables.Identity.User>(model);

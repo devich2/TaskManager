@@ -8,6 +8,8 @@ import {environment} from '../../environments/environment';
 import {LoggingInterceptor} from './api/interceptors/logger.interceptor';
 import {NgxPermissionsModule} from 'ngx-permissions';
 import { SharedAppModule } from '../shared/shared-app.module';
+import { HeaderComponent } from './components/header/header.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 const interceptors: Provider[] = [{provide: HTTP_INTERCEPTORS, useClass: UnwraperInterceptor, multi: true}];
 
 if (!environment.production) {
@@ -15,7 +17,7 @@ if (!environment.production) {
 }
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, HeaderComponent, SidebarComponent],
   imports: [
     CommonModule, HttpClientModule, RouterModule, SharedAppModule, NgxPermissionsModule.forRoot()
   ],

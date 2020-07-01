@@ -6,46 +6,31 @@ import {identity} from 'rxjs';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
-})
+@Component({selector: 'app-login', templateUrl: './login.component.html', styleUrls: ['./login.component.css']})
 export class LoginComponent implements OnInit {
 
-  userForm: FormGroup;
+    userForm : FormGroup;
 
-  invalidData = false;
-  hide = true;
+    invalidData = false;
+    hide = true;
 
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
+    faEye = faEye;
+    faEyeSlash = faEyeSlash;
 
-  constructor(
-              private router: Router) {
-  }
+    constructor(private securityService : SecurityService, private router : Router) {}
 
-  ngOnInit(): void {
-  /*  this.securityService.isAuthenticated()
-      .pipe(
-        take(1),
-        filter(identity)
-      )
-      .subscribe(() => this.router.navigateByUrl('/'))
-      */;
-        console.log("HELLO");
-    this.userForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required)
-    });
-  }
+    ngOnInit(): void {
+        this.securityService.isAuthenticated().pipe(take(1), filter(identity)).subscribe(() => this.router.navigateByUrl('/'));
+        this.userForm = new FormGroup({
+            email: new FormControl('', [Validators.required, Validators.email]),
+            password: new FormControl('', Validators.required)
+        });
+    }
 
-  login(): void {
-   
-  }
+    login(): void {}
 
-  prevent(event: any): void {
-    event.preventDefault();
-    this.login();
-  }
+    prevent(event : any): void {
+        event.preventDefault();
+        this.login();
+    }
 }

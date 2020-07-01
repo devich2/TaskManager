@@ -1,0 +1,46 @@
+<ul>
+    <li>
+      <a mat-button routerLink="/blog">{{'blog.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/event">{{'event.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/contacts">{{'contacts.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/about">{{'about.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/partners">{{'partners.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/donation">{{'donation.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/projects">{{'projects.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/cabinet">{{'cabinet.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/faq">{{'faq.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/topic">{{'topic.name' | translate}}</a>
+    </li>
+    <hr>
+    <li>
+      <a mat-button routerLink="/settings">{{'settings.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/menu">{{'menu.name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/localstrings">{{'localstrings.menu-name' | translate}}</a>
+    </li>
+    <li>
+      <a mat-button *ngxPermissionsOnly="[UserRole.ADMIN]" routerLink="/users">{{'users.name' | translate}}</a>
+    </li>
+  </ul>
+  
