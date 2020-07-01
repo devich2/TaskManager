@@ -1,9 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SecurityService} from '../../security/security.service';
-import {NavigationEnd, Router} from '@angular/router';
-import {filter, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {faBars} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
