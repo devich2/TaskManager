@@ -13,6 +13,7 @@ using TaskManager.Bll.Abstract.Task;
 using TaskManager.Bll.Impl.Services.Unit;
 using TaskManager.Dal.Abstract;
 using TaskManager.Entities.Enum;
+using TaskManager.Entities.Tables;
 using TaskManager.Models.Response;
 using TaskManager.Models.Result;
 using TaskManager.Models.Task;
@@ -138,8 +139,12 @@ namespace TaskManager.Bll.Impl.Services.Task
             {
                 task.AssignedId = patchModel.AssigneeId;
                 await _unitOfWork.Tasks.UpdateAsync(task);
+                
+                TermInfo termInfo = await _unitOfWork.TermInfos.GetByUnitIdAsync(task.UnitId);
+                termInfo.Status = Status.InProgress;
+                await _unitOfWork.TermInfos.UpdateAsync(termInfo);
                 await _unitOfWork.SaveAsync();
-
+                
                 dataResult.ResponseStatusType = ResponseStatusType.Succeed;
                 dataResult.Message = ResponseMessageType.None;
                 dataResult.Data = new ChangeAssigneeResponse()
