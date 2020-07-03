@@ -20,7 +20,7 @@ namespace TaskManager.Web.Controllers
         [Route("@me")]
         public async Task<UserInfoModel> GetMe()
         {
-            ret
+            return null;
         }
     }
 }
