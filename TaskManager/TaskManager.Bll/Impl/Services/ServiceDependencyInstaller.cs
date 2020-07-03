@@ -53,7 +53,8 @@ namespace TaskManager.Bll.Impl.Services
             services.AddTransient<IUnitEditService, UnitEditService>();
             services.AddTransient<IUnitSelectionService, UnitSelectionService>();
             services.AddTransient<IUnitExtendedStrategyFactory, UnitExtendedStrategyFactory>();
-            
+            //User
+            services.AddTransient<IUserService, UserService>();
             //Email
             services.AddTransient<IEmailSendService, EmailSendService>();
             services.AddTransient<IEmailTemplateService, EmailTemplateService>();

@@ -1,0 +1,11 @@
+<div class="wrapper" *ngIf="securityService.isAuthenticated() | async; else notAuthenticated">
+  <app-header class="header"></app-header>
+  <mat-drawer-container class="container">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-container>
+</div>
+<ng-template #notAuthenticated>
+  <router-outlet></router-outlet>
+</ng-template>

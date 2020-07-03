@@ -33,7 +33,6 @@ namespace TaskManager.Dal
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             #region Enums
 
             builder.HasPostgresEnum(nameof(Status), typeof(Status).GetEnumNames());

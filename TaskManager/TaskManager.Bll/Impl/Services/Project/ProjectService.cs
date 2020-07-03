@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TaskManager.Bll.Abstract.Cache;
 using TaskManager.Bll.Abstract.Project;
 using TaskManager.Bll.Abstract.ProjectMember;
 using TaskManager.Bll.Abstract.Task;
@@ -27,16 +28,19 @@ namespace TaskManager.Bll.Impl.Services.Project
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProjectMemberService _projectMemberService;
+        private readonly IPermissionCache _permissionCache;
         private readonly JsonSerializerSettings _serializerSettings;
 
         public ProjectService(IMapper mapper,
             IUnitOfWork unitOfWork,
             IProjectMemberService projectMemberService,
-            IOptions<MvcNewtonsoftJsonOptions> jsonOptions)
+            IOptions<MvcNewtonsoftJsonOptions> jsonOptions,
+            IPermissionCache permissionCache)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _projectMemberService = projectMemberService;
+            _permissionCache = permissionCache;
             _serializerSettings = jsonOptions.Value.SerializerSettings;
         }
 
@@ -60,7 +64,7 @@ namespace TaskManager.Bll.Impl.Services.Project
 
             ProjectPreviewModel previewModel = await GetPreviewModel(unit, userId);
             ProjectDetailsModel projectModel = _mapper.Map<ProjectDetailsModel>(previewModel);
-
+            
             projectModel.TaskStatusList = unit.Children
                 .GroupBy(x => x.TermInfo.Status, x => x)
                 .ToDictionary(x => x.Key, x => x.Count());

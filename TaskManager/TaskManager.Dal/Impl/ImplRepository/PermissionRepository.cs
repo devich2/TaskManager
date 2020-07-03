@@ -18,13 +18,13 @@ namespace TaskManager.Dal.Impl.ImplRepository
         {
         }
 
-        public Dictionary<PermissionType, List<string>> GetRolesGroupedByPermissions()
+        public Dictionary<string, List<PermissionType>> GetPermissionsGroupedByRole()
         {
             return Context.Permissions.Include(x => x.Role)
                 .AsEnumerable()
-                .GroupBy(x => x.PermissionType)
+                .GroupBy(x => x.Role.Name)
                 .ToDictionary(x => x.Key,
-                    x => x.Select(z => z.Role.Name).ToList());
+                    x => x.Select(z => z.PermissionType).ToList());
         }
     }
 }

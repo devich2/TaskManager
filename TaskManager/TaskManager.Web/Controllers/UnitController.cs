@@ -193,7 +193,7 @@ namespace TaskManager.Web.Controllers
                 UserId = userId,
                 UnitId = id
             };
-            return await _editService.ProcessContentChangeStatus(um);
+            return await _editService.ProcessUnitChangeStatus(um);
         }
 
         [HttpDelete]
