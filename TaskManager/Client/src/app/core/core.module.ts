@@ -22,7 +22,8 @@ if (!environment.production) {
     CommonModule, HttpClientModule, RouterModule, SharedAppModule, NgxPermissionsModule.forRoot()
   ],
   exports: [
-    SharedAppModule
+    SharedAppModule,
+    SidebarComponent, HeaderComponent
   ],
   providers: [...interceptors]
 })

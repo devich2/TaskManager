@@ -1,5 +1,5 @@
 <div class="wrapper" *ngIf="securityService.isAuthenticated() | async; else notAuthenticated">
-  <app-header class="header" (clickMenu)="drawer.toggle()"></app-header>
+  <app-header class="header"></app-header>
   <mat-drawer-container class="container">
     <div class="content">
       <router-outlet></router-outlet>

@@ -1,7 +1,9 @@
-﻿namespace TaskManager.Bll.Abstract.User
+﻿using TaskManager.Models.ProjectMember;
+
+namespace TaskManager.Bll.Abstract.User
 {
-    public class IUserService
+    public interface IUserService
     {
-        
+        System.Threading.Tasks.Task<UserInfoModel> GetUserInfo(int userId);
     }
 }

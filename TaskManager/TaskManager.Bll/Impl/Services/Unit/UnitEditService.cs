@@ -91,7 +91,7 @@ namespace TaskManager.Bll.Impl.Services.Unit
             });
         }
 
-        public async Task<DataResult<UnitUpdateResponse>> ProcessContentChangeStatus(UnitStatusPatchModel model)
+        public async Task<DataResult<UnitUpdateResponse>> ProcessUnitChangeStatus(UnitStatusPatchModel model)
         {
             DataResult<UnitUpdateResponse> methodResult =
                 new DataResult<UnitUpdateResponse>();
