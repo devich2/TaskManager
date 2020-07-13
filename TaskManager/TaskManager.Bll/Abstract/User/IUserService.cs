@@ -1,9 +1,11 @@
-﻿using TaskManager.Models.ProjectMember;
+﻿using System.Threading.Tasks;
+using TaskManager.Models.ProjectMember;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Bll.Abstract.User
 {
     public interface IUserService
     {
-        System.Threading.Tasks.Task<UserInfoModel> GetUserInfo(int userId);
+        Task<DataResult<UserInfoModel>> GetUserInfo(int userId);
     }
 }

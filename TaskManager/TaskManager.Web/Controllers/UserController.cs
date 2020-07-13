@@ -2,7 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Bll.Abstract.User;
+using TaskManager.Common.Utils;
 using TaskManager.Models.ProjectMember;
+using TaskManager.Models.Result;
 
 namespace TaskManager.Web.Controllers
 {
@@ -18,9 +20,9 @@ namespace TaskManager.Web.Controllers
         }
         [HttpGet]
         [Route("@me")]
-        public async Task<UserInfoModel> GetMe()
+        public async Task<DataResult<UserInfoModel>> GetMe()
         {
-            return null;
+            return await _userService.GetUserInfo(User.GetUserId());
         }
     }
 }

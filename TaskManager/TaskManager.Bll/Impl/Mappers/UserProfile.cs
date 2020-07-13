@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using TaskManager.Bll.Impl.Services.User;
 using TaskManager.Entities.Tables.Identity;
+using TaskManager.Models.ProjectMember;
 using TaskManager.Models.User;
 
 namespace TaskManager.Bll.Impl.Mappers
@@ -21,6 +23,7 @@ namespace TaskManager.Bll.Impl.Mappers
 
             CreateMap<User, UserModel>().IncludeBase<User, UserBaseModel>()
                 .ForAllOtherMembers(opt => opt.AllowNull());
+            CreateMap<User, UserInfoModel>();
         }
     }
 }
